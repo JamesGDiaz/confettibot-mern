@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css?family=Cabin");
+.link {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-decoration: none;
+    color: rgb(240, 240, 240);
+    cursor: pointer;
+}
+
+.navbarContainer {
+    box-shadow: 0 8px 16px -9px rgb(0, 0, 0);
+}
+
+.navbar {
+    font-family: "Cabin", bold, arial, sans-serif;
+}
+
+.navbarBrand {
+    letter-spacing: 5px;
+    font-size: calc(8px + 2vmin);
+    font-weight: 700;
+    color: #0075c1;
+}

@@ -1,0 +1,24 @@
+{
+    "name": "confettibot-mern",
+    "version": "1.0.0",
+    "description": "README.md",
+    "main": "app.js",
+    "author": "FG",
+    "engines": {
+        "node": "10.15.3"
+    },
+    "scripts": {
+        "dev:client": "npm start --prefix client/",
+        "dev:server": "npm run dev --prefix server/",
+        "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+        "build": "npm run build --prefix client/ && npm run build --prefix server/",
+        "start": "cd build/ && node app.js",
+        "stop": "pm2 stop all",
+        "delete": "pm2 delete app"
+    },
+    "dependencies": {
+        "concurrently": "^4.1.0",
+        "get-random-values": "^1.2.0",
+        "url-parse": "^1.4.6"
+    }
+}

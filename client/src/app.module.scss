@@ -1,0 +1,16 @@
+.app {
+    text-align: center;
+    display: block;
+}
+
+.body {
+    background: linear-gradient(to top, rgba(15, 159, 255, 1) 0%, rgba(15, 159, 255, 1) 70%, rgba(117, 200, 255, 1) 100%);
+    min-height: 100vh;
+    min-width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}

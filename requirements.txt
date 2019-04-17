@@ -1,0 +1,6 @@
+aiohttp
+bs4
+nltk
+async_timeout
+Unidecode
+colorama
