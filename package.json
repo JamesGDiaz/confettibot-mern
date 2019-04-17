@@ -19,6 +19,7 @@
     "dependencies": {
         "concurrently": "^4.1.0",
         "get-random-values": "^1.2.0",
-        "url-parse": "^1.4.6"
+        "url-parse": "^1.4.6",
+        "webpack": "^4.30.0"
     }
 }
