@@ -6,7 +6,7 @@ const { register, activate } = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
 const { profileUpdate, profileRemove } = require('./services/profile')
 const mail = require('../common/services/email')
-const { config, show } = require('../config')
+const { show } = require('../config')
 const passport = require('passport')
 const action = {}
 
@@ -104,11 +104,9 @@ action.registration = (req, res, next) => {
           content:
             '<h1>Bienvenid@! </h1>Tu registro fue exitoso!<h2>Tu destination tag es ' +
             user.destination_tag +
-            ' <a href="' +
-            config.url +
-            '/activation/' +
+            ' <a href="https://confettibot.com/activation/"' +
             user.activation +
-            '" target="_new">Activate account</a></h2>'
+            ' target="_new">Activate account</a></h2>'
         },
         (error, sent) => {
           if (!error && sent) {
@@ -171,9 +169,7 @@ action.recovery = (req, res, next) => {
             to: user.email,
             subject: 'Confettibot | Recuperar contraseña',
             content:
-              '<h1>Recovery</h1>Haz click <a href="' +
-              config.url +
-              '/recovery/' +
+              '<h1>Recovery</h1>Haz click <a href="https://confettibot.com/recovery/"' +
               user.recovery +
               '</a>'
           },

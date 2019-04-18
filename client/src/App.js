@@ -35,7 +35,7 @@ class App extends Component {
     super(props);
     this.notification = this.notification.bind(this);
     this.notificationDOMRef = React.createRef();
-    this.url = `https://${process.env.REACT_APP_HOST}:${
+    this.url = `http://${process.env.REACT_APP_HOST}:${
       process.env.REACT_APP_PORT
     }`;
     this.props.setNotifications(this.notification);

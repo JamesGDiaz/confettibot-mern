@@ -12,7 +12,8 @@ const {
 } = require('../config')
 const routes = require('../../routes')
 const mongoose = require('mongoose')
-const spdy = require('spdy')
+// const spdy = require("spdy");
+const http = require('http')
 const Url = require('url-parse')
 let server = null
 
@@ -26,10 +27,8 @@ const listen = () => {
   session.init(app)
   passport.init(app)
   db.init()
-  server = spdy
-    .createServer(config.sslOptions, app)
-    .listen(config.port, config.ip)
-  show.debug(`Listening at https://${config.host}:${config.port}`)
+  server = http.createServer(app).listen(config.port)
+  show.debug(`Listening at http://${config.host}:${config.port}`)
   routes.init(app)
   websocketConfig(server)
   stats.memory()

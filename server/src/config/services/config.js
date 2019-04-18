@@ -1,6 +1,5 @@
 'use strict'
 
-const fs = require('fs')
 const path = require('path')
 let basePath = path.join(__dirname, '../../../')
 const env = process.env.NODE_ENV
@@ -21,13 +20,8 @@ if (envConfig.error) {
  */
 const test = {
   env,
-  ip: process.env.IP,
   host: process.env.HOST,
   port: process.env.PORT,
-  sslOptions: {
-    key: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_KEY}`)),
-    cert: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_CRT}`))
-  },
   url: `http://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}`,
   redisUrl: process.env.REDIS_URL,
   emailAddress: process.env.EMAIL_ADDRESS,
@@ -44,13 +38,8 @@ const test = {
  */
 const development = {
   env,
-  ip: process.env.IP,
   host: process.env.HOST,
   port: process.env.PORT,
-  sslOptions: {
-    key: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_KEY}`)),
-    cert: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_CRT}`))
-  },
   url: `http://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}`,
   redisUrl: process.env.REDIS_URL,
   emailAddress: process.env.EMAIL_ADDRESS,
@@ -66,13 +55,8 @@ const development = {
  */
 const production = {
   env,
-  ip: process.env.IP,
   host: process.env.HOST,
   port: process.env.PORT,
-  sslOptions: {
-    key: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_KEY}`)),
-    cert: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_CRT}`))
-  },
   url: `http://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}`,
   redisUrl: process.env.REDIS_URL,
   emailAddress: process.env.EMAIL_ADDRESS,
