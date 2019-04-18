@@ -12,14 +12,13 @@
         "dev:server": "npm run dev --prefix server/",
         "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
         "build": "npm run build --prefix server/ && npm run build --prefix client/",
-        "start": "npm run build --prefix server/ && npm run build --prefix client/ && node build/app.js",
+        "start": "pm2 start build/app.js -i max",
         "stop": "pm2 stop all",
         "delete": "pm2 delete app"
     },
     "dependencies": {
         "concurrently": "^4.1.0",
         "get-random-values": "^1.2.0",
-        "url-parse": "^1.4.6",
-        "webpack": "^4.30.0"
+        "url-parse": "^1.4.6"
     }
 }

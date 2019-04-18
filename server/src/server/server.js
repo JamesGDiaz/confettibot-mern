@@ -26,7 +26,9 @@ const listen = () => {
   session.init(app)
   passport.init(app)
   db.init()
-  server = spdy.createServer(config.sslOptions, app).listen(config.port, config.ip)
+  server = spdy
+    .createServer(config.sslOptions, app)
+    .listen(config.port, config.ip)
   show.debug(`Listening at https://${config.host}:${config.port}`)
   routes.init(app)
   websocketConfig(server)
@@ -47,19 +49,13 @@ const close = () => {
  * Websocket endpoints configuration
  * @function
  */
-const websocketConfig = (server) => {
+const websocketConfig = server => {
   server.on('upgrade', function upgrade (request, socket, head) {
     const pathname = new Url(request.url).pathname
-    console.log(pathname)
-    if (pathname === '/api/app/') {
-      websocket.wssAppBroadcast.handleUpgrade(
-        request,
-        socket,
-        head,
-        function done (ws) {
-          websocket.wssAppBroadcast.emit('connection', ws, request)
-        }
-      )
+    if (pathname === '/api/app') {
+      websocket.wssApp.handleUpgrade(request, socket, head, function done (ws) {
+        websocket.wssApp.emit('connection', ws, request)
+      })
     } else if (pathname === '/api/admin/mobile') {
       websocket.wssMobileAdmin.handleUpgrade(
         request,

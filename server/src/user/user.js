@@ -41,7 +41,7 @@ action.login = (req, res, next) => {
         success: false
       })
     }
-    req.login(user, (err) => {
+    req.login(user, err => {
       if (!err && user) {
         show.debug('Login success!')
         const data = {
@@ -71,7 +71,7 @@ action.login = (req, res, next) => {
  */
 action.logout = (req, res, next) => {
   show.debug('Logging out...')
-  logout(req, (err) => {
+  logout(req, err => {
     if (!err) {
       show.debug('Logout success!')
       return res.json({
@@ -97,23 +97,33 @@ action.registration = (req, res, next) => {
   register(data, (err, user) => {
     if (!err && user) {
       show.debug('Registration success!')
-      mail.send({
-        to: data.email,
-        subject: 'Confettibot',
-        content: '<h1>Bienvenid@! </h1>Tu registro fue exitoso!<h2>Tu destination tag es ' + user.destination_tag + ' <a href="' + config.url + '/activation/' + user.activation + '" target="_new">Activate account</a></h2>'
-      }, (error, sent) => {
-        if (!error && sent) {
-          return res.json({
-            type: 'registration',
-            success: true
-          })
-        } else {
-          return res.json({
-            type: 'registration',
-            success: true
-          })
+      mail.send(
+        {
+          to: data.email,
+          subject: 'Confettibot | Registro',
+          content:
+            '<h1>Bienvenid@! </h1>Tu registro fue exitoso!<h2>Tu destination tag es ' +
+            user.destination_tag +
+            ' <a href="' +
+            config.url +
+            '/activation/' +
+            user.activation +
+            '" target="_new">Activate account</a></h2>'
+        },
+        (error, sent) => {
+          if (!error && sent) {
+            return res.json({
+              type: 'registration',
+              success: true
+            })
+          } else {
+            return res.json({
+              type: 'registration',
+              success: true
+            })
+          }
         }
-      })
+      )
     } else {
       show.debug('Registration failed!')
       return res.json({
@@ -156,25 +166,33 @@ action.recovery = (req, res, next) => {
   if (!data.hash) {
     recovery(data, (err, user) => {
       if (!err && user) {
-        mail.send({
-          to: user.email,
-          subject: 'Confettibot | Recuperar contraseña',
-          content: '<h1>Recovery</h1>Haz click <a href="' + config.url + '/recovery/' + user.recovery + '</a>'
-        }, (err, sent) => {
-          if (!err && sent) {
-            show.debug('Recovery success!')
-            return res.json({
-              type: 'recovery',
-              success: true
-            })
-          } else {
-            show.debug('Recovery failed!')
-            return res.json({
-              type: 'recovery',
-              success: false
-            })
+        mail.send(
+          {
+            to: user.email,
+            subject: 'Confettibot | Recuperar contraseña',
+            content:
+              '<h1>Recovery</h1>Haz click <a href="' +
+              config.url +
+              '/recovery/' +
+              user.recovery +
+              '</a>'
+          },
+          (err, sent) => {
+            if (!err && sent) {
+              show.debug('Recovery success!')
+              return res.json({
+                type: 'recovery',
+                success: true
+              })
+            } else {
+              show.debug('Recovery failed!')
+              return res.json({
+                type: 'recovery',
+                success: false
+              })
+            }
           }
-        })
+        )
       } else {
         show.debug('Recovery failed!')
         return res.json({
@@ -249,7 +267,7 @@ action.profileUpdate = (req, res, next) => {
 action.profileRemove = (req, res, next) => {
   const data = req.body
   show.debug('Removing user...')
-  profileRemove(data, (err) => {
+  profileRemove(data, err => {
     if (!err) {
       show.debug('Profile remove success!')
       return res.json({

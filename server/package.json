@@ -9,6 +9,7 @@
         "test": "export NODE_ENV=test&& mocha --exit --reporter spec \"src/*/*.test.js\"",
         "dev": "export NODE_ENV=development&& nodemon app.js -L --exec \"npm run test && npm run lint && node\"",
         "build": "export NODE_ENV=production&& webpack --config webpack.config.js --mode production",
+        "start": "pm2-runtime start app.js -i max",
         "stop": "pm2 stop all",
         "delete": "pm2 delete app"
     },

@@ -32,7 +32,9 @@ const test = {
   redisUrl: process.env.REDIS_URL,
   emailAddress: process.env.EMAIL_ADDRESS,
   emailPassword: process.env.EMAIL_PASS,
-  mongoUrl: `mongodb://${process.env.DB_HOST}`,
+  mongoUrl: `mongodb+srv://${process.env.DB_USER}:${encodeURIComponent(
+    process.env.DB_PASS
+  )}@${process.env.DB_HOST}`,
   clientStaticFolder: path.join(basePath, 'client/build/static'),
   clientBuildFolder: path.join(basePath, 'client/build')
 }
@@ -66,12 +68,12 @@ const production = {
   env,
   ip: process.env.IP,
   host: process.env.HOST,
-  port: process.env.PORT || 3095,
+  port: process.env.PORT,
   sslOptions: {
     key: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_KEY}`)),
     cert: fs.readFileSync(path.join(basePath, `ssl/${process.env.SSL_CRT}`))
   },
-  url: `https://${process.env.HOST}`,
+  url: `http://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}`,
   redisUrl: process.env.REDIS_URL,
   emailAddress: process.env.EMAIL_ADDRESS,
   emailPassword: process.env.EMAIL_PASS,

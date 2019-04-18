@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
  * Connecting to database
  */
 const init = () => {
-  mongoose.connect(config.mongoUrl, { userNewUrlParser: true })
+  mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
   const db = mongoose.connection
   error(db)
   open(db)
@@ -19,8 +19,8 @@ const init = () => {
  * @callback
  * @param {object} error
  */
-const error = (db) => {
-  db.on('error', (error) => {
+const error = db => {
+  db.on('error', error => {
     show.debug('Database connection error', error)
   })
 }
@@ -29,7 +29,7 @@ const error = (db) => {
  * Database connected
  * @callback
  */
-const open = (db) => {
+const open = db => {
   db.once('open', () => {
     show.debug('Database connected')
   })
