@@ -280,4 +280,28 @@ action.profileRemove = (req, res, next) => {
   })
 }
 
+/**
+ * Payment for activation received
+ */
+action.activationPayment = (req, res, next) => {
+  show.debug('not implemented')
+  /* const data = req.body
+  show.debug(data)
+  activationPayment(data, err => {
+    if (!err && user) {
+      show.debug('Payment confirmed, activation success!')
+      return res.json({
+        type: 'activation',
+        success: true
+      })
+    } else {
+      show.debug('Activation failed!')
+      return res.json({
+        type: 'activation',
+        success: false
+      })
+    }
+  }) */
+}
+
 module.exports = action

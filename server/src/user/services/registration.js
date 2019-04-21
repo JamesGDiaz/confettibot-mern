@@ -15,7 +15,9 @@ const register = (data, callback) => {
   const passwordData = middleware.createPassword(password)
   const id = crypto.randomBytes(24).toString('hex')
   const activationHash = crypto.randomBytes(48).toString('hex')
-  const destinationTag = Math.floor((Math.random() * (99999999 - 10000000) + 10000000))
+  const destinationTag = Math.floor(
+    Math.random() * (99999999 - 10000000) + 10000000
+  )
   if (!email || !passwordData) {
     return callback(new Error('Parameters not found!'))
   }
@@ -45,7 +47,8 @@ const register = (data, callback) => {
  */
 const activate = (data, callback) => {
   const { hash } = data
-  User.findOneAndUpdate({ activation: hash },
+  User.findOneAndUpdate(
+    { activation: hash },
     {
       $set: {
         active: true,
@@ -64,6 +67,17 @@ const activate = (data, callback) => {
     }
   )
 }
+
+/**
+ * Activate an existing user because payment was received
+ * @function
+ * @param {object} data
+ * @param {callback} callback
+ */
+/*
+const activatonPayment = (data, callback) => {
+  return null
+} */
 
 module.exports = {
   register,

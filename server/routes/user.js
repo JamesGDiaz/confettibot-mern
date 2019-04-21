@@ -13,5 +13,6 @@ router.post('/recovery', user.recovery)
 router.post('/passchange', user.passChange)
 router.post('/profileupdate', user.profileUpdate)
 router.delete('/profileremove', user.profileRemove)
+router.post('/activationpayment', user.activationPayment)
 
 module.exports = router
