@@ -18,7 +18,7 @@ wssMobileAdmin.on("connection", ws => {
     let uri = data.toString("base64");
     var options = {
       mode: "text",
-      pythonPath: "python",
+      pythonPath: "python3",
       pythonOptions: ["-u"],
       args: [uri],
       scriptPath: config.pythonScriptsFolder
