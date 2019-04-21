@@ -41,6 +41,7 @@ class App extends Component {
       this.url = `http://${process.env.REACT_APP_HOST}:${
         process.env.REACT_APP_PORT
       }`;
+    console.log(this.url);
     this.props.setNotifications(this.notification);
     this.props.setUrl(this.url);
   }

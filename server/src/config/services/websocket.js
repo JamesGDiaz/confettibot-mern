@@ -57,7 +57,7 @@ wssApp.on('connection', ws => {
     try {
       ws.send('{"KEEP-ALIVE":"KEEP-ALIVE"}')
     } catch (error) {
-      console.log("Couldn't seend KEEP-ALIVE")
+      console.log("Couldn't send KEEP-ALIVE")
     }
   }, 30000)
 })
