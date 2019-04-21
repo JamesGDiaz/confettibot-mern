@@ -1,6 +1,6 @@
-const path = require('path')
 var PythonShell = require('python-shell').PythonShell
 var SocketServer = require('ws').Server
+const config = require('./config')
 
 const wssApp = new SocketServer({ noServer: true })
 const wssMobileAdmin = new SocketServer({ noServer: true })
@@ -9,19 +9,20 @@ const wssRelayAdmin = new SocketServer({ noServer: true })
 // Setup websocket for complete process (ocr -> search -> broadcast answer)
 wssMobileAdmin.on('connection', ws => {
   ws.on('message', data => {
-    // let uri = buffer.toString("base64");
+    let uri = data.toString('base64')
     var options = {
       mode: 'text',
       pythonPath: 'python',
       pythonOptions: ['-u'],
-      args: [data],
-      scriptPath: path.join(__dirname, '../python_scripts/')
+      args: [uri],
+      scriptPath: config.pythonScriptsFolder
     }
     let pyconfettibot = new PythonShell('main.py', options)
     pyconfettibot.on('message', message => {
       wssApp.clients.forEach(client => {
         client.send(message)
       })
+      ws.send(message)
       console.log(message)
     })
     pyconfettibot.end(function (err, code, signal) {

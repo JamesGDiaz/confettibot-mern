@@ -25,6 +25,10 @@ module.exports = {
       {
         from: "../client/build",
         to: "../build/client"
+      },
+      {
+        from: "./src/python_scripts/",
+        to: "../build/python_scripts"
       }
     ])
   ]

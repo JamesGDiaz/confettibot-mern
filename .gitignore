@@ -63,5 +63,8 @@ typings/
 # sass cache folder
 .sass-cache/
 
+# cPython cache folders
+__pycache__/
+
 # production
 build/
