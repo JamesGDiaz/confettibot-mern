@@ -12,14 +12,12 @@ import Error from "./components/Error/Error";
 import Navigation from "./components/Navigation/Navigation";
 import Profile from "./components/Profile/Profile";
 import ConfettibotApp from "./components/ConfettibotApp/ConfettibotApp";
-import Info from "./components/Info/Info";
 import Instructions from "./components/Instructions/Instructions";
 import { connect } from "react-redux";
 import { setUrl, setNotifications } from "./actions/connectionActions";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-import ProfileModify from "./components/ProfileModify/ProfileModify";
 
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => (
   <Route
@@ -79,8 +77,7 @@ class App extends Component {
               />
               <Route path="/recovery" component={Recovery} exact />
               <Route path="/recovery/:hash" component={RecoveryHash} />
-              <Route path="/info" component={Info} exact />
-              <PrivateRoute
+              <Route
                 path="/instrucciones"
                 component={Instructions}
                 authenticated={this.props.authenticated}
@@ -89,12 +86,6 @@ class App extends Component {
               <PrivateRoute
                 path="/profile"
                 component={Profile}
-                authenticated={this.props.authenticated}
-                exact
-              />
-              <PrivateRoute
-                path="/profile/modify"
-                component={ProfileModify}
                 authenticated={this.props.authenticated}
                 exact
               />

@@ -48,6 +48,12 @@ const userSchema = new Schema({
     type: Boolean,
     default: false
   },
+  activation: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 1000
+  },
   admin: {
     type: Boolean,
     default: false
@@ -57,27 +63,10 @@ const userSchema = new Schema({
     default: '',
     length: 8
   },
-  activation: {
-    type: String,
-    default: ''
-  },
   recovery: {
     type: String,
     default: ''
-  },
-  age: {
-    type: String,
-    minlength: 3,
-    maxlength: 5
-  },
-  location: {
-    type: String,
-    minlength: 3,
-    maxlength: 100
-  },
-  website: String,
-  created_at: Date,
-  updated_at: Date
+  }
 })
 
 /**

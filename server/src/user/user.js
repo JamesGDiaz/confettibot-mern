@@ -96,17 +96,19 @@ action.registration = (req, res, next) => {
   const data = req.body
   register(data, (err, user) => {
     if (!err && user) {
-      show.debug('Registration success!')
+      show.debug('Registration success! activation hash: ' + user.activation)
       mail.send(
         {
           to: data.email,
           subject: 'Confettibot | Registro',
           content:
-            '<h1>Bienvenid@! </h1>Tu registro fue exitoso!<h2>Tu destination tag es ' +
+            '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
+            '<h2 style="text-align: center;">Tu registro fue exitoso!</h2>' +
+            '<h3 style="text-align: center;">Para activar tu cuenta, sigue las ' +
+            '<a href="https://www.confettibot.com/instrucciones" target="_new">instrucciones</a>. <br /><br />Tu destination tag es:</h3> ' +
+            '<h1 style="text-align: center;"><strong>' +
             user.destination_tag +
-            ' <a href="https://confettibot.com/activation/"' +
-            user.activation +
-            ' target="_new">Activate account</a></h2>'
+            '</strong></h1><hr />'
         },
         (error, sent) => {
           if (!error && sent) {
