@@ -167,7 +167,11 @@ action.activation = (req, res, next) => {
 action.activationXRP = (req, res, next) => {
   // show.debug('not implemented')
   const data = req.body;
-  show.debug(JSON.stringify(data));
+  show.debug(
+    `Attempting to activate account with destTag '${
+      data.transaction.DestinationTag
+    }'`
+  );
   activationXRP(data, (err, user) => {
     if (!err && user) {
       show.debug("Payment confirmed, activation success!");

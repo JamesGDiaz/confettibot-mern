@@ -1,8 +1,8 @@
-'use strict'
+"use strict";
 
-const User = require('../user.model')
-const crypto = require('crypto')
-const middleware = require('./middleware')
+const User = require("../user.model");
+const crypto = require("crypto");
+const middleware = require("./middleware");
 
 /**
  * Register a new user
@@ -11,15 +11,15 @@ const middleware = require('./middleware')
  * @param {callback} callback
  */
 const register = (data, callback) => {
-  const { email, password } = data
-  const passwordData = middleware.createPassword(password)
-  const id = crypto.randomBytes(24).toString('hex')
-  const activationHash = crypto.randomBytes(48).toString('hex')
+  const { email, password } = data;
+  const passwordData = middleware.createPassword(password);
+  const id = crypto.randomBytes(24).toString("hex");
+  const activationHash = crypto.randomBytes(48).toString("hex");
   const destinationTag = Math.floor(
     Math.random() * (99999999 - 10000000) + 10000000
-  )
+  );
   if (!email || !passwordData) {
-    return callback(new Error('Parameters not found!'))
+    return callback(new Error("Parameters not found!"));
   }
   const user = new User({
     id,
@@ -28,16 +28,16 @@ const register = (data, callback) => {
     password: passwordData.password,
     activation: activationHash,
     destination_tag: destinationTag
-  })
+  });
   user.save((err, user) => {
     if (!err && user) {
-      return callback(null, user)
+      return callback(null, user);
     } else {
-      console.log(err)
-      return callback(err)
+      console.log(err);
+      return callback(err);
     }
-  })
-}
+  });
+};
 
 /**
  * Activate an existing user
@@ -46,7 +46,7 @@ const register = (data, callback) => {
  * @param {callback} callback
  */
 const activate = (data, callback) => {
-  const { hash } = data
+  const { hash } = data;
   User.findOneAndUpdate(
     { activation: hash },
     {
@@ -60,13 +60,13 @@ const activate = (data, callback) => {
     },
     (err, user) => {
       if (!err && user) {
-        return callback(null, user)
+        return callback(null, user);
       } else {
-        return callback(err)
+        return callback(err);
       }
     }
-  )
-}
+  );
+};
 
 /**
  * Activate an existing user because payment was received
@@ -75,29 +75,33 @@ const activate = (data, callback) => {
  * @param {callback} callback
  */
 const activationXRP = (data, callback) => {
-  const { destinationTag } = data
-  User.findOneAndUpdate(
-    { destination_tag: destinationTag },
-    {
-      $set: {
-        active: true
+  if (data.validated) {
+    const { destinationTag } = data.transaction.DestinationTag;
+    User.findOneAndUpdate(
+      { destination_tag: destinationTag },
+      {
+        $set: {
+          active: true
+        }
+      },
+      {
+        new: true
+      },
+      (err, user) => {
+        if (!err && user) {
+          return callback(null, user);
+        } else {
+          return callback(err);
+        }
       }
-    },
-    {
-      new: true
-    },
-    (err, user) => {
-      if (!err && user) {
-        return callback(null, user)
-      } else {
-        return callback(err)
-      }
-    }
-  )
-}
+    );
+  } else {
+    return callback(err);
+  }
+};
 
 module.exports = {
   register,
   activate,
   activationXRP
-}
+};
