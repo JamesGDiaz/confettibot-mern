@@ -75,6 +75,11 @@ const activate = (data, callback) => {
  * @param {callback} callback
  */
 const activationXRP = (data, callback) => {
+  show.debug(
+    `Attempting to activate account with destTag '${
+      data.transaction.DestinationTag
+    }. Transaction hash: ${data.transaction.hash}'`
+  );
   if (data.validated) {
     const { destinationTag } = data.transaction.DestinationTag;
     User.findOneAndUpdate(
