@@ -180,7 +180,7 @@ action.activationXRP = (req, res, next) => {
         success: true
       });
     } else {
-      show.debug("Activation failed!");
+      show.debug("Activation failed! " + err);
       return res.json({
         type: "activation",
         success: false
