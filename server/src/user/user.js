@@ -168,11 +168,36 @@ action.activationXRP = (req, res, next) => {
   const data = req.body
   activationXRP(data, (err, user) => {
     if (!err && user) {
-      show.debug('Payment confirmed, activation success!')
-      return res.json({
-        type: 'activation',
-        success: true
-      })
+      show.debug(
+        `Payment confirmed, activation success (destination tag: ${
+          user.destination_tag
+        })!`
+      )
+      mail.send(
+        {
+          to: data.email,
+          subject: 'Confettibot | Tu cuenta ha sido activada.',
+          content:
+            '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
+            '<h2 style="text-align: center;">Tu cuenta ha sido activada. Muchas gracias.</h2>' +
+            '<h3 style="text-align: center;">Ahora puedes iniciar sesión ' +
+            '<a href="https://www.confettibot.com/login" target="_new">aquí</a>.<br /><br />' +
+            'A ganar mucho pero mucho dinero!!!</h3> <hr />'
+        },
+        (error, sent) => {
+          if (!error && sent) {
+            return res.json({
+              type: 'activation',
+              success: true
+            })
+          } else {
+            return res.json({
+              type: 'activation',
+              success: true
+            })
+          }
+        }
+      )
     } else {
       show.debug('Activation failed!')
       return res.json({
@@ -197,9 +222,9 @@ action.recovery = (req, res, next) => {
             to: user.email,
             subject: 'Confettibot | Recuperar contraseña',
             content:
-              '<h1>Recovery</h1>Haz click <a href="https://confettibot.com/recovery/"' +
+              '<h1>Recovery</h1>Haz click <a href="https://confettibot.com/recovery/" target="_new">' +
               user.recovery +
-              '</a>'
+              '</a> para cambiar tu contraseña.'
           },
           (err, sent) => {
             if (!err && sent) {

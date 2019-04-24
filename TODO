@@ -1,6 +1,5 @@
 TODO:
     Pagina de instrucciones (falta como usar el confettibot)
-    Auto activar cuenta al recibir pago en XRP (caaaasiiiiii)
     Solo permitir acceso a los endpoints de websocket si el usuario esta autenticado
     Implementar cambio de contrasena
 
