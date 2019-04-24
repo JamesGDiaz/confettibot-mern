@@ -78,10 +78,10 @@ const activationXRP = (data, callback) => {
   console.log(
     `Attempting to activate account with destTag '${
       data.transaction.DestinationTag
-    }. Transaction hash: ${data.transaction.hash}'`
+    }'. Transaction hash: ${data.transaction.hash}`
   );
   if (data.validated) {
-    const { destinationTag } = data.transaction.DestinationTag;
+    const { destinationTag } = data.transaction.DestinationTag.toString();
     User.findOneAndUpdate(
       { destination_tag: destinationTag },
       {
