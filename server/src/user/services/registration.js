@@ -75,7 +75,7 @@ const activate = (data, callback) => {
  * @param {callback} callback
  */
 const activationXRP = (data, callback) => {
-  show.debug(
+  console.log(
     `Attempting to activate account with destTag '${
       data.transaction.DestinationTag
     }. Transaction hash: ${data.transaction.hash}'`
