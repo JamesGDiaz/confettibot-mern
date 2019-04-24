@@ -60,7 +60,7 @@ const userSchema = new Schema({
   },
   destination_tag: {
     type: Number,
-    default: "",
+    required: true,
     length: 8
   },
   recovery: {

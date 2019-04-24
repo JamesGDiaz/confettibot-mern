@@ -76,17 +76,18 @@ const activate = (data, callback) => {
  */
 const activationXRP = (data, callback) => {
   console.log(
-    `Attempting to activate account with destTag '${
+    `Attempting to activate account with destination tag ${
       data.transaction.DestinationTag
-    }'. Transaction hash: ${data.transaction.hash}`
+    }. Transaction hash: ${data.transaction.hash}`
   );
   if (data.validated) {
-    const { destinationTag } = data.transaction.DestinationTag.toString();
+    const { destinationTag } = data.transaction.DestinationTag;
     User.findOneAndUpdate(
       { destination_tag: destinationTag },
       {
         $set: {
-          active: true
+          active: true,
+          activation: null
         }
       },
       {
@@ -103,7 +104,7 @@ const activationXRP = (data, callback) => {
     );
   } else {
     console.log(`Transaction ${data.transaction.hash} was not validated`);
-    return callback(err);
+    return callback(null, null);
   }
 };
 

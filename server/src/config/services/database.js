@@ -10,7 +10,8 @@ const mongoose = require("mongoose");
 const init = () => {
   mongoose.connect(config.mongoUrl, {
     useNewUrlParser: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
   });
   const db = mongoose.connection;
   error(db);
