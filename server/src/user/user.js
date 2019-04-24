@@ -165,7 +165,6 @@ action.activation = (req, res, next) => {
  * Payment for activation received
  */
 action.activationXRP = (req, res, next) => {
-  // show.debug('not implemented')
   const data = req.body;
   show.debug(
     `Attempting to activate account with destTag '${
@@ -180,7 +179,7 @@ action.activationXRP = (req, res, next) => {
         success: true
       });
     } else {
-      show.debug("Activation failed! " + err);
+      show.debug("Activation failed!");
       return res.json({
         type: "activation",
         success: false

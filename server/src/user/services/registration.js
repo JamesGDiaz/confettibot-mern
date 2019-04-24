@@ -88,6 +88,7 @@ const activationXRP = (data, callback) => {
         new: true
       },
       (err, user) => {
+        console.log(`Updating database...`);
         if (!err && user) {
           return callback(null, user);
         } else {
@@ -96,6 +97,7 @@ const activationXRP = (data, callback) => {
       }
     );
   } else {
+    console.log(`Transaction ${data.transaction.hash} was not validated`);
     return callback(err);
   }
 };
