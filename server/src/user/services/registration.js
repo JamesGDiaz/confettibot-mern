@@ -74,12 +74,30 @@ const activate = (data, callback) => {
  * @param {object} data
  * @param {callback} callback
  */
-/*
-const activatonPayment = (data, callback) => {
-  return null
-} */
+const activationXRP = (data, callback) => {
+  const { destinationTag } = data
+  User.findOneAndUpdate(
+    { destination_tag: destinationTag },
+    {
+      $set: {
+        active: true
+      }
+    },
+    {
+      new: true
+    },
+    (err, user) => {
+      if (!err && user) {
+        return callback(null, user)
+      } else {
+        return callback(err)
+      }
+    }
+  )
+}
 
 module.exports = {
   register,
-  activate
+  activate,
+  activationXRP
 }

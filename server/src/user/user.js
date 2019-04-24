@@ -2,7 +2,11 @@
 
 require('./services/login')
 const logout = require('./services/logout')
-const { register, activate } = require('./services/registration')
+const {
+  register,
+  activate,
+  activationXRP
+} = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
 const { profileUpdate, profileRemove } = require('./services/profile')
 const mail = require('../common/services/email')
@@ -158,6 +162,30 @@ action.activation = (req, res, next) => {
 }
 
 /**
+ * Payment for activation received
+ */
+action.activationXRP = (req, res, next) => {
+  // show.debug('not implemented')
+  const data = req.body
+  show.debug(data)
+  activationXRP(data, (err, user) => {
+    if (!err && user) {
+      show.debug('Payment confirmed, activation success!')
+      return res.json({
+        type: 'activation',
+        success: true
+      })
+    } else {
+      show.debug('Activation failed!')
+      return res.json({
+        type: 'activation',
+        success: false
+      })
+    }
+  })
+}
+
+/**
  * Password reset
  */
 action.recovery = (req, res, next) => {
@@ -280,30 +308,6 @@ action.profileRemove = (req, res, next) => {
       })
     }
   })
-}
-
-/**
- * Payment for activation received
- */
-action.activationPayment = (req, res, next) => {
-  show.debug('not implemented')
-  /* const data = req.body
-  show.debug(data)
-  activationPayment(data, err => {
-    if (!err && user) {
-      show.debug('Payment confirmed, activation success!')
-      return res.json({
-        type: 'activation',
-        success: true
-      })
-    } else {
-      show.debug('Activation failed!')
-      return res.json({
-        type: 'activation',
-        success: false
-      })
-    }
-  }) */
 }
 
 module.exports = action

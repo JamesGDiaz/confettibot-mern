@@ -37,7 +37,7 @@ class App extends Component {
     if (window.location.host === "confettibot.com")
       this.url = `https://${window.location.host}`;
     else
-      this.url = `https://${process.env.REACT_APP_HOST}:${
+      this.url = `http://${process.env.REACT_APP_HOST}:${
         process.env.REACT_APP_PORT
       }`;
     this.props.setNotifications(this.notification);

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./instructions.module.scss";
-import { Jumbotron, Tabs, Tab, Button, Card } from "react-bootstrap";
+import { Jumbotron, Tabs, Tab, Button, Media } from "react-bootstrap";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import xrpAddressQR from "./QR_xrp_address.png";
+import xrpSymbol from "./xrpSymbol.png";
 
 class Instructions extends Component {
   constructor() {
@@ -21,7 +22,18 @@ class Instructions extends Component {
         <br />
         <h2>Para activar tu cuenta:</h2>
         <p>
-          Crea una cuenta en{" "}
+          Realiza tu pago mediante una transferencia a la dirección{" "}
+          <img
+            src={xrpSymbol}
+            className={styles.xrpSymbol}
+            alt=""
+            width={18}
+            height={18}
+          />{" "}
+          Ripple/XRP <i>{this.xrpAddress}</i> usando el destination tag que
+          recibiste en tu correo.
+          <br />
+          <br /> Crea una cuenta en{" "}
           <a href="https://bitso.com" target="_blank" rel="noopener noreferrer">
             Bitso.com
           </a>
@@ -60,7 +72,15 @@ class Instructions extends Component {
               </a>
             </li>
           </ul>
-          Convierte esos fondos a XRP siguiendo las instrucciones en{" "}
+          Convierte esos fondos a{" "}
+          <img
+            src={xrpSymbol}
+            className={styles.xrpSymbol}
+            alt=""
+            width={18}
+            height={18}
+          />{" "}
+          XRP siguiendo las instrucciones en{" "}
           <a
             href="https://help.bitso.com/es-LA/support/solutions/articles/11000038295-soluci%C3%B3n-c%C3%B3mo-comprar-ripple-xrp-"
             target="_blank"
@@ -86,11 +106,17 @@ class Instructions extends Component {
           </strong>
           <br />
           <br />
-          <Card bg="light" style={{ width: "18rem", alignSelf: "center" }}>
-            <Card.Img variant="top" src={xrpAddressQR} />
-            <Card.Body>
-              <Card.Title>Dirección</Card.Title>
-              <Card.Text style={{ fontSize: "calc(10px + 0.5vmin)" }}>
+          <Media bg="light" style={{ width: "18rem", alignSelf: "center" }}>
+            <img
+              width={100}
+              height={100}
+              className="mr-2"
+              src={xrpAddressQR}
+              alt="Código QR"
+            />
+            <Media.Body>
+              <h5>Dirección Ripple</h5>
+              <p style={{ fontSize: "calc(10px + 0.5vmin)" }}>
                 <i>{this.xrpAddress}</i>
                 <br />
                 <CopyToClipboard
@@ -101,10 +127,9 @@ class Instructions extends Component {
                     Copiar
                   </Button>
                 </CopyToClipboard>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-          <br />
+              </p>
+            </Media.Body>
+          </Media>
           <br />
           Unos momentos después que hayas realizado la transacción, recibirás un
           correo electrónico confirmando que tu cuenta ha sido activada y podrás
@@ -129,8 +154,9 @@ class Instructions extends Component {
   };
 
   usageInstructions = () => {
-    return <p>Para usar el cftbt</p>;
+    return <p>En construcción</p>;
   };
+
   render() {
     return (
       <div className={styles.instructions}>
@@ -139,17 +165,23 @@ class Instructions extends Component {
           <Tabs
             defaultActiveKey="activation"
             onSelect={key => this.setState({ key })}
+            variant="pills"
           >
             <Tab eventKey="activation" title="Activar Cuenta">
               {this.activationInstructions()}
             </Tab>
-            {this.props.authenticated ? (
-              <Tab eventKey="usage" title="Usar el Confettibot">
-                {this.usageInstructions()}
-              </Tab>
-            ) : (
-              <Tab eventKey="usage" title="Usar el Confettibot" disabled />
-            )}
+
+            <Tab eventKey="usage" title="Usar el Confettibot">
+              {this.props.authenticated ? (
+                this.usageInstructions()
+              ) : (
+                <div>
+                  <br />
+                  <br />
+                  <h3>Inicia sesión para ver las instrucciones.</h3>
+                </div>
+              )}
+            </Tab>
           </Tabs>
         </Jumbotron>
       </div>

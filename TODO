@@ -1,0 +1,5 @@
+TODO:
+    Pagina de instrucciones
+    Auto activar cuenta al recibir pago en XRP
+    Solo permitir acceso a los endpoints de websocket si el usuario esta autenticado
+    Implementar cambio de contrasena
