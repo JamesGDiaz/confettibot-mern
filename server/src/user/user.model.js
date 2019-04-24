@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const mongoose = require('mongoose')
+const { Schema } = mongoose
 
 /**
  * Create user schema
@@ -65,11 +65,11 @@ const userSchema = new Schema({
   },
   recovery: {
     type: String,
-    default: ""
+    default: ''
   }
-});
+})
 
 /**
  * Create a model using user schema
  */
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema)

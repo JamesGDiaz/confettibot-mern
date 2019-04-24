@@ -1,8 +1,8 @@
-"use strict";
+'use strict'
 
-const config = require("./config");
-const show = require("./logging");
-const mongoose = require("mongoose");
+const config = require('./config')
+const show = require('./logging')
+const mongoose = require('mongoose')
 
 /**
  * Connecting to database
@@ -12,11 +12,11 @@ const init = () => {
     useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true
-  });
-  const db = mongoose.connection;
-  error(db);
-  open(db);
-};
+  })
+  const db = mongoose.connection
+  error(db)
+  open(db)
+}
 
 /**
  * Database error
@@ -24,21 +24,21 @@ const init = () => {
  * @param {object} error
  */
 const error = db => {
-  db.on("error", error => {
-    show.debug("Database connection error", error);
-  });
-};
+  db.on('error', error => {
+    show.debug('Database connection error', error)
+  })
+}
 
 /**
  * Database connected
  * @callback
  */
 const open = db => {
-  db.once("open", () => {
-    show.debug("Database connected");
-  });
-};
+  db.once('open', () => {
+    show.debug('Database connected')
+  })
+}
 
 module.exports = {
   init
-};
+}
