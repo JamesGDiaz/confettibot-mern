@@ -32,20 +32,25 @@ passport.deserializeUser((user, done) => {
 /**
  * Passport localstrategy
  */
-passport.use(new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password'
-}, (email, password, done) => {
-  if (!email || !password) {
-    return done(null, false)
-  }
-  findUser(email, password, (err, user) => {
-    if (err) {
-      return done(err)
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password'
+    },
+    (email, password, done) => {
+      if (!email || !password) {
+        return done(null, false)
+      }
+      findUser(email, password, (err, user) => {
+        if (err) {
+          return done(err)
+        }
+        if (!user || user === undefined || user.length === 0) {
+          return done(null, false)
+        }
+        return done(null, user)
+      })
     }
-    if (!user || user === undefined || user.length === 0) {
-      return done(null, false)
-    }
-    return done(null, user)
-  })
-}))
+  )
+)

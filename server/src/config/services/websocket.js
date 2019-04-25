@@ -1,13 +1,15 @@
 var PythonShell = require('python-shell').PythonShell
 var SocketServer = require('ws').Server
 const config = require('./config')
+// const session = require('./session')
 
 const wssMobileAdmin = new SocketServer({ noServer: true, maxPayload: 512000 })
 const wssRelayAdmin = new SocketServer({ noServer: true })
 const wssApp = new SocketServer({
   noServer: true
   /* verifyClient: (info, done) => {
-    sessionParser(info.req, {}, () => {
+    session.sessionParser(info.req, {}, () => {
+      console.log(info.req.session)
       done(info.req.session)
     })
   } */
@@ -73,7 +75,7 @@ wssRelayAdmin.on('connection', ws => {
   })
 })
 
-wssApp.on('connection', ws => {
+wssApp.on('connection', (ws, req) => {
   console.log(
     `Client connected on /api/app, there are ${
       wssApp.clients.size

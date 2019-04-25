@@ -10,24 +10,24 @@ const options = {
 }
 const redisStore = new RedisStore(options)
 
+const sessionParser = session({
+  store: redisStore,
+  secret: crypto.randomBytes(48).toString('hex'),
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: {
+    maxAge: 20 * 10000 // 10 minutes
+  }
+})
 /**
  * Initialize redis for session cache
  */
 const init = app => {
-  app.use(
-    session({
-      store: redisStore,
-      secret: crypto.randomBytes(48).toString('hex'),
-      resave: false,
-      saveUninitialized: false,
-      rolling: true,
-      cookie: {
-        maxAge: 20 * 10000 // 10 minutes
-      }
-    })
-  )
+  app.use(sessionParser)
 }
 
 module.exports = {
-  init
+  init,
+  sessionParser
 }

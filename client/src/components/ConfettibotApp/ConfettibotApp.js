@@ -1,19 +1,22 @@
 import React from "react";
+import { connect } from "react-redux";
 import Websocket from "react-websocket";
 import { Jumbotron, Fade, Spinner } from "react-bootstrap";
 import styles from "./confettibotapp.module.scss";
-class ConfettibotApp extends React.Component {
-  state = {
-    searching: false,
-    question: "",
-    question_visibility: false,
-    answer: "",
-    answer_visibility: false,
-    info: "",
-    info_visibility: true
-  };
 
-  fadeOut() {}
+class ConfettibotApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searching: false,
+      question: "",
+      question_visibility: false,
+      answer: "",
+      answer_visibility: false,
+      info: "",
+      info_visibility: true
+    };
+  }
 
   handleData(data) {
     console.log("data:" + data);
@@ -32,14 +35,14 @@ class ConfettibotApp extends React.Component {
           answer_visibility: false,
           searching: false
         });
-      }, 8000);
+      }, 9000);
     } else if (jsonmessage.type === "INFO") {
       this.setState({ info: jsonmessage.message, info_visibility: true });
       setTimeout(() => {
         this.setState({
           info_visibility: false
         });
-      }, 5000);
+      }, 6000);
     }
   }
 
@@ -77,7 +80,7 @@ class ConfettibotApp extends React.Component {
           )}
 
           <Websocket
-            url={window.location.origin.replace(/^http/, "ws") + "/api/app"}
+            url={this.props.url.replace(/^http/, "ws") + "/api/app"}
             onMessage={this.handleData.bind(this)}
           />
         </Jumbotron>
@@ -91,4 +94,11 @@ class ConfettibotApp extends React.Component {
   }
 }
 
-export default ConfettibotApp;
+const mapStateToProps = state => {
+  return {
+    url: state.url,
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(ConfettibotApp);
