@@ -169,9 +169,9 @@ action.activationXRP = (req, res, next) => {
   activationXRP(data, (err, user) => {
     if (!err && user) {
       show.debug(
-        `Payment confirmed, activation success (destination tag: ${
+        `Payment confirmed, activation success! (destination tag: ${
           user.destination_tag
-        })!`
+        })`
       );
       mail.send(
         {
