@@ -9,6 +9,7 @@ const show = require('./services/logging')
 const stats = require('./services/stats')
 const passport = require('./services/passport')
 const websocket = require('./services/websocket')
+const socket = require('./services/socketio')
 
 module.exports = {
   config,
@@ -19,5 +20,6 @@ module.exports = {
   passport,
   smtpTransport,
   websocket,
+  socket,
   stats
 }

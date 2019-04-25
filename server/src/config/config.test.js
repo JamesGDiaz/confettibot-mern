@@ -3,13 +3,7 @@
 process.env.NODE_ENV = 'test'
 
 const expect = require('chai').expect
-const {
-  config,
-  db,
-  smtpTransport,
-  show,
-  stats
-} = require('./index')
+const { config, db, smtpTransport, show, stats, socket } = require('./index')
 
 describe('Config', () => {
   it('should get config object', () => {
@@ -26,5 +20,8 @@ describe('Config', () => {
   })
   it('should get stats object', () => {
     expect(stats).to.be.an('object')
+  })
+  it('should get socket object', () => {
+    expect(socket).to.be.an('object')
   })
 })

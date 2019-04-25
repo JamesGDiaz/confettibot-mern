@@ -97,11 +97,12 @@ class Instructions extends Component {
             (instrucciones)
           </a>
           :<br />
+          <br />
           <strong>
             <i>
-              Es muy importante que ingreses el destination tag que recibiste en
-              el correo de registro. De otra manera no podremos verificar tu
-              pago.
+              Es muy importante que ingreses el número que recibiste en el
+              correo de registro (destination tag). De otra manera no podremos
+              verificar tu pago.
             </i>
           </strong>
           <br />
@@ -115,7 +116,7 @@ class Instructions extends Component {
               alt="Código QR"
             />
             <Media.Body>
-              <h5>Dirección Ripple</h5>
+              <h5>Dirección Ripple/XRP</h5>
               <p style={{ fontSize: "calc(10px + 0.5vmin)" }}>
                 <i>{this.xrpAddress}</i>
                 <br />
@@ -161,17 +162,17 @@ class Instructions extends Component {
     return (
       <div className={styles.instructions}>
         <Jumbotron className="container">
-          <h1>Instrucciones</h1>
+          <h2>Instrucciones</h2>
           <Tabs
             defaultActiveKey="activation"
             onSelect={key => this.setState({ key })}
             variant="pills"
           >
-            <Tab eventKey="activation" title="Activar Cuenta">
+            <Tab eventKey="activation" title="Para activar tu cuenta">
               {this.activationInstructions()}
             </Tab>
 
-            <Tab eventKey="usage" title="Usar el Confettibot">
+            <Tab eventKey="usage" title="Para usar el Confettibot">
               {this.props.authenticated ? (
                 this.usageInstructions()
               ) : (

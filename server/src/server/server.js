@@ -12,7 +12,6 @@ const {
 } = require('../config')
 const routes = require('../../routes')
 const mongoose = require('mongoose')
-// const spdy = require("spdy");
 const http = require('http')
 const Url = require('url-parse')
 let server = null

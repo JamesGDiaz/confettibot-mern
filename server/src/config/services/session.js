@@ -13,17 +13,19 @@ const redisStore = new RedisStore(options)
 /**
  * Initialize redis for session cache
  */
-const init = (app) => {
-  app.use(session({
-    store: redisStore,
-    secret: crypto.randomBytes(48).toString('hex'),
-    resave: false,
-    saveUninitialized: false,
-    rolling: true,
-    cookie: {
-      maxAge: 20 * 1000 // 10 minutes
-    }
-  }))
+const init = app => {
+  app.use(
+    session({
+      store: redisStore,
+      secret: crypto.randomBytes(48).toString('hex'),
+      resave: false,
+      saveUninitialized: false,
+      rolling: true,
+      cookie: {
+        maxAge: 20 * 10000 // 10 minutes
+      }
+    })
+  )
 }
 
 module.exports = {

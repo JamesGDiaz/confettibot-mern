@@ -2,9 +2,16 @@ var PythonShell = require('python-shell').PythonShell
 var SocketServer = require('ws').Server
 const config = require('./config')
 
-const wssApp = new SocketServer({ noServer: true })
-const wssMobileAdmin = new SocketServer({ noServer: true })
+const wssMobileAdmin = new SocketServer({ noServer: true, maxPayload: 512000 })
 const wssRelayAdmin = new SocketServer({ noServer: true })
+const wssApp = new SocketServer({
+  noServer: true
+  /* verifyClient: (info, done) => {
+    sessionParser(info.req, {}, () => {
+      done(info.req.session)
+    })
+  } */
+})
 
 // Setup websocket for complete process (ocr -> search -> broadcast answer)
 wssMobileAdmin.on('connection', ws => {
@@ -73,13 +80,6 @@ wssApp.on('connection', ws => {
     } clients connected.`
   )
   ws.send('{"type": "INFO", "message": "Conectado!"}')
-  /* setInterval(() => {
-    try {
-      ws.send('{"KEEP-ALIVE":"KEEP-ALIVE"}')
-    } catch (error) {
-      console.log("Couldn't send KEEP-ALIVE")
-    }
-  }, 30000) */
   ws.on('close', () => {
     console.log(
       `Client disconnected on /api/app, there are ${
