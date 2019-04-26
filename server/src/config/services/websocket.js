@@ -87,8 +87,8 @@ wssApp.on('connection', (ws, req) => {
   ws.send('{"type": "INFO", "message": "Conectado!"}')
   ws.on('close', () => {
     console.log(
-      `Client disconnected on /api/app, there are ${
-        wssApp.clients.size
+      `[IP: ${ip}] Client disconnected from /api/admin/mobile. There are ${
+        wssMobileAdmin.clients.size
       } clients connected.`
     )
   })
