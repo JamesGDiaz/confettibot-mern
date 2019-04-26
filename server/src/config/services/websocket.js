@@ -78,9 +78,7 @@ wssRelayAdmin.on('connection', (ws, req) => {
 })
 
 wssApp.on('connection', (ws, req) => {
-  const ip =
-    req.connection.remoteAddress ||
-    req.headers['x-forwarded-for'].split(/\s*,\s*/)[0]
+  const ip = req.headers['x-forwarded-for'].split(/\s*,\s*/)[0]
   console.log(
     `Client connected on /api/app, there are ${
       wssApp.clients.size
