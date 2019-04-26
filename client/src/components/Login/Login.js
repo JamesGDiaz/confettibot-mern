@@ -49,7 +49,6 @@ class Login extends Component {
     this.setState({
       loading: true
     });
-    console.log(this.props.url);
     const response = await axios.post(
       `${this.props.url}/api/user/login`,
       userdata

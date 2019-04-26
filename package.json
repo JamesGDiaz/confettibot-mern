@@ -18,7 +18,6 @@
     },
     "dependencies": {
         "concurrently": "^4.1.0",
-        "get-random-values": "^1.2.0",
-        "url-parse": "^1.4.6"
+        "get-random-values": "^1.2.0"
     }
 }

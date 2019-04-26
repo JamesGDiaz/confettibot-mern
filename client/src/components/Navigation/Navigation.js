@@ -5,9 +5,13 @@ import { Navbar, Nav, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 class Navigation extends Component {
-  state = {
-    navExpanded: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      navExpanded: false,
+      email: null
+    };
+  }
 
   componentWillMount() {
     this.setState({ navExpanded: false });
@@ -86,7 +90,8 @@ class Navigation extends Component {
 }
 const mapStateToProps = state => {
   return {
-    authenticated: state.authenticated
+    authenticated: state.authenticated,
+    user: state.user
   };
 };
 
