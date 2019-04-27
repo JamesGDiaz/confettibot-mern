@@ -9,9 +9,10 @@ const socketio = require('socket.io')
  * @function
  * @param {object} server
  */
-const listen = server => {
+const listen = (server, app) => {
   const io = socketio.listen(server)
   socket.init(io)
+  app.io = io
   show.debug('Socket.IO connected')
 }
 

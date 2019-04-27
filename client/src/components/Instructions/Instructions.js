@@ -52,26 +52,28 @@ class Instructions extends Component {
           <br />
           <br />
           Una vez que tengas tu cuenta, fondéala con $500 pesos. <br />
-          <ul>
-            <li>
-              <a
-                href="https://help.bitso.com/es-LA/support/solutions/articles/1000167656-tutorial-fondear-cuenta-por-medio-de-spei"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Puedes fondear mediante SPEI
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://help.bitso.com/es-LA/support/solutions/articles/1000166720-tutorial-cómo-fondear-en-efectivo-por-medio-de-oxxo-"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                O mediante OXXO (aplican comisiones)
-              </a>
-            </li>
-          </ul>
+        </p>
+        <ul>
+          <li>
+            <a
+              href="https://help.bitso.com/es-LA/support/solutions/articles/1000167656-tutorial-fondear-cuenta-por-medio-de-spei"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Puedes fondear mediante SPEI
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://help.bitso.com/es-LA/support/solutions/articles/1000166720-tutorial-cómo-fondear-en-efectivo-por-medio-de-oxxo-"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              O mediante OXXO (aplican comisiones)
+            </a>
+          </li>
+        </ul>
+        <div>
           Convierte esos fondos a{" "}
           <img
             src={xrpSymbol}
@@ -116,8 +118,8 @@ class Instructions extends Component {
               alt="Código QR"
             />
             <Media.Body>
-              <h5>Dirección Ripple/XRP</h5>
-              <p style={{ fontSize: "calc(10px + 0.5vmin)" }}>
+              <strong>Dirección Ripple/XRP</strong>
+              <div style={{ fontSize: "calc(10px + 0.5vmin)" }}>
                 <i>{this.xrpAddress}</i>
                 <br />
                 <CopyToClipboard
@@ -128,7 +130,7 @@ class Instructions extends Component {
                     Copiar
                   </Button>
                 </CopyToClipboard>
-              </p>
+              </div>
             </Media.Body>
           </Media>
           <br />
@@ -149,7 +151,7 @@ class Instructions extends Component {
           <strong style={{ fontSize: "calc(10px + 3vmin)" }}>
             ¡Mucha confettisuerte!
           </strong>
-        </p>
+        </div>
       </div>
     );
   };

@@ -18,6 +18,11 @@ import { setUrl, setNotifications } from "./actions/connectionActions";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
+import {
+  // eslint-disable-next-line
+  join, // eslint-disable-next-line
+  send // eslint-disable-next-line
+} from "./components/SocketIo/Socket";
 
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => (
   <Route
