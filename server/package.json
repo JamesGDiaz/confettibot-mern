@@ -55,7 +55,6 @@
         "python-shell": "^1.0.7",
         "rate-limit-redis": "^1.6.0",
         "request": "^2.81.0",
-        "socket.io": "^2.2.0",
         "url-parse": "^1.4.6",
         "validator": "^10.10.0",
         "webpack-node-externals": "^1.7.2",

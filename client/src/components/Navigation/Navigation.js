@@ -56,9 +56,6 @@ class Navigation extends Component {
                 <LinkContainer to="/app">
                   <Button variant="outline-primary">App</Button>
                 </LinkContainer>
-                <LinkContainer to="/appsocket">
-                  <Button variant="outline-primary">AppSocket</Button>
-                </LinkContainer>
               </Nav>
               <Nav>
                 <LinkContainer to="/logout">

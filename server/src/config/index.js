@@ -8,7 +8,6 @@ const smtpTransport = require('./services/nodemailer')
 const show = require('./services/logging')
 const stats = require('./services/stats')
 const passport = require('./services/passport')
-const socket = require('./services/socketIo')
 const websocket = require('./services/websocket')
 
 module.exports = {
@@ -20,6 +19,5 @@ module.exports = {
   passport,
   smtpTransport,
   websocket,
-  socket,
   stats
 }

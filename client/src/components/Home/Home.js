@@ -78,7 +78,6 @@ class Home extends Component {
           <Row>
             <Col>
               <Jumbotron style={{ textAlign: "start", textJustify: "auto" }}>
-                <Button onClick={this.checklogin}>Check Login</Button>
                 <strong>Renuncia de responsabilidad:</strong>
                 <ul>
                   <li>

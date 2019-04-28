@@ -13,7 +13,6 @@ import Error from "./components/Error/Error";
 import Navigation from "./components/Navigation/Navigation";
 import Profile from "./components/Profile/Profile";
 import ConfettibotApp from "./components/ConfettibotApp/ConfettibotApp";
-import ConfettibotSocketIo from "./components/ConfettibotSocketIo/ConfettibotSocketIo";
 import Instructions from "./components/Instructions/Instructions";
 import { connect } from "react-redux";
 import { setUrl, setNotifications } from "./actions/connectionActions";
@@ -99,12 +98,6 @@ class App extends Component {
               <PrivateRoute
                 path="/app"
                 component={ConfettibotApp}
-                authenticated={this.props.authenticated}
-                exact
-              />
-              <PrivateRoute
-                path="/appsocket"
-                component={ConfettibotSocketIo}
                 authenticated={this.props.authenticated}
                 exact
               />
