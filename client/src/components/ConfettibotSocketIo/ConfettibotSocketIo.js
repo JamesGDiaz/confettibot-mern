@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Jumbotron, Fade, Spinner } from "react-bootstrap";
-import styles from "./confettibotapp.module.scss";
+import styles from "./confettibotsocketio.module.scss";
+import socketIO from "socket.io-client";
 
-class ConfettibotApp extends React.Component {
+class ConfettibotSocketIo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,38 +17,23 @@ class ConfettibotApp extends React.Component {
       info_visibility: true
     };
     this.handleData = this.handleData.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
   }
-
-  componentDidMount(props) {
-    this.ws = new WebSocket(this.props.url.replace(/^http/, "ws") + "/api/app");
-
-    this.ws.addEventListener("message", message => {
-      this.handleData(message.data);
-    });
-    this.ws.addEventListener("close", event => {
-      this.handleData(
-        `{"type": "INFO", "message": "Conexión perdida. Recarga la página!"}`
-      );
+  componentDidMount() {
+    this.socket = socketIO(
+      this.props.url.replace(/^http/, "ws") + "/api/test",
+      { transports: ["websocket"] }
+    );
+    this.socket.on("message", data => {
+      this.handleData(data);
     });
   }
 
   componentWillUnmount() {
-    if (!this.ws) return;
-
-    try {
-      this.ws.close();
-    } catch (err) {
-      console.log("Error in closing ws: ", err);
-    }
-  }
-
-  sendMessage(message) {
-    this.ws.send(message);
+    this.socket.close();
   }
 
   handleData(data) {
-    console.log(data);
+    console.log("data:" + data);
     let jsonmessage = JSON.parse(data);
     if (jsonmessage.type === "QUESTION") {
       this.setState({
@@ -124,4 +110,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ConfettibotApp);
+export default connect(mapStateToProps)(ConfettibotSocketIo);

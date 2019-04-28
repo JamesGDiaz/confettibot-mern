@@ -2,29 +2,35 @@
 
 const crypto = require('crypto')
 const session = require('express-session')
-const RedisStore = require('connect-redis')(session)
-const config = require('./config')
+const mongoose = require('mongoose')
+const MongoStore = require('connect-mongo')(session)
 
 const options = {
-  url: config.redisUrl
+  mongooseConnection: mongoose.connection
 }
-const redisStore = new RedisStore(options)
+const mongoStore = new MongoStore(options)
 
 const sessionParser = session({
-  store: redisStore,
+  store: mongoStore,
   secret: crypto.randomBytes(48).toString('hex'),
   resave: false,
   saveUninitialized: false,
   rolling: true,
   cookie: {
-    maxAge: 20 * 10000 // 10 minutes
+    secure: false,
+    httpOnly: true,
+    maxAge: 60 * 60 * 1000 // 1hr
   }
 })
 
 /**
- * Initialize redis for session cache
+ * Initialize mongo for session cache
  */
 const init = app => {
+  if (app.get('env') === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sessionParser.cookie.secure = true // serve secure cookies
+  }
   app.use(sessionParser)
 }
 

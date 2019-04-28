@@ -9,7 +9,7 @@ const init = io => {
   io.on('connection', socket => {
     show.debug('Socket client connected!')
 
-    socket.on('randomNamespace', message => {
+    socket.on('/api/test', message => {
       show.debug(message)
     })
 

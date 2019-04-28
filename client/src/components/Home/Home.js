@@ -3,8 +3,16 @@ import { connect } from "react-redux";
 import styles from "./home.module.scss";
 import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import axios from "axios";
 
 class Home extends Component {
+  checklogin = async () => {
+    console.log("Checking login");
+    //axios.defaults.withCredentials = true;
+    const res = await axios.post(`http://localhost:3001/api/user/check`);
+    console.log("authenticated? " + res);
+  };
+
   render() {
     return (
       <div className={styles.home}>
@@ -70,6 +78,7 @@ class Home extends Component {
           <Row>
             <Col>
               <Jumbotron style={{ textAlign: "start", textJustify: "auto" }}>
+                <Button onClick={this.checklogin}>Check Login</Button>
                 <strong>Renuncia de responsabilidad:</strong>
                 <ul>
                   <li>

@@ -1,12 +1,27 @@
-var PythonShell = require('python-shell').PythonShell
-var SocketServer = require('ws').Server
+const PythonShell = require('python-shell').PythonShell
+const SocketServer = require('ws').Server
 const config = require('../config/services/config')
+const sessionParser = require('../config/services/session').sessionParser
 
 const wssAppServer = new SocketServer({ noServer: true, maxPayload: 512000 })
-const wssApp = new SocketServer({ noServer: true })
+const wssApp = new SocketServer({
+  noServer: true,
+  verifyClient: function (info, done) {
+    sessionParser(info.req, {}, () => {
+      if (info.req.session.passport) done(info.req.session.passport.user)
+    })
+  }
+})
 
 // Setup websocket for complete process ( search -> broadcast answer)
 wssApp.on('connection', (ws, req) => {
+  console.log('Connection to /api/app accepted.')
+  ws.on('message', data => {
+    data = JSON.parse(data)
+    if (data.type === 'AUTH') {
+      console.log(`Authenticating ID ${data.user.id}`)
+    } else ws.close()
+  })
   let ip = null
   if (process.env.NODE_ENV === 'production') {
     ip = req.headers['x-forwarded-for'].split(/\s*,\s*/)[0]
@@ -20,7 +35,7 @@ wssApp.on('connection', (ws, req) => {
   ws.on('close', () => {
     console.log(
       `[IP: ${ip}] Client disconnected from /api/app. There are ${
-        wssAppServer.clients.size
+        wssApp.clients.size
       } clients connected.`
     )
   })

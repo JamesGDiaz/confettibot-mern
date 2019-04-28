@@ -1,0 +1,47 @@
+.outputJumbotron {
+    color: #1c1e21;
+    border-radius: .5rem;
+    font-size: calc(10px + 8vmin);
+    box-sizing: border-box;
+    font-family: "Cabin", arial, sans-serif;
+    letter-spacing: 1px;
+}
+
+.message {
+    font-size: calc(10px + 4vmin);
+    word-wrap: normal;
+}
+
+.messageAnswer {
+    font-family: bold;
+    font-size: calc(10px + 8vmin);
+}
+
+.messageQuestion {
+    font-family: bold;
+    font-size: calc(10px + 2vmin);
+    margin-bottom: 2rem;
+}
+
+.answerContainer {
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: .6rem;
+    background-color: rgb(61, 175, 252);
+    margin: .5rem;
+    padding: 1rem;
+}
+
+.messageInfo {
+    font-family: "Cabin", arial, sans-serif;
+    font-size: calc(10px + 2vmin);
+    background-color: #efefef;
+    margin: 4px;
+    padding: .5rem;
+    border-radius: .6rem;
+}
+
+.muted {
+    opacity: 0.5;
+}

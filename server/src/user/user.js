@@ -2,11 +2,7 @@
 
 require('./services/login')
 const logout = require('./services/logout')
-const {
-  register,
-  activate,
-  activationXRP
-} = require('./services/registration')
+const { register, activationXRP } = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
 const { profileUpdate, profileRemove } = require('./services/profile')
 const mail = require('../common/services/email')
@@ -18,11 +14,18 @@ const action = {}
  * Check login
  */
 action.checkLogin = (req, res) => {
+  console.log('Checking if requester is logged in')
+  console.log(req.session)
+  console.log(req.session.id)
   if (req.isAuthenticated()) {
     show.debug('Logged in!')
   } else {
     show.debug('Not logged in!')
   }
+  return res.json({
+    type: 'checklogin',
+    success: req.isAuthenticated()
+  })
 }
 
 /**
@@ -32,7 +35,7 @@ action.login = (req, res, next) => {
   show.debug('Logging in...')
   passport.authenticate('local', (err, user, info) => {
     if (err) {
-      show.debug('Login error!')
+      show.debug('Login error (server)!')
       return res.json({
         type: 'login',
         success: false
@@ -47,11 +50,10 @@ action.login = (req, res, next) => {
     }
     req.login(user, err => {
       if (!err && user) {
-        show.debug('Login success!')
+        show.debug(`Login success! [User ID: ${req.session.passport.user}`)
         const data = {
-          id: user[0].id,
-          email: user[0].email,
-          destination_tag: user[0].destination_tag
+          email: user.email,
+          destination_tag: user.destination_tag
         }
         return res.json({
           type: 'login',
@@ -131,29 +133,6 @@ action.registration = (req, res, next) => {
       show.debug('Registration failed!')
       return res.json({
         type: 'registration',
-        success: false
-      })
-    }
-  })
-}
-
-/**
- * Activation
- */
-action.activation = (req, res, next) => {
-  const data = req.body
-  show.debug('Activating...')
-  activate(data, (err, user) => {
-    if (!err && user) {
-      show.debug('Activation success!')
-      return res.json({
-        type: 'activation',
-        success: true
-      })
-    } else {
-      show.debug('Activation failed!')
-      return res.json({
-        type: 'activation',
         success: false
       })
     }

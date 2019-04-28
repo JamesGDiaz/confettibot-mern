@@ -3,7 +3,7 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const middleware = require('./middleware')
-
+const User = require('../user.model')
 /**
  * Find an active user by email and password
  * @function
@@ -22,11 +22,14 @@ const findUser = (email, password, callback) => {
 }
 
 passport.serializeUser((user, done) => {
-  done(null, user)
+  done(null, user.id)
 })
 
-passport.deserializeUser((user, done) => {
-  done(null, user)
+passport.deserializeUser((id, done) => {
+  console.log('deserializing user...\n')
+  User.findOne({ id: id }, function (err, user) {
+    done(err, user)
+  })
 })
 
 /**

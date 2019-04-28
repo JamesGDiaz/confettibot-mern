@@ -1,6 +1,7 @@
 TODO:
     Pagina de instrucciones (falta como usar el confettibot)
-    Solo permitir acceso a los endpoints de websocket si el usuario esta autenticado
+    Automaticamente iniciar sesion si existe el cookie
+    Solo permitir acceso a los endpoints de websocket si el usuario esta autenticado (revisar con TLS/SSL en modo produccion, hacer que funcione en development y produccion)
     Implementar cambio de contrasena
 
     Apps iOS/Android

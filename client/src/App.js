@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import axios from "axios";
 import styles from "./app.module.scss";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
@@ -12,17 +13,15 @@ import Error from "./components/Error/Error";
 import Navigation from "./components/Navigation/Navigation";
 import Profile from "./components/Profile/Profile";
 import ConfettibotApp from "./components/ConfettibotApp/ConfettibotApp";
+import ConfettibotSocketIo from "./components/ConfettibotSocketIo/ConfettibotSocketIo";
 import Instructions from "./components/Instructions/Instructions";
 import { connect } from "react-redux";
 import { setUrl, setNotifications } from "./actions/connectionActions";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-import {
-  // eslint-disable-next-line
-  join, // eslint-disable-next-line
-  send // eslint-disable-next-line
-} from "./components/SocketIo/Socket";
+
+axios.defaults.withCredentials = true;
 
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => (
   <Route
@@ -100,6 +99,12 @@ class App extends Component {
               <PrivateRoute
                 path="/app"
                 component={ConfettibotApp}
+                authenticated={this.props.authenticated}
+                exact
+              />
+              <PrivateRoute
+                path="/appsocket"
+                component={ConfettibotSocketIo}
                 authenticated={this.props.authenticated}
                 exact
               />
