@@ -5,7 +5,7 @@ const express = require('./services/express')
 const session = require('./services/session')
 const db = require('./services/database')
 const smtpTransport = require('./services/nodemailer')
-const show = require('./services/logging')
+const log = require('./services/logging')
 const stats = require('./services/stats')
 const passport = require('./services/passport')
 const websocket = require('./services/websocket')
@@ -14,7 +14,7 @@ module.exports = {
   config,
   express,
   session,
-  show,
+  log,
   db,
   passport,
   smtpTransport,

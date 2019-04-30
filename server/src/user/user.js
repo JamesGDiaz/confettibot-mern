@@ -6,7 +6,7 @@ const { register, activationXRP } = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
 const { profileUpdate, profileRemove } = require('./services/profile')
 const mail = require('../common/services/email')
-const { show } = require('../config')
+const { log } = require('../config')
 const passport = require('passport')
 const action = {}
 
@@ -14,13 +14,11 @@ const action = {}
  * Check login
  */
 action.checkLogin = (req, res) => {
-  console.log('Checking if requester is logged in')
-  console.log(req.session)
-  console.log(req.session.id)
+  log.verbose(`Checking if requester is logged in.`, req.session)
   if (req.isAuthenticated()) {
-    show.debug('Logged in!')
+    log.verbose('Logged in!')
   } else {
-    show.debug('Not logged in!')
+    log.verbose('Not logged in!')
   }
   return res.json({
     type: 'checklogin',
@@ -32,17 +30,17 @@ action.checkLogin = (req, res) => {
  * Login
  */
 action.login = (req, res, next) => {
-  show.debug('Logging in...')
+  log.debug('Logging in...')
   passport.authenticate('local', (err, user, info) => {
     if (err) {
-      show.debug('Login error (server)!')
+      log.eror('Login error (server)!')
       return res.json({
         type: 'login',
         success: false
       })
     }
     if (!user) {
-      show.debug('User not found!')
+      log.debug('User not found!')
       return res.json({
         type: 'login',
         success: false
@@ -50,7 +48,7 @@ action.login = (req, res, next) => {
     }
     req.login(user, err => {
       if (!err && user) {
-        show.debug(`Login success! [User ID: ${req.session.passport.user}`)
+        log.info(`User logged in [ID: ${req.session.passport.user}`)
         const data = {
           email: user.email,
           destination_tag: user.destination_tag
@@ -61,7 +59,7 @@ action.login = (req, res, next) => {
           user: data
         })
       } else {
-        show.debug('Login error!')
+        log.debug('Login error!')
         return res.json({
           type: 'login',
           success: false
@@ -75,16 +73,16 @@ action.login = (req, res, next) => {
  * Logout
  */
 action.logout = (req, res, next) => {
-  show.debug('Logging out...')
+  log.debug('Logging out...')
   logout(req, err => {
     if (!err) {
-      show.debug('Logout success!')
+      log.debug('Logout success!')
       return res.json({
         type: 'logout',
         success: true
       })
     } else {
-      show.debug('Logout failed!')
+      log.debug('Logout failed!')
       return res.json({
         type: 'logout',
         success: false
@@ -97,11 +95,11 @@ action.logout = (req, res, next) => {
  * Registration
  */
 action.registration = (req, res, next) => {
-  show.debug('Registrating...')
+  log.debug('Registrating...')
   const data = req.body
   register(data, (err, user) => {
     if (!err && user) {
-      show.debug('Registration success! activation hash: ' + user.activation)
+      log.debug('Registration success! activation hash: ' + user.activation)
       mail.send(
         {
           to: data.email,
@@ -130,7 +128,7 @@ action.registration = (req, res, next) => {
         }
       )
     } else {
-      show.debug('Registration failed!')
+      log.debug('Registration failed!')
       return res.json({
         type: 'registration',
         success: false
@@ -146,10 +144,10 @@ action.activationXRP = (req, res, next) => {
   const data = req.body
   activationXRP(data, (err, user) => {
     if (!err && user) {
-      show.debug(
-        `Payment confirmed, activation success! (destination tag: ${
+      log.info(
+        `Payment confirmed, activation success! [Dest Tag: ${
           user.destination_tag
-        })`
+        }]`
       )
       mail.send(
         {
@@ -177,7 +175,7 @@ action.activationXRP = (req, res, next) => {
         }
       )
     } else {
-      show.debug('Activation failed!')
+      log.error('Activation failed!')
       return res.json({
         type: 'activation',
         success: false
@@ -191,7 +189,7 @@ action.activationXRP = (req, res, next) => {
  */
 action.recovery = (req, res, next) => {
   const data = req.body
-  show.debug('Recovery...')
+  log.debug('Recovery...')
   if (!data.hash) {
     recovery(data, (err, user) => {
       if (!err && user) {
@@ -206,13 +204,13 @@ action.recovery = (req, res, next) => {
           },
           (err, sent) => {
             if (!err && sent) {
-              show.debug('Recovery success!')
+              log.debug('Recovery success!')
               return res.json({
                 type: 'recovery',
                 success: true
               })
             } else {
-              show.debug('Recovery failed!')
+              log.debug('Recovery failed!')
               return res.json({
                 type: 'recovery',
                 success: false
@@ -221,7 +219,7 @@ action.recovery = (req, res, next) => {
           }
         )
       } else {
-        show.debug('Recovery failed!')
+        log.debug('Recovery failed!')
         return res.json({
           type: 'recovery',
           success: false
@@ -231,13 +229,13 @@ action.recovery = (req, res, next) => {
   } else {
     recoveryHash(data, (err, user) => {
       if (!err && user) {
-        show.debug('Recovery success!')
+        log.debug('Recovery success!')
         return res.json({
           type: 'recovery',
           success: true
         })
       } else {
-        show.debug('Recovery failed!')
+        log.debug('Recovery failed!')
         return res.json({
           type: 'recovery',
           success: false
@@ -251,7 +249,7 @@ action.recovery = (req, res, next) => {
  * Password change
  */
 action.passChange = (req, res, next) => {
-  show.debug('Changing password...')
+  log.debug('Changing password...')
   return res.json({
     type: 'passchange',
     result: 'Not implemented!'
@@ -263,10 +261,10 @@ action.passChange = (req, res, next) => {
  */
 action.profileUpdate = (req, res, next) => {
   const data = req.body
-  show.debug('Changing profile...')
+  log.debug('Changing profile...')
   profileUpdate(data, (err, user) => {
     if (!err && user) {
-      show.debug('Profile change success!')
+      log.debug('Profile change success!')
       const data = {
         id: user.id,
         email: user.email,
@@ -279,7 +277,7 @@ action.profileUpdate = (req, res, next) => {
         user: data
       })
     } else {
-      show.debug('Profile change failed!')
+      log.debug('Profile change failed!')
       return res.json({
         type: 'profileupdate',
         success: false
@@ -293,16 +291,16 @@ action.profileUpdate = (req, res, next) => {
  */
 action.profileRemove = (req, res, next) => {
   const data = req.body
-  show.debug('Removing user...')
+  log.debug('Removing user...')
   profileRemove(data, err => {
     if (!err) {
-      show.debug('Profile remove success!')
+      log.debug('Profile remove success!')
       return res.json({
         type: 'profileremove',
         success: true
       })
     } else {
-      show.debug('Profile remove failed!')
+      log.debug('Profile remove failed!')
       return res.json({
         type: 'profileremove',
         success: false

@@ -1,7 +1,7 @@
 'use strict'
 
 const config = require('./config')
-const show = require('./logging')
+const log = require('./logging')
 const mongoose = require('mongoose')
 
 /**
@@ -25,7 +25,7 @@ const init = () => {
  */
 const error = db => {
   db.on('error', error => {
-    show.debug('Database connection error', error)
+    log.error('Database connection error', error)
   })
 }
 
@@ -35,7 +35,7 @@ const error = db => {
  */
 const open = db => {
   db.once('open', () => {
-    show.debug('Database connected')
+    log.debug('Database connected succesfully')
   })
 }
 

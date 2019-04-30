@@ -4,6 +4,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const middleware = require('./middleware')
 const User = require('../user.model')
+const log = require('../../config/services/logging')
 /**
  * Find an active user by email and password
  * @function
@@ -26,7 +27,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-  console.log('deserializing user...\n')
+  log.debug('deserializing user...\n')
   User.findOne({ id: id }, function (err, user) {
     done(err, user)
   })

@@ -3,6 +3,7 @@
 const User = require('../user.model')
 const crypto = require('crypto')
 const middleware = require('./middleware')
+const log = require('../../config/services/logging')
 
 /**
  * Register a new user
@@ -33,7 +34,7 @@ const register = (data, callback) => {
     if (!err && user) {
       return callback(null, user)
     } else {
-      console.log(err)
+      log.error(err)
       return callback(err)
     }
   })
@@ -75,7 +76,7 @@ const activate = (data, callback) => {
  * @param {callback} callback
  */
 const activationXRP = (data, callback) => {
-  console.log(
+  log.log(
     `Attempting to activate account with destination tag ${
       data.transaction.DestinationTag
     }. Transaction hash: ${data.transaction.hash}`
@@ -93,7 +94,7 @@ const activationXRP = (data, callback) => {
         new: true
       },
       (err, user) => {
-        console.log(`Updating database...`)
+        log.verbose(`Updating database...`)
         if (!err && user) {
           return callback(null, user)
         } else {
@@ -102,7 +103,7 @@ const activationXRP = (data, callback) => {
       }
     )
   } else {
-    console.log(`Transaction ${data.transaction.hash} was not validated`)
+    log.warn(`Transaction ${data.transaction.hash} was not validated`)
     return callback(null, null)
   }
 }

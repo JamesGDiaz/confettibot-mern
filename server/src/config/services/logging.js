@@ -5,11 +5,17 @@ const winston = require('winston')
 /**
  * Logging configuration (winston)
  */
-const show = winston.createLogger({
+const log = winston.createLogger({
   level: 'debug',
+
   format: winston.format.combine(
+    winston.format.timestamp({
+      format: 'DD-MM-YYYY HH:mm:ss'
+    }),
     winston.format.colorize(),
-    winston.format.json()
+    winston.format.printf(
+      info => `${info.timestamp} ${info.level}: ${info.message}`
+    )
   ),
   transports: [
     new winston.transports.File({
@@ -23,9 +29,13 @@ const show = winston.createLogger({
 })
 
 if (process.env.NODE_ENV !== 'test') {
-  show.add(new winston.transports.Console({
-    format: winston.format.simple()
-  }))
+  log.add(
+    new winston.transports.Console({
+      format: winston.format.printf(
+        info => `${info.timestamp} ${info.level}: ${info.message}`
+      )
+    })
+  )
 }
 
-module.exports = show
+module.exports = log

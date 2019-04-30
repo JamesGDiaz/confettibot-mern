@@ -6,7 +6,7 @@ const {
   session,
   passport,
   db,
-  show,
+  log,
   websocket,
   stats
 } = require('../config')
@@ -26,7 +26,7 @@ const listen = () => {
   passport.init(app)
   db.init()
   server = http.createServer(app).listen(config.port)
-  show.debug(`Listening at http://${config.host}:${config.port}`)
+  log.info(`Listening at http://${config.host}:${config.port}`)
   websocket.init(server)
   routes.init(app)
   stats.memory()
@@ -39,7 +39,7 @@ const listen = () => {
 const close = () => {
   server.close()
   mongoose.disconnect()
-  show.debug('Server down')
+  log.info('Server is offline. Bye!')
 }
 
 module.exports = {

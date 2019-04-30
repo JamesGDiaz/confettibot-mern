@@ -3,7 +3,7 @@
 process.env.NODE_ENV = 'test'
 
 const expect = require('chai').expect
-const { config, db, smtpTransport, show, stats } = require('./index')
+const { config, db, smtpTransport, log, stats } = require('./index')
 
 describe('Config', () => {
   it('should get config object', () => {
@@ -15,8 +15,8 @@ describe('Config', () => {
   it('should get smtpTransport object', () => {
     expect(smtpTransport).to.be.an('object')
   })
-  it('should get show object', () => {
-    expect(show).to.be.an('object')
+  it('should get log object', () => {
+    expect(log).to.be.an('object')
   })
   it('should get stats object', () => {
     expect(stats).to.be.an('object')
