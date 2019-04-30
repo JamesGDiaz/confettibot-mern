@@ -39,7 +39,7 @@ def find_nouns(text, num_words, reverse=False):
     # manually remove '¿' symbol
     text = text.replace('¿', '')
     tokens = word_tokenize(text, language="spanish")
-    print(tokens)
+    # print(tokens)
 
     tags = [tag for tag in spanish_postagger.tag(tokens) if tag[1] != 'POS']
 

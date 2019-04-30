@@ -152,7 +152,8 @@ async def __search_method3(question_keywords, question_key_nouns, answers, rever
     :param reverse: True if the best answer occurs the least, False otherwise
     :return: Answer whose search results contain the most keywords of the question
     """
-    #print("Running method 3...")
+    print(wsMessage(type=wsMessage.Type.INFO,
+                    message=f"Aún sigo buscando, un momento... ").getJson())
     search_results = await search.multiple_search(answers, 5)
     #print("Search processed")
     answer_lengths = list(map(len, search_results))
