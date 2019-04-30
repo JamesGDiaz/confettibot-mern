@@ -1,6 +1,6 @@
 TODO:
-    Pagina de instrucciones (falta como usar el confettibot)
     Automaticamente iniciar sesion si existe el cookie y es valido
     Implementar cambio de contrasena
-
+    Implementar websockets en modo cluster
+    
     Apps iOS/Android

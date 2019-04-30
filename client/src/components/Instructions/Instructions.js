@@ -19,8 +19,6 @@ class Instructions extends Component {
   activationInstructions = () => {
     return (
       <div className={styles.text}>
-        <br />
-        <h2>Para activar tu cuenta:</h2>
         <p>
           Realiza tu pago mediante una transferencia a la dirección{" "}
           <img
@@ -36,7 +34,14 @@ class Instructions extends Component {
           <br /> Crea una cuenta en{" "}
           <a href="https://bitso.com" target="_blank" rel="noopener noreferrer">
             Bitso.com
-          </a>
+          </a>{" "}
+          (
+          <i>
+            Si conoces a alguien que pueda realizar el pago usando su cuenta, no
+            es necesario que crees una para tí, tan sólo usa el destination tag
+            que aparece en tu correo
+          </i>
+          )
           <br />
           Bitso es una casa de bolsa mexicana en la que puedes intercambiar
           pesos mexicanos por varias{" "}
@@ -69,7 +74,8 @@ class Instructions extends Component {
               target="_blank"
               rel="noopener noreferrer"
             >
-              O mediante OXXO (aplican comisiones)
+              O mediante OXXO (aplican comisiones 2.6% + IVA + comisión en
+              tienda)
             </a>
           </li>
         </ul>
@@ -157,7 +163,65 @@ class Instructions extends Component {
   };
 
   usageInstructions = () => {
-    return <p>En construcción</p>;
+    return (
+      <div className={styles.text}>
+        <h5>
+          Usar el Confettibot es muy sencillo, tan solo abre la app, dando click
+          en el botón <strong>app</strong> en la parte superior del sitio.
+          <br />
+          <br />
+          Verás un cuadro como el siguiente mientras esperas que llegue la
+          siguiente pregunta.
+          <img
+            className={styles.image}
+            src={require("./cftbt/img1.jpg")}
+            alt="Cuadro de informacion"
+          />
+          Al haber una pregunta en progreso, verás como aparece en el cuadro
+          blanco:
+          <img
+            className={styles.image}
+            src={require("./cftbt/img2.jpg")}
+            alt="Cuadro con pregunta"
+          />
+          Y unos segundos después, aparecerá la respuesta más probable:
+          <img
+            className={styles.image}
+            src={require("./cftbt/img3.jpg")}
+            alt="Cuadro con respuesta."
+          />
+          <strong>
+            En caso de que se pierda la conexión, aparecerá un mensaje
+            indicándolo. Es necesario que recargues la pagina (presionando F5)
+          </strong>
+          <br />
+          <br />
+          Por el momento, necesitas usar dos dispositivos para jugar mientras
+          usas el Confettibot. Es decir, necesitas tu celular o tableta y otro
+          celular/tableta/computadora
+          <br />
+          adicional. Si tu dispositivo tiene la caracterísitica de dividir la
+          pantalla, tambien puedes hacerlo de esa manera.
+          <br />
+          <br />
+          Las apps de iOS y Android pronto estarán disponibles.
+        </h5>
+        <br />
+        <ul className={styles.tips}>
+          Tips:
+          <li>
+            Usa tu sentido común. El bot es una computadora y no siempre tiene
+            la respuesta correcta
+          </li>
+          <li>Si sabes la respuesta, o esperes al bot, ¡respóndela!</li>
+          <li>
+            Usualmente, 7 de cada 10 respuestas son correctas. A veces un poco
+            más, a veces un poco menos
+          </li>
+          <li>¡¡Compártenos con tus amigos!!</li>
+        </ul>
+      </div>
+    );
   };
 
   render() {

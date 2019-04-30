@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import {
   Paper,
-  Typography,
-  FormControlLabel,
+  Typography, // eslint-disable-next-line
+  FormControlLabel, // eslint-disable-next-line
   Checkbox
 } from "@material-ui/core";
 import { Button, ButtonToolbar } from "react-bootstrap";
@@ -118,10 +118,10 @@ class Login extends Component {
               margin="normal"
               fullWidth
             />
-            <FormControlLabel
+            {/*<FormControlLabel
               control={<Checkbox value="remember" color="secondary" />}
               label="Mantener mi sesión iniciada"
-            />
+            />*/}
             <ButtonToolbar>
               {loading ? (
                 <Button variant="contained" color="primary" disabled block>
