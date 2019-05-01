@@ -167,7 +167,7 @@ class Instructions extends Component {
       <div className={styles.text}>
         <h5>
           Usar el Confettibot es muy sencillo, tan solo abre la app, dando click
-          en el botón <strong>app</strong> en la parte superior del sitio.
+          en el botón <strong>app</strong> en el menu del sitio.
           <br />
           <br />
           Verás un cuadro como el siguiente mientras esperas que llegue la
@@ -198,10 +198,9 @@ class Instructions extends Component {
           <br />
           Por el momento, necesitas usar dos dispositivos para jugar mientras
           usas el Confettibot. Es decir, necesitas tu celular o tableta y otro
-          celular/tableta/computadora
-          <br />
-          adicional. Si tu dispositivo tiene la caracterísitica de dividir la
-          pantalla, tambien puedes hacerlo de esa manera.
+          celular/tableta/computadora adicional. Si tu dispositivo tiene la
+          caracterísitica de dividir la pantalla, tambien puedes hacerlo de esa
+          manera.
           <br />
           <br />
           Las apps de iOS y Android pronto estarán disponibles.
@@ -213,7 +212,7 @@ class Instructions extends Component {
             Usa tu sentido común. El bot es una computadora y no siempre tiene
             la respuesta correcta
           </li>
-          <li>Si sabes la respuesta, o esperes al bot, ¡respóndela!</li>
+          <li>Si sabes la respuesta, no esperes al bot, ¡respóndela!</li>
           <li>
             Usualmente, 7 de cada 10 respuestas son correctas. A veces un poco
             más, a veces un poco menos

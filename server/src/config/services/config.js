@@ -31,7 +31,8 @@ const test = {
   )}@${process.env.DB_HOST}`,
   clientStaticFolder: path.join(basePath, 'client/build/static'),
   clientBuildFolder: path.join(basePath, 'client/build'),
-  pythonScriptsFolder: path.join(basePath, './src/python_scripts/')
+  pythonScriptsFolder: path.join(basePath, './src/python_scripts/'),
+  localPyConfettibotUrl: 'ws://localhost:19010'
 }
 
 /**
@@ -50,11 +51,12 @@ const development = {
   )}@${process.env.DB_HOST}`,
   clientStaticFolder: path.join(basePath, 'client/build/static'),
   clientBuildFolder: path.join(basePath, 'client/build'),
-  pythonScriptsFolder: path.join(basePath, './src/python_scripts/')
+  pythonScriptsFolder: path.join(basePath, './src/python_scripts/'),
+  localPyConfettibotUrl: 'ws://localhost:19010'
 }
 /**
-     * Production config
-     */
+ * Production config
+ */
 const production = {
   env,
   host: process.env.HOST,
@@ -68,7 +70,8 @@ const production = {
   )}@${process.env.DB_HOST}`,
   clientStaticFolder: path.join(basePath, 'client/static'),
   clientBuildFolder: path.join(basePath, 'client'),
-  pythonScriptsFolder: path.join(basePath, './python_scripts')
+  pythonScriptsFolder: path.join(basePath, './python_scripts'),
+  localPyConfettibotUrl: 'ws://localhost:19010'
 }
 
 const config = {

@@ -1,11 +1,15 @@
-const PythonShell = require('python-shell').PythonShell
-const SocketServer = require('ws').Server
+// const PythonShell = require('python-shell').PythonShell
+const WebSocket = require('ws')
 const config = require('../config/services/config')
 const sessionParser = require('../config/services/session').sessionParser
 const log = require('../config/services/logging')
 
-const wssAppServer = new SocketServer({ noServer: true, maxPayload: 512000 })
-const wssApp = new SocketServer({
+const wsCftbtClient = new WebSocket(config.localPyConfettibotUrl)
+const wssAppServer = new WebSocket.Server({
+  noServer: true,
+  maxPayload: 512000
+})
+const wssApp = new WebSocket.Server({
   noServer: true,
   verifyClient: function (info, done) {
     sessionParser(info.req, {}, () => {
@@ -49,7 +53,8 @@ wssAppServer.on('connection', (ws, req) => {
   )
   ws.send('{"type": "INFO", "message": "Conectado!"}')
   ws.on('message', data => {
-    let uri = data.toString('base64')
+    wsCftbtClient.send(data)
+    /* let uri = data.toString('base64')
     var options = {
       mode: 'text',
       pythonPath: 'python3',
@@ -68,7 +73,7 @@ wssAppServer.on('connection', (ws, req) => {
     })
     pyconfettibot.end(function (err, code, signal) {
       if (err && !(config.env === 'production')) log.info(err)
-    })
+    }) */
   })
   ws.on('close', () => {
     log.info(
@@ -77,6 +82,23 @@ wssAppServer.on('connection', (ws, req) => {
       }] Client disconnected from /api/app/server`
     )
   })
+})
+
+wsCftbtClient.on('open', function open () {
+  log.info('connected to pyConfettibot')
+  // ws.send(Date.now());
+})
+
+wsCftbtClient.on('close', function close () {
+  log.error('disconnected from pyConfettibot')
+})
+
+wsCftbtClient.on('message', function incoming (message) {
+  wssApp.clients.forEach(client => {
+    client.send(message)
+  })
+  let out = JSON.parse(message)
+  log.info(`[${out.type}] ${out.message}`)
 })
 
 module.exports = {
