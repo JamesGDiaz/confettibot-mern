@@ -10,12 +10,6 @@ const options = {
 };
 const mongoStore = new MongoStore(options);
 
-let secure;
-if (process.env.NODE_ENV === "production") {
-  secure = true;
-} else {
-  secure = false;
-}
 const sessionParser = session({
   store: mongoStore,
   secret: crypto.randomBytes(48).toString("hex"),
@@ -23,7 +17,7 @@ const sessionParser = session({
   saveUninitialized: false,
   rolling: true,
   cookie: {
-    secure: secure,
+    secure: "auto",
     httpOnly: true,
     maxAge: 60 * 60 * 1000 // 1hr
   }
