@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import {
-  Paper,
   Typography, // eslint-disable-next-line
   FormControlLabel, // eslint-disable-next-line
   Checkbox
 } from "@material-ui/core";
-import { Button, ButtonToolbar } from "react-bootstrap";
+import { Button, ButtonToolbar, Jumbotron } from "react-bootstrap";
 import styles from "./login.module.scss";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -79,7 +78,7 @@ class Login extends Component {
     const { loading } = this.state;
     return (
       <div className={styles.login}>
-        <Paper>
+        <Jumbotron>
           <Typography className={styles.title} component="h1" variant="h5">
             Inicia sesión:
           </Typography>
@@ -139,7 +138,7 @@ class Login extends Component {
               </LinkContainer>
             </ButtonToolbar>
           </ValidatorForm>
-        </Paper>
+        </Jumbotron>
       </div>
     );
   };

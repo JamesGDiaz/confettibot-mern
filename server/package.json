@@ -41,7 +41,6 @@
         "express": "^4.15.2",
         "express-rate-limit": "^3.4.0",
         "express-session": "^1.16.1",
-        "get-random-values": "^1.2.0",
         "helmet": "^3.12.1",
         "http": "0.0.0",
         "mongoose": "^5.5.1",

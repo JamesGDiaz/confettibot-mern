@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./instructions.module.scss";
-import { Jumbotron, Tabs, Tab, Button, Media } from "react-bootstrap";
+import { Tabs, Tab, Button, Media } from "react-bootstrap";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import xrpAddressQR from "./QR_xrp_address.png";
 import xrpSymbol from "./xrpSymbol.png";
@@ -192,7 +192,7 @@ class Instructions extends Component {
           />
           <strong>
             En caso de que se pierda la conexión, aparecerá un mensaje
-            indicándolo. Es necesario que recargues la pagina (presionando F5)
+            indicándolo. Es necesario que recargues la pagina (presionando F5).
           </strong>
           <br />
           <br />
@@ -224,32 +224,24 @@ class Instructions extends Component {
   };
 
   render() {
+    const activationtab = (
+      <Tab eventKey="activation" title="Para activar tu cuenta">
+        {this.activationInstructions()}
+      </Tab>
+    );
+    const confettibottab = (
+      <Tab eventKey="usage" title="Para usar el Confettibot">
+        {this.usageInstructions()}
+      </Tab>
+    );
     return (
       <div className={styles.instructions}>
-        <Jumbotron className="container">
-          <h2>Instrucciones</h2>
-          <Tabs
-            defaultActiveKey="activation"
-            onSelect={key => this.setState({ key })}
-            variant="pills"
-          >
-            <Tab eventKey="activation" title="Para activar tu cuenta">
-              {this.activationInstructions()}
-            </Tab>
-
-            <Tab eventKey="usage" title="Para usar el Confettibot">
-              {this.props.authenticated ? (
-                this.usageInstructions()
-              ) : (
-                <div>
-                  <br />
-                  <br />
-                  <h3>Inicia sesión para ver las instrucciones.</h3>
-                </div>
-              )}
-            </Tab>
-          </Tabs>
-        </Jumbotron>
+        <h2>Instrucciones</h2>
+        <Tabs onSelect={key => this.setState({ key })} variant="tabs">
+          {this.props.authenticated
+            ? confettibottab
+            : [activationtab, confettibottab]}
+        </Tabs>
       </div>
     );
   }

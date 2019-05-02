@@ -5,8 +5,10 @@ const winston = require('winston')
 /**
  * Logging configuration (winston)
  */
+let level = 'info'
+if (process.env.NODE_ENV === 'development') level = 'debug'
 const log = winston.createLogger({
-  level: 'debug',
+  level: level,
 
   format: winston.format.combine(
     winston.format.timestamp({

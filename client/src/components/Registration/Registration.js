@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Paper, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import styles from "./registration.module.scss";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { blue, green } from "@material-ui/core/colors";
@@ -7,7 +7,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import { connect } from "react-redux";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { Button } from "react-bootstrap";
+import { Button, Jumbotron } from "react-bootstrap";
 const theme = createMuiTheme({
   palette: {
     primary: blue,
@@ -82,7 +82,7 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className={styles.registration}>
-          <Paper>
+          <Jumbotron>
             <Typography className={styles.title} component="h1" variant="h5">
               Crea tu cuenta:
             </Typography>
@@ -175,7 +175,7 @@ class App extends Component {
                 </Button>
               )}
             </ValidatorForm>
-          </Paper>
+          </Jumbotron>
         </div>
       </MuiThemeProvider>
     );

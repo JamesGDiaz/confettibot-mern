@@ -9,6 +9,7 @@
 const logout = (req, callback) => {
   try {
     req.logOut()
+    req.logout()
     return callback()
   } catch (err) {
     return callback(err)

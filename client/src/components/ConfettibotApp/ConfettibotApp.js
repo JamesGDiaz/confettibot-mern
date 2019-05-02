@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Jumbotron, Fade, Spinner } from "react-bootstrap";
+import { Jumbotron, Fade, Spinner, Button } from "react-bootstrap";
 import styles from "./confettibotapp.module.scss";
 
 class ConfettibotApp extends React.Component {
@@ -13,24 +13,32 @@ class ConfettibotApp extends React.Component {
       answer: "",
       answer_visibility: false,
       info: "",
-      info_visibility: true
+      info_visibility: true,
+      connected: true
     };
     this.handleData = this.handleData.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount(props) {
-    this.ws = new WebSocket(this.props.url.replace(/^http/, "ws") + "/api/app");
+    this.setUpWebsocket();
+  }
 
+  setUpWebsocket = () => {
+    this.ws = new WebSocket(this.props.url.replace(/^http/, "ws") + "/api/app");
+    this.ws.addEventListener("open", event => {
+      this.setState({ connected: true });
+    });
     this.ws.addEventListener("message", message => {
       this.handleData(message.data);
     });
     this.ws.addEventListener("close", event => {
+      this.setState({ connected: false });
       this.handleData(
-        `{"type": "INFO", "message": "Conexión perdida. Recarga la página!"}`
+        `{"type": "INFO", "message": "Conexión perdida. Presiona el botón!"}`
       );
     });
-  }
+  };
 
   componentWillUnmount() {
     if (!this.ws) return;
@@ -75,36 +83,47 @@ class ConfettibotApp extends React.Component {
   }
 
   render() {
-    console.log();
     return (
       <div>
         <Jumbotron className={styles.outputJumbotron}>
-          {this.state.searching ? (
-            <div>
-              <Fade in={this.state.question_visibility} timeout={100}>
-                <div className={styles.messageQuestion}>
-                  {this.state.question}
-                </div>
-              </Fade>
-              {!this.state.answer_visibility ? (
-                <Spinner animation="grow" variant="primary" role="status" />
-              ) : (
-                <Fade in={this.state.answer_visibility} timeout={100}>
-                  <div className={styles.answerContainer}>
-                    <p className={styles.messageAnswer}>
-                      <strong>{this.state.answer}</strong>
-                    </p>
+          {this.state.connected ? (
+            this.state.searching ? (
+              <div>
+                <Fade in={this.state.question_visibility} timeout={200}>
+                  <div className={styles.messageQuestion}>
+                    {this.state.question}
                   </div>
                 </Fade>
-              )}
-            </div>
+                {!this.state.answer_visibility ? (
+                  <Spinner animation="grow" variant="primary" role="status" />
+                ) : (
+                  <Fade in={this.state.answer_visibility} timeout={100}>
+                    <div className={styles.answerContainer}>
+                      <p className={styles.messageAnswer}>
+                        <strong>{this.state.answer}</strong>
+                      </p>
+                    </div>
+                  </Fade>
+                )}
+              </div>
+            ) : (
+              <div>
+                <Spinner animation="border" variant="dark" role="status" />
+                <p className={styles.messageQuestion}>
+                  Esperando siguiente pregunta...
+                </p>
+              </div>
+            )
           ) : (
-            <div>
-              <Spinner animation="border" variant="dark" role="status" />
-              <p className={styles.messageQuestion}>
-                Esperando siguiente pregunta...
-              </p>
-            </div>
+            <Button
+              variant="danger"
+              size="lg"
+              onClick={function() {
+                window.location.reload();
+              }}
+            >
+              RECARGAR
+            </Button>
           )}
         </Jumbotron>
         <div className={styles.infoMessage}>
@@ -120,7 +139,7 @@ class ConfettibotApp extends React.Component {
 const mapStateToProps = state => {
   return {
     url: state.url,
-    user: state.user
+    authenticated: state.authenticated
   };
 };
 

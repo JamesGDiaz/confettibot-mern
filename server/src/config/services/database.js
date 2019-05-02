@@ -35,7 +35,7 @@ const error = db => {
  */
 const open = db => {
   db.once('open', () => {
-    log.debug('Database connected succesfully')
+    log.info('Database connected succesfully')
   })
 }
 

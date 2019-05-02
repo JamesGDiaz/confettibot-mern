@@ -46,7 +46,20 @@ const checkPassword = (email, password, callback) => {
   })
 }
 
+const findLoggedInUser = (userId, callback) => {
+  if (!userId) {
+    return callback(null, null)
+  }
+  User.findOne({ id: userId, active: true }, (err, user) => {
+    if (!err && user && user.length !== 0) {
+      return callback(null, user)
+    }
+    return callback(err, null)
+  })
+}
+
 module.exports = {
   createPassword,
-  checkPassword
+  checkPassword,
+  findLoggedInUser
 }

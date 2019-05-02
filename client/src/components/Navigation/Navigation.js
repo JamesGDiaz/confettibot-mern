@@ -54,10 +54,17 @@ class Navigation extends Component {
                   <Nav.Link>Instrucciones</Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/app">
-                  <Button variant="outline-primary">App</Button>
+                  <Nav.Link>App</Nav.Link>
                 </LinkContainer>
               </Nav>
               <Nav>
+                <LinkContainer to="/profile">
+                  <Navbar.Text>
+                    <a href="/profile">
+                      {this.props.user ? this.props.user.email : ""}
+                    </a>
+                  </Navbar.Text>
+                </LinkContainer>
                 <LinkContainer to="/logout">
                   <Nav.Link>Cerrar Sesión</Nav.Link>
                 </LinkContainer>

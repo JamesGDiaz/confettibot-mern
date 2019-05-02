@@ -2,6 +2,7 @@
 
 require('./services/login')
 const logout = require('./services/logout')
+const middleware = require('./services/middleware')
 const { register, activationXRP } = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
 const { profileUpdate, profileRemove } = require('./services/profile')
@@ -14,16 +15,38 @@ const action = {}
  * Check login
  */
 action.checkLogin = (req, res) => {
-  log.verbose(`Checking if requester is logged in.`, req.session)
+  log.verbose(`Checking if requester is logged in.`)
   if (req.isAuthenticated()) {
-    log.verbose('Logged in!')
+    const userId = req.session.passport.user
+    log.verbose(`[${userId}] is logged in!`)
+    console.log(`Finding user ${userId}`)
+    middleware.findLoggedInUser(userId, (err, user) => {
+      if (!err && user) {
+        const data = {
+          email: user.email,
+          destination_tag: user.destination_tag
+        }
+        return res.json({
+          type: 'checklogin',
+          success: req.isAuthenticated(),
+          user: data
+        })
+      } else if (err) {
+        return res.json({
+          type: 'checklogin',
+          success: false,
+          user: null
+        })
+      }
+    })
   } else {
     log.verbose('Not logged in!')
+    return res.json({
+      type: 'checklogin',
+      success: false,
+      user: null
+    })
   }
-  return res.json({
-    type: 'checklogin',
-    success: req.isAuthenticated()
-  })
 }
 
 /**

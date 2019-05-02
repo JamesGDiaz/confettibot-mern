@@ -29,6 +29,7 @@ const sessionParser = session({
 const init = app => {
   if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1) // trust first proxy
+    sessionParser.cookie.secure = true
   }
   app.use(sessionParser)
 }

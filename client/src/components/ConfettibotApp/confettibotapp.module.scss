@@ -1,7 +1,6 @@
 .outputJumbotron {
     color: #1c1e21;
-    border-radius: .5rem;
-    font-size: calc(10px + 8vmin);
+    border-radius: 0.5rem;
     box-sizing: border-box;
     font-family: "Cabin", arial, sans-serif;
     letter-spacing: 1px;
@@ -27,9 +26,9 @@
     align-content: center;
     align-items: center;
     text-align: center;
-    border-radius: .6rem;
+    border-radius: 0.6rem;
     background-color: rgb(61, 175, 252);
-    margin: .5rem;
+    margin: 0.5rem;
     padding: 1rem;
 }
 
@@ -38,8 +37,8 @@
     font-size: calc(10px + 2vmin);
     background-color: #efefef;
     margin: 4px;
-    padding: .5rem;
-    border-radius: .6rem;
+    padding: 0.5rem;
+    border-radius: 0.6rem;
 }
 
 .muted {

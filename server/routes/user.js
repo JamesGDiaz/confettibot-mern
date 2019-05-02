@@ -4,7 +4,7 @@ const express = require('express')
 const router = express.Router()
 const user = require('../src/user')
 
-router.post('/check', user.checkLogin)
+router.post('/checklogin', user.checkLogin)
 router.post('/login', user.login)
 router.post('/logout', user.logout)
 router.put('/registration', user.registration)

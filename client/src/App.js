@@ -15,21 +15,27 @@ import Profile from "./components/Profile/Profile";
 import ConfettibotApp from "./components/ConfettibotApp/ConfettibotApp";
 import Instructions from "./components/Instructions/Instructions";
 import { connect } from "react-redux";
-import { setUrl, setNotifications } from "./actions/connectionActions";
+import {
+  setUrl,
+  setNotifications,
+  setAuth,
+  setUser
+} from "./actions/connectionActions";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
+import ConfettiAnimation from "./components/ConfettiAnimation/ConfettiAnimation";
+import { Spinner } from "react-bootstrap";
 
 axios.defaults.withCredentials = true;
 
-const PrivateRoute = ({ component: Component, authenticated, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      authenticated ? <Component {...props} /> : <Redirect to="/login" />
-    }
-  />
-);
+const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
+  if (!authenticated) {
+    return <Route {...rest} render={props => <Redirect to="/login" />} />;
+  } else {
+    return <Route {...rest} render={props => <Component {...props} />} />;
+  }
+};
 
 class App extends Component {
   constructor(props) {
@@ -43,11 +49,28 @@ class App extends Component {
         process.env.REACT_APP_PORT
       }`;
     }
-
-    console.log(this.url);
     this.props.setNotifications(this.notification);
     this.props.setUrl(this.url);
+    this.state = { loading: true };
   }
+  componentDidMount() {
+    this.setState({ loading: true });
+    this.authenticate((isAuth, user) => {
+      if (isAuth) {
+        this.props.setAuth(isAuth);
+        this.props.setUser(user);
+      }
+      this.setState({ loading: false });
+    });
+  }
+
+  authenticate = async callback => {
+    const response = await axios.post(`${this.url}/api/user/checklogin`);
+    if (response.data.success) {
+      callback(true, response.data.user);
+    }
+    callback(false, null);
+  };
 
   notification(options) {
     const { type, title, message } = options;
@@ -65,10 +88,15 @@ class App extends Component {
   }
 
   render() {
-    return (
+    return this.state.loading ? (
+      <div>
+        <Spinner animation="border" variant="dark" role="status" /> Cargando...
+      </div>
+    ) : (
       <BrowserRouter>
         <div className={styles.app}>
           <ReactNotification ref={this.notificationDOMRef} />
+          {/*<ConfettiAnimation />*/}
           <Navigation />
           <div className={styles.body}>
             <Switch>
@@ -112,7 +140,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    authenticated: state.authenticated
+    authenticated: state.authenticated,
+    url: state.url
   };
 };
 
@@ -123,6 +152,12 @@ const mapDispatchToProps = dispatch => {
     },
     setNotifications: notifications => {
       dispatch(setNotifications(notifications));
+    },
+    setAuth: authenticated => {
+      dispatch(setAuth(authenticated));
+    },
+    setUser: user => {
+      dispatch(setUser(user));
     }
   };
 };
