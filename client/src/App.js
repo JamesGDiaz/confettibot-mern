@@ -96,7 +96,7 @@ class App extends Component {
       <BrowserRouter>
         <div className={styles.app}>
           <ReactNotification ref={this.notificationDOMRef} />
-          {/*<ConfettiAnimation />*/}
+          <ConfettiAnimation />
           <Navigation />
           <div className={styles.body}>
             <Switch>

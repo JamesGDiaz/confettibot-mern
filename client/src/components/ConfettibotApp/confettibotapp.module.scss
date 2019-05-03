@@ -1,7 +1,10 @@
-.outputJumbotron {
+.container {
+    border-width: 4px;
+    border-radius: 16px 16px 16px 16px;
+    border: 2px solid #31313152;
+    background-color: #f9f9f9c2;
+    padding: 15%;
     color: #1c1e21;
-    border-radius: 0.5rem;
-    box-sizing: border-box;
     font-family: "Cabin", arial, sans-serif;
     letter-spacing: 1px;
 }
@@ -13,12 +16,12 @@
 
 .messageAnswer {
     font-family: bold;
-    font-size: calc(10px + 8vmin);
+    font-size: calc(14px + 10vmin);
 }
 
 .messageQuestion {
     font-family: bold;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(14px + 4vmin);
     margin-bottom: 2rem;
 }
 
@@ -34,11 +37,22 @@
 
 .messageInfo {
     font-family: "Cabin", arial, sans-serif;
-    font-size: calc(10px + 2vmin);
-    background-color: #efefef;
-    margin: 4px;
+    font-size: calc(14px + 2vmin);
     padding: 0.5rem;
-    border-radius: 0.6rem;
+}
+
+.infoContainer {
+    margin-top: 4%;
+    border-width: 4px;
+    border-radius: 16px 16px 16px 16px;
+    border: 2px solid #31313152;
+    background-color: #f9f9f9a2;
+    padding: 4px;
+    color: #1c1e21;
+    font-family: "Cabin", arial, sans-serif;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .muted {

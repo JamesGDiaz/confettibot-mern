@@ -85,7 +85,7 @@ class ConfettibotApp extends React.Component {
   render() {
     return (
       <div>
-        <Jumbotron className={styles.outputJumbotron}>
+        <div className={styles.container}>
           {this.state.connected ? (
             this.state.searching ? (
               <div>
@@ -95,7 +95,7 @@ class ConfettibotApp extends React.Component {
                   </div>
                 </Fade>
                 {!this.state.answer_visibility ? (
-                  <Spinner animation="grow" variant="primary" role="status" />
+                  <Spinner animation="grow" variant="dark" role="status" />
                 ) : (
                   <Fade in={this.state.answer_visibility} timeout={100}>
                     <div className={styles.answerContainer}>
@@ -108,10 +108,10 @@ class ConfettibotApp extends React.Component {
               </div>
             ) : (
               <div>
-                <Spinner animation="border" variant="dark" role="status" />
                 <p className={styles.messageQuestion}>
                   Esperando siguiente pregunta...
                 </p>
+                <Spinner animation="border" variant="dark" role="status" />
               </div>
             )
           ) : (
@@ -125,12 +125,12 @@ class ConfettibotApp extends React.Component {
               RECARGAR
             </Button>
           )}
-        </Jumbotron>
-        <div className={styles.infoMessage}>
-          <Fade in={this.state.info_visibility} timeout={100}>
-            <p className={styles.messageInfo}>{this.state.info}</p>
-          </Fade>
         </div>
+        <Fade in={this.state.info_visibility} timeout={100}>
+          <div className={styles.infoContainer}>
+            <p className={styles.messageInfo}>{this.state.info}</p>
+          </div>
+        </Fade>
       </div>
     );
   }
