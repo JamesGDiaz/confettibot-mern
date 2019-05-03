@@ -90,9 +90,9 @@ class ConfettibotApp extends React.Component {
             this.state.searching ? (
               <div>
                 <Fade in={this.state.question_visibility} timeout={200}>
-                  <div className={styles.messageQuestion}>
+                  <p className={styles.messageQuestion}>
                     {this.state.question}
-                  </div>
+                  </p>
                 </Fade>
                 {!this.state.answer_visibility ? (
                   <Spinner animation="grow" variant="dark" role="status" />
