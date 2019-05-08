@@ -17,7 +17,6 @@ class ConfettibotApp extends React.Component {
       connected: true
     };
     this.handleData = this.handleData.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount(props) {
@@ -48,10 +47,6 @@ class ConfettibotApp extends React.Component {
     } catch (err) {
       console.log("Error in closing ws: ", err);
     }
-  }
-
-  sendMessage(message) {
-    this.ws.send(message);
   }
 
   handleData(data) {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./confettianimation.module.scss";
-const NUM_CONFETTI = 200;
+var NUM_CONFETTI = 200;
 const COLORS = [
   [85, 71, 106],
   [174, 61, 99],
@@ -12,9 +12,25 @@ const PI_2 = 2 * Math.PI;
 
 const range = (a, b) => (b - a) * Math.random() + a;
 
+var isMobile = {
+  Android: function() {
+    return navigator.userAgent.match(/Android/i);
+  },
+  iOS: function() {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Windows: function() {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function() {
+    return isMobile.Android() || isMobile.iOS() || isMobile.Windows();
+  }
+};
+
 class Confetti extends Component {
   constructor(props) {
     super(props);
+
     this.context = this.props.context;
     this.style = COLORS[~~range(0, 5)];
     this.rgb = `rgba(${this.style[0]},${this.style[1]},${this.style[2]}`;
@@ -71,6 +87,7 @@ class Confetti extends Component {
 class ConfettiAnimation extends Component {
   constructor() {
     super();
+    if (isMobile.any()) NUM_CONFETTI = 80;
     this.canvas = React.createRef();
     this.context = null;
     this.w = 0;
