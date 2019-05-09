@@ -25,8 +25,8 @@ class ConfettibotApp extends React.Component {
     let gameIsOn = false;
     if (gameStatus.includes("Esperando")) {
       gameIsOn = true;
+      this.setUpWebsocket();
     }
-    this.setUpWebsocket();
     this.setState({ gameStatus, gameIsOn });
   }
 
