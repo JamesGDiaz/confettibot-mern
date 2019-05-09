@@ -54,26 +54,6 @@ wssAppServer.on('connection', (ws, req) => {
   ws.send('{"type": "INFO", "message": "Conectado!"}')
   ws.on('message', data => {
     wsCftbtClient.send(data)
-    /* let uri = data.toString('base64')
-    var options = {
-      mode: 'text',
-      pythonPath: 'python3',
-      pythonOptions: ['-u'],
-      args: [uri],
-      scriptPath: config.pythonScriptsFolder
-    }
-    let pyconfettibot = new PythonShell('main.py', options)
-    pyconfettibot.on('message', message => {
-      wssApp.clients.forEach(client => {
-        client.send(message)
-      })
-      ws.send(message)
-      let out = JSON.parse(message)
-      log.info(`[${out.type}] ${out.message}`)
-    })
-    pyconfettibot.end(function (err, code, signal) {
-      if (err && !(config.env === 'production')) log.info(err)
-    }) */
   })
   ws.on('close', () => {
     log.info(

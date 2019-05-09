@@ -32,7 +32,7 @@ const test = {
   clientStaticFolder: path.join(basePath, 'client/build/static'),
   clientBuildFolder: path.join(basePath, 'client/build'),
   pythonScriptsFolder: path.join(basePath, './src/python_scripts/'),
-  localPyConfettibotUrl: 'ws://localhost:19010'
+  localPyConfettibotUrl: 'ws://192.168.0.5:19010'
 }
 
 /**
@@ -52,7 +52,7 @@ const development = {
   clientStaticFolder: path.join(basePath, 'client/build/static'),
   clientBuildFolder: path.join(basePath, 'client/build'),
   pythonScriptsFolder: path.join(basePath, './src/python_scripts/'),
-  localPyConfettibotUrl: 'ws://localhost:19010'
+  localPyConfettibotUrl: 'ws://192.168.0.5:19010'
 }
 /**
  * Production config

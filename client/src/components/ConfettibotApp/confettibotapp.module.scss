@@ -1,3 +1,10 @@
+.view {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    font-size: 62.5%;
+}
+
 .container {
     border-width: 4px;
     border-radius: 16px 16px 16px 16px;
@@ -6,59 +13,49 @@
     color: #0f0f0f;
     font-family: "Cabin", arial, sans-serif;
     letter-spacing: 1px;
-    max-width: 90%;
-    width: 40%;
-    padding: 2rem;
-    align-content: center;
-    align-items: center;
-    text-align: center;
-    border-radius: 0.6rem;
-}
-
-.message {
-    font-size: calc(10px + 4vmin);
-    word-wrap: normal;
-}
-
-.messageAnswer {
-    font-family: bold;
-    font-size: calc(14px + 10vmin);
+    max-width: 95%;
+    padding: 4rem 2rem;
+    margin: 0 auto;
+    border-radius: 16px;
 }
 
 .messageQuestion {
-    font-family: bold;
-    font-size: calc(14px + 4vmin);
-    margin: 3rem;
+    font-family: "Cabin", arial, sans-serif;
+    font-size: 2rem; //calc(8px+14vmin);
+    margin: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 .answerContainer {
+    font-family: "Cabin", arial, sans-serif;
     align-content: center;
     align-items: center;
     text-align: center;
     border-radius: 0.6rem;
     background-color: rgb(88, 188, 255);
-    margin: 1rem;
+    margin: 0 auto;
     padding: 1rem;
-}
-
-.messageInfo {
-    font-family: "Cabin", arial, sans-serif;
-    font-size: calc(14px + 2vmin);
-    padding: 0.5rem;
+    font-family: bold;
+    font-size: 2.5rem;
 }
 
 .infoContainer {
-    margin-top: 4%;
+    font-family: "Cabin", arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: 32px;
+    max-width: 60%;
     border-width: 4px;
-    border-radius: 16px 16px 16px 16px;
+    border-radius: 12px;
     border: 2px solid #31313152;
     background-color: #f9f9f9c2;
-    padding: 4px;
+    padding: 1rem 1rem;
     color: #0f0f0f;
-    font-family: "Cabin", arial, sans-serif;
     letter-spacing: 1px;
-    text-align: center;
+    text-align: start;
     vertical-align: middle;
+    align-content: center;
+    font-size: 1rem;
 }
 
 .muted {
