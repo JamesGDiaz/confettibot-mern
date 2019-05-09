@@ -157,7 +157,7 @@ class App extends Component {
               />
               {loading ? (
                 <Button
-                  className={this.button}
+                  className={styles.button}
                   variant="primary"
                   block
                   disabled
@@ -167,7 +167,7 @@ class App extends Component {
               ) : (
                 <Button
                   type="submit"
-                  className={this.button}
+                  className={styles.button}
                   variant="primary"
                   block
                 >
