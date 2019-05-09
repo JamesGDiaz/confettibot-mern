@@ -2,16 +2,10 @@
     "short_name": "Confettibot",
     "name": "Confettibot",
     "icons": [{
-            "src": "/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ],
+        "src": "favicon.ico",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/x-icon"
+    }],
     "theme_color": "#f9f9f9",
     "background_color": "#f9f9f9",
     "start_url": ".",
