@@ -15,18 +15,18 @@ class ConfettibotApp extends React.Component {
       answer: "",
       answer_visibility: false,
       info: "",
-      info_visibility: true,
+      info_visibility: false,
       connected: true
     };
   }
 
   componentDidMount() {
-    this.setUpWebsocket();
     let gameStatus = this.getGameStatus();
     let gameIsOn = false;
     if (gameStatus.includes("Esperando")) {
       gameIsOn = true;
     }
+    this.setUpWebsocket();
     this.setState({ gameStatus, gameIsOn });
   }
 
