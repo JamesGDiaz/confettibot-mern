@@ -1,6 +1,6 @@
 {
     "name": "confettibot-client",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "private": true,
     "homepage": "https://confettibot.com/build",
     "engines": {
@@ -26,7 +26,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "export GENERATE_SOURCEMAP=false && react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

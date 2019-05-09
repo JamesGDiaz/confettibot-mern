@@ -11,7 +11,7 @@
         "dev:client": "npm start --prefix client/",
         "dev:server": "npm run dev --prefix server/",
         "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-        "build": "npm run build --prefix server/ && npm run build --prefix client/ && npm install --prefix build/",
+        "build": "npm run build --prefix client/ && npm run build --prefix server/ && npm install --prefix build/",
         "start": "cd build/ && pm2 start app.js",
         "stop": "pm2 stop all",
         "delete": "pm2 delete app",
