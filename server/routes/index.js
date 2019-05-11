@@ -10,6 +10,7 @@ const errorRoute = require('./error')
 const init = app => {
   app.use('*', homeRoute)
   app.use('/api/user', userRoute)
+  app.use('/api', userRoute)
   app.use('*', errorRoute)
 }
 

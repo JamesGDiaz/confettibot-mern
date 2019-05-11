@@ -5,7 +5,7 @@ const logout = require('./services/logout')
 const middleware = require('./services/middleware')
 const { register } = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
-const { activation, activationXRP } = require('./services/activation')
+const { activate, activationXRP } = require('./services/activation')
 const { profileUpdate, profileRemove } = require('./services/profile')
 const mail = require('../common/services/email')
 const { log } = require('../config')
@@ -219,7 +219,7 @@ action.activationXRP = (req, res, next) => {
  * Payment received via CoinPayments
  */
 action.activation = (req, res, next) => {
-  activation(req, (err, user) => {
+  activate(req, (err, user) => {
     if (!err && user) {
       log.info(`Payment confirmed, activation success! [User ID: ${user.id}]`)
       const expiration = moment(user.expirationDate).locale('es')

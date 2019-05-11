@@ -15,12 +15,20 @@ const orderCurrency = 'MXN'
 var orderTotal = 179.0
 
 function errorAndDie (errorMsg, req = null) {
-  let report = `Error: ${errorMsg}\n\nRequest Data:\n\n${req}`
-  mail.send({
-    to: debugEmail,
-    subject: 'CoinPayments IPN Error',
-    content: report
-  })
+  let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
+  let report = `Error: ${errorMsg}\n\nRequest:\n\n${reqstring}`
+  mail.send(
+    {
+      to: debugEmail,
+      subject: 'CoinPayments IPN Error',
+      content: report
+    },
+    (error, sent) => {
+      if (!error && sent) {
+      } else {
+      }
+    }
+  )
   log.error('IPN Error: ' + errorMsg)
 }
 
