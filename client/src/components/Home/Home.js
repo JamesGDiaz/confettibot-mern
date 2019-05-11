@@ -8,7 +8,6 @@ import axios from "axios";
 class Home extends Component {
   checklogin = async () => {
     console.log("Checking login");
-    //axios.defaults.withCredentials = true;
     const res = await axios.post(`http://localhost:3001/api/user/check`);
     console.log("authenticated? " + res);
   };
@@ -18,17 +17,31 @@ class Home extends Component {
       <div className={styles.home}>
         <Container>
           {this.props.authenticated ? (
-            <Row>
-              <Col>
-                <Jumbotron>
-                  <LinkContainer to="/app">
-                    <Button variant="primary" size="lg" block>
-                      Abrir el confettibot
-                    </Button>
-                  </LinkContainer>
-                </Jumbotron>
-              </Col>
-            </Row>
+            this.props.user.active ? (
+              <Row>
+                <Col>
+                  <Jumbotron>
+                    <LinkContainer to="/app">
+                      <Button variant="primary" size="lg" block>
+                        Abrir el confettibot
+                      </Button>
+                    </LinkContainer>
+                  </Jumbotron>
+                </Col>
+              </Row>
+            ) : (
+              <Row>
+                <Col>
+                  <Jumbotron>
+                    <LinkContainer to="/activar">
+                      <Button variant="primary" size="lg" block>
+                        Activa tu cuenta aquí
+                      </Button>
+                    </LinkContainer>
+                  </Jumbotron>
+                </Col>
+              </Row>
+            )
           ) : (
             <Row>
               <Col>
@@ -77,48 +90,6 @@ class Home extends Component {
           )}
           <Row>
             <Col>
-              <Jumbotron style={{ textAlign: "start", textJustify: "auto" }}>
-                <strong>Renuncia de responsabilidad:</strong>
-                <ul>
-                  <li>
-                    Confettibot.com (el sitio) fue hecho con fines de
-                    entretenimiento y no se hace responsable por el mal uso que
-                    se le pueda dar.
-                  </li>
-                  <li>
-                    El sitio tampoco se hace responsable de los daños ni
-                    perjuicios que pudieran surgir de su uso, el usuario es el
-                    único responsable de sus acciones.
-                  </li>
-                  <li>
-                    Rendimientos pasados no garantizan rendimientos futuros,
-                    confettibot.com no garantiza ningún estándar de rendimiento,
-                    exactitud ni precisión en sus funciones. Use su sentido
-                    común.
-                  </li>
-                  <li>
-                    El sitio no comparte ni vende datos personales (tales como
-                    correos electrónicos, nombres, direcciones IP, etc.) a
-                    terceros, los datos recibidos son usados únicamente con
-                    fines de calidad en el servicio.
-                  </li>
-                  <li>
-                    Los operadores del sitio se reservan el derecho de eliminar
-                    la cuenta de algún usuario y dejar de brindar sus servicios
-                    a éste a su discreción, y sin responsabilidad alguna, en
-                    caso de que así lo consideren necesario para el buen
-                    funcionamiento del sitio.
-                  </li>
-                  <li>
-                    Al crear y/o activar su cuenta, el usuario acepta y reconoce
-                    los términos expresados en este apartado.
-                  </li>
-                </ul>
-              </Jumbotron>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
               <Jumbotron>
                 <h3>
                   <a
@@ -139,7 +110,8 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    authenticated: state.authenticated
+    authenticated: state.authenticated,
+    user: state.user
   };
 };
 

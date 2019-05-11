@@ -2,6 +2,22 @@ const WebSocket = require('ws')
 const config = require('../config/services/config')
 const sessionParser = require('../config/services/session').sessionParser
 const log = require('../config/services/logging')
+const User = require('../user/user.model')
+
+const verifyActivation = (myuser, callback) => {
+  log.verbose('Verifying activations')
+  User.findOne({ id: myuser }, (err, user) => {
+    if (!err && user && user.length !== 0 && user.active) {
+      log.verbose('User is active')
+      return callback(null, true)
+    } else if (err) {
+      return callback(err)
+    } else {
+      log.verbose('User is NOT active')
+      return callback(null, false)
+    }
+  })
+}
 
 const wsCftbtClient = new WebSocket(config.localPyConfettibotUrl)
 const wssAppServer = new WebSocket.Server({
@@ -12,9 +28,19 @@ const wssApp = new WebSocket.Server({
   noServer: true,
   verifyClient: function (info, done) {
     sessionParser(info.req, {}, () => {
-      if (info.req.session.passport && info.req.session.passport.user) {
-        done(info.req.session.passport.user)
-      } else done(false, 401, 'No autorizado.', null)
+      if (!!info.req.session.passport && !!info.req.session.passport.user) {
+        verifyActivation(info.req.session.passport.user, (err, isactive) => {
+          if (!err && isactive) {
+            log.verbose('Accepting websocket connection')
+            done(info.req.session.passport.user)
+          } else if (err) {
+            done(false, 401, 'No autorizado.', null)
+          }
+        })
+      } else {
+        log.verbose('Rejecting websocket connection')
+        done(false, 401, 'No autorizado.', null)
+      }
     })
   }
 })

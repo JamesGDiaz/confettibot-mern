@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import styles from "./instructions.module.scss";
 import { Tabs, Tab, Button, Media } from "react-bootstrap";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import xrpAddressQR from "./QR_xrp_address.png";
-import xrpSymbol from "./xrpSymbol.png";
+import xrpAddressQR from "../../assets/png/QR_xrp_address.png";
+import xrpSymbol from "../../assets/png/xrpSymbol.png";
 
 class Instructions extends Component {
   constructor() {
@@ -56,7 +56,9 @@ class Instructions extends Component {
           gratuitos y seguros, a tus amigos por medio de Bitso Transfer.
           <br />
           <br />
-          Una vez que tengas tu cuenta, fondéala con $500 pesos. <br />
+          Una vez que tengas tu cuenta, fondéala con la cantidad necesaria para
+          realizar tu pago.
+          <br />
         </p>
         <ul>
           <li>
@@ -239,7 +241,9 @@ class Instructions extends Component {
         <h2>Instrucciones</h2>
         <Tabs onSelect={key => this.setState({ key })} variant="tabs">
           {this.props.authenticated
-            ? confettibottab
+            ? this.props.user.active
+              ? confettibottab
+              : [activationtab, confettibottab]
             : [activationtab, confettibottab]}
         </Tabs>
       </div>
@@ -249,7 +253,8 @@ class Instructions extends Component {
 
 const mapStateToProps = state => {
   return {
-    authenticated: state.authenticated
+    authenticated: state.authenticated,
+    user: state.user
   };
 };
 

@@ -25,6 +25,10 @@ class Login extends Component {
     };
   }
 
+  componentWillMount() {
+    if (this.props.authenticated) this.props.history.push("/");
+  }
+
   addNotification() {
     this.notificationDOMRef.current.addNotification({
       title: "Awesomeness",

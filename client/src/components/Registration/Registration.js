@@ -1,22 +1,12 @@
 import React, { Component } from "react";
 import { Typography } from "@material-ui/core";
 import styles from "./registration.module.scss";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { blue, green } from "@material-ui/core/colors";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import { connect } from "react-redux";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { Button, Jumbotron } from "react-bootstrap";
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: green
-  },
-  typography: {
-    useNextVariants: true
-  }
-});
+import { Button, Jumbotron, Modal } from "react-bootstrap";
+import Disclaimer from "../Disclaimer/Disclaimer";
 
 class App extends Component {
   constructor(props) {
@@ -26,9 +16,21 @@ class App extends Component {
       email: "",
       password: "",
       passwordAgain: "",
-      loading: false
+      loading: false,
+      shownModalDisclaimer: false
     };
   }
+
+  showModalDisclaimer = () => {
+    this.setState({ shownModalDisclaimer: true });
+  };
+  handleCloseModalDisclaimer = () => {
+    this.setState({ shownModalDisclaimer: false });
+  };
+  handleAcceptModalDisclaimer = () => {
+    this.setState({ shownModalDisclaimer: false });
+    this.register();
+  };
 
   register = async () => {
     const { email, password } = this.state;
@@ -80,104 +82,130 @@ class App extends Component {
   render = () => {
     const { loading } = this.state;
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className={styles.registration}>
-          <Jumbotron>
-            <Typography className={styles.title} component="h1" variant="h5">
-              Crea tu cuenta:
-            </Typography>
-            <ValidatorForm
-              ref="form"
-              onSubmit={this.register}
-              onError={errors => console.log(errors)}
-              className={styles.content}
+      <div className={styles.registration}>
+        <Jumbotron>
+          <Typography className={styles.title} component="h1" variant="h5">
+            Crea tu cuenta:
+          </Typography>
+          <ValidatorForm
+            ref="form"
+            onSubmit={this.showModalDisclaimer}
+            onError={errors => console.log(errors)}
+            className={styles.content}
+          >
+            <TextValidator
+              label="Email"
+              onChange={this.handleChange("email")}
+              name="email"
+              value={this.state.email}
+              validators={[
+                "required",
+                "isEmail",
+                "minStringLength:5",
+                "maxStringLength:100"
+              ]}
+              errorMessages={[
+                "Este campo es necesario",
+                "Ingresa una dirección de correo válida",
+                "Mínimo 5 caracteres",
+                "Máximo 30 caracteres"
+              ]}
+              margin="normal"
+              fullWidth
+            />
+            <p className={styles.muted}>
+              Nunca revelaremos tus datos a terceros
+            </p>
+            <TextValidator
+              label="Contraseña"
+              onChange={this.handleChange("password")}
+              name="password"
+              type="password"
+              value={this.state.password}
+              validators={[
+                "required",
+                "minStringLength:5",
+                "maxStringLength:100"
+              ]}
+              errorMessages={[
+                "Este campo es necesario",
+                "Mínimo 5 caracteres",
+                "Máximo 100 caracteres"
+              ]}
+              margin="normal"
+              fullWidth
+            />
+            <TextValidator
+              label="Verifica tu contraseña"
+              onChange={this.handleChange("passwordAgain")}
+              name="passwordAgain"
+              type="password"
+              value={this.state.passwordAgain}
+              validators={[
+                "required",
+                "isPasswordMatch",
+                "minStringLength:5",
+                "maxStringLength:100"
+              ]}
+              errorMessages={[
+                "Este campo es necesario",
+                "Las contraseñas no coincided",
+                "Mínimo 5 caracteres",
+                "Máximo 100 caracteres"
+              ]}
+              margin="normal"
+              fullWidth
+            />
+            {loading ? (
+              <Button
+                className={styles.button}
+                variant="primary"
+                block
+                disabled
+              >
+                <CircularProgress color="primary" size={24} />
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className={styles.button}
+                variant="primary"
+                block
+              >
+                Crear cuenta
+              </Button>
+            )}
+          </ValidatorForm>
+        </Jumbotron>
+        <Modal
+          show={this.state.shownModalDisclaimer}
+          onHide={this.handleCloseModalDisclaimer}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Renuncia de responsabilidad</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Disclaimer />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={this.handleCloseModalDisclaimer}
             >
-              <TextValidator
-                label="Email"
-                onChange={this.handleChange("email")}
-                name="email"
-                value={this.state.email}
-                validators={[
-                  "required",
-                  "isEmail",
-                  "minStringLength:5",
-                  "maxStringLength:100"
-                ]}
-                errorMessages={[
-                  "Este campo es necesario",
-                  "Ingresa una dirección de correo válida",
-                  "Mínimo 5 caracteres",
-                  "Máximo 30 caracteres"
-                ]}
-                margin="normal"
-                fullWidth
-              />
-              <p className={styles.muted}>
-                Nunca revelaremos tus datos a terceros
-              </p>
-              <TextValidator
-                label="Contraseña"
-                onChange={this.handleChange("password")}
-                name="password"
-                type="password"
-                value={this.state.password}
-                validators={[
-                  "required",
-                  "minStringLength:5",
-                  "maxStringLength:100"
-                ]}
-                errorMessages={[
-                  "Este campo es necesario",
-                  "Mínimo 5 caracteres",
-                  "Máximo 100 caracteres"
-                ]}
-                margin="normal"
-                fullWidth
-              />
-              <TextValidator
-                label="Verifica tu contraseña"
-                onChange={this.handleChange("passwordAgain")}
-                name="passwordAgain"
-                type="password"
-                value={this.state.passwordAgain}
-                validators={[
-                  "required",
-                  "isPasswordMatch",
-                  "minStringLength:5",
-                  "maxStringLength:100"
-                ]}
-                errorMessages={[
-                  "Este campo es necesario",
-                  "Las contraseñas no coincided",
-                  "Mínimo 5 caracteres",
-                  "Máximo 100 caracteres"
-                ]}
-                margin="normal"
-                fullWidth
-              />
-              {loading ? (
-                <Button
-                  className={styles.button}
-                  variant="primary"
-                  block
-                  disabled
-                >
-                  <CircularProgress color="primary" size={24} />
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  className={styles.button}
-                  variant="primary"
-                  block
-                >
-                  Crear cuenta
-                </Button>
-              )}
-            </ValidatorForm>
-          </Jumbotron>
-        </div>
-      </MuiThemeProvider>
+              Cancelar
+            </Button>
+            <Button
+              variant="success"
+              onClick={this.handleAcceptModalDisclaimer}
+            >
+              Aceptar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     );
   };
 }

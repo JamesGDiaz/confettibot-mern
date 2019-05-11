@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./confettianimation.module.scss";
-var NUM_CONFETTI = 200;
+var NUM_CONFETTI = 100;
 const COLORS = [
   [85, 71, 106],
   [174, 61, 99],
@@ -87,7 +87,7 @@ class Confetti extends Component {
 class ConfettiAnimation extends Component {
   constructor() {
     super();
-    if (isMobile.any()) NUM_CONFETTI = 80;
+    if (isMobile.any()) NUM_CONFETTI = 70;
     this.canvas = React.createRef();
     this.context = null;
     this.w = 0;

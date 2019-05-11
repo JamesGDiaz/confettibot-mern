@@ -31,7 +31,7 @@ const checkPassword = (email, password, callback) => {
   if (!email || !password) {
     return callback(null)
   }
-  User.findOne({ email: email, active: true }, (err, user) => {
+  User.findOne({ email: email }, (err, user) => {
     if (!err && user && user.length !== 0) {
       const salt = user.salt
       const hash = bcrypt.hashSync(password, salt)
@@ -50,7 +50,7 @@ const findLoggedInUser = (userId, callback) => {
   if (!userId) {
     return callback(null, null)
   }
-  User.findOne({ id: userId, active: true }, (err, user) => {
+  User.findOne({ id: userId }, (err, user) => {
     if (!err && user && user.length !== 0) {
       return callback(null, user)
     }

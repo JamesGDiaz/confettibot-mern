@@ -13,5 +13,6 @@ router.post('/passchange', user.passChange)
 router.post('/profileupdate', user.profileUpdate)
 router.delete('/profileremove', user.profileRemove)
 router.post('/activationxrp', user.activationXRP)
+router.post('/activation', user.activation)
 
 module.exports = router

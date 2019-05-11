@@ -6,7 +6,7 @@ const middleware = require('./middleware')
 const User = require('../user.model')
 const log = require('../../config/services/logging')
 /**
- * Find an active user by email and password
+ * Find an user by email and password
  * @function
  * @param {string} email
  * @param {string} password

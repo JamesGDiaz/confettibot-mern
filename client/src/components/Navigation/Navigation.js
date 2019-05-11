@@ -46,17 +46,33 @@ class Navigation extends Component {
               id="responsive-navbar-nav"
               onSelect={this.closeNav}
             >
-              <Nav className="mr-auto">
-                <LinkContainer to="/profile">
-                  <Nav.Link>Perfil</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/instrucciones">
-                  <Nav.Link>Instrucciones</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/app">
-                  <Nav.Link>App</Nav.Link>
-                </LinkContainer>
-              </Nav>
+              {this.props.user ? (
+                this.props.user.active ? (
+                  <Nav className="mr-auto">
+                    <LinkContainer to="/profile">
+                      <Nav.Link>Perfil</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/instrucciones">
+                      <Nav.Link>Instrucciones</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/app">
+                      <Nav.Link>App</Nav.Link>
+                    </LinkContainer>
+                  </Nav>
+                ) : (
+                  <Nav className="mr-auto">
+                    <LinkContainer to="/profile">
+                      <Nav.Link>Perfil</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/activar">
+                      <Nav.Link>Activar mi cuenta</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/instrucciones">
+                      <Nav.Link>Instrucciones</Nav.Link>
+                    </LinkContainer>
+                  </Nav>
+                )
+              ) : null}
               <Nav>
                 <LinkContainer to="/profile">
                   <Navbar.Text>
@@ -76,6 +92,9 @@ class Navigation extends Component {
               onSelect={this.closeNav}
             >
               <Nav className="mr-auto">
+                <LinkContainer to="/planes">
+                  <Nav.Link>Planes</Nav.Link>
+                </LinkContainer>
                 <LinkContainer to="/instrucciones">
                   <Nav.Link>Instrucciones</Nav.Link>
                 </LinkContainer>

@@ -14,6 +14,8 @@ import Navigation from "./components/Navigation/Navigation";
 import Profile from "./components/Profile/Profile";
 import ConfettibotApp from "./components/ConfettibotApp/ConfettibotApp";
 import Instructions from "./components/Instructions/Instructions";
+import SubscriptionInfo from "./components/SubscriptionInfo/SubscriptionInfo";
+import Subscription from "./components/Subscription/Subscription";
 import { connect } from "react-redux";
 import {
   setUrl,
@@ -103,6 +105,7 @@ class App extends Component {
               <Route path="/" component={Home} exact />
               <Route path="/login" component={Login} exact />
               <Route path="/logout" component={Logout} exact />
+              <Route path="/planes" component={SubscriptionInfo} exact />
               <Route path="/registration" component={Registration} exact />
               <Route
                 path="/activation/:hash"
@@ -120,6 +123,12 @@ class App extends Component {
               <PrivateRoute
                 path="/profile"
                 component={Profile}
+                authenticated={this.props.authenticated}
+                exact
+              />
+              <PrivateRoute
+                path="/activar"
+                component={Subscription}
                 authenticated={this.props.authenticated}
                 exact
               />

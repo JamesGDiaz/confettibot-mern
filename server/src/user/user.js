@@ -3,13 +3,16 @@
 require('./services/login')
 const logout = require('./services/logout')
 const middleware = require('./services/middleware')
-const { register, activationXRP } = require('./services/registration')
+const { register } = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
+const { activation, activationXRP } = require('./services/activation')
 const { profileUpdate, profileRemove } = require('./services/profile')
 const mail = require('../common/services/email')
 const { log } = require('../config')
 const passport = require('passport')
 const action = {}
+const moment = require('moment')
+moment().format()
 
 /**
  * Check login
@@ -24,7 +27,8 @@ action.checkLogin = (req, res) => {
       if (!err && user) {
         const data = {
           email: user.email,
-          destination_tag: user.destination_tag
+          active: user.active,
+          expirationDate: user.expirationDate
         }
         return res.json({
           type: 'checklogin',
@@ -74,7 +78,8 @@ action.login = (req, res, next) => {
         log.info(`User logged in [ID: ${req.session.passport.user}`)
         const data = {
           email: user.email,
-          destination_tag: user.destination_tag
+          active: user.active,
+          expirationDate: user.expirationDate
         }
         return res.json({
           type: 'login',
@@ -130,11 +135,11 @@ action.registration = (req, res, next) => {
           content:
             '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
             '<h2 style="text-align: center;">Tu registro fue exitoso!</h2>' +
-            '<h3 style="text-align: center;">Para activar tu cuenta, sigue las ' +
-            '<a href="https://www.confettibot.com/instrucciones" target="_new">instrucciones</a>. <br /><br />Tu destination tag es:</h3> ' +
-            '<h1 style="text-align: center;"><strong>' +
-            user.destination_tag +
-            '</strong></h1><hr />'
+            '<h3 style="text-align: center;">Activa tu cuenta ' +
+            '<a href="https://www.confettibot.com/activar" target="_new">aquí</a>. <br /><br /><hr />' +
+            '<p>Renuncia de responsabilidad: </p><br />' +
+            require('./services/disclaimer').disclaimer +
+            '<hr />'
         },
         (error, sent) => {
           if (!error && sent) {
@@ -161,7 +166,7 @@ action.registration = (req, res, next) => {
 }
 
 /**
- * Payment for activation received
+ * Old payment method for activation received
  */
 action.activationXRP = (req, res, next) => {
   const data = req.body
@@ -181,7 +186,56 @@ action.activationXRP = (req, res, next) => {
             '<h2 style="text-align: center;">Tu cuenta ha sido activada. Muchas gracias.</h2>' +
             '<h3 style="text-align: center;">Ahora puedes iniciar sesión ' +
             '<a href="https://www.confettibot.com/login" target="_new">aquí</a>.<br /><br />' +
-            'A ganar mucho pero mucho dinero!!!</h3> <hr />'
+            'A ganar mucho pero mucho dinero!!!</h3> <hr />' +
+            '<p>Renuncia de responsabilidad: </p><br />' +
+            require('./services/disclaimer').disclaimer +
+            '<hr />'
+        },
+        (error, sent) => {
+          if (!error && sent) {
+            return res.json({
+              type: 'activation',
+              success: true
+            })
+          } else {
+            return res.json({
+              type: 'activation',
+              success: true
+            })
+          }
+        }
+      )
+    } else {
+      log.error('Activation failed!')
+      return res.json({
+        type: 'activation',
+        success: false
+      })
+    }
+  })
+}
+
+/**
+ * Payment received via CoinPayments
+ */
+action.activation = (req, res, next) => {
+  activation(req, (err, user) => {
+    if (!err && user) {
+      log.info(`Payment confirmed, activation success! [User ID: ${user.id}]`)
+      const expiration = moment(user.expirationDate).locale('es')
+      mail.send(
+        {
+          to: user.email,
+          subject: 'Confettibot | Tu cuenta ha sido activada.',
+          content:
+            '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
+            '<h2 style="text-align: center;">Tu cuenta ha sido activada. Muchas gracias.</h2>' +
+            `<h3 style="text-align: center;">Fecha de expiración: ${expiration}<br /><br />` +
+            'Ahora puedes iniciar sesión <a href="https://www.confettibot.com/login" target="_new">aquí</a>.<br /><br />' +
+            'A ganar mucho pero mucho dinero!!!</h3><br/ ><hr />' +
+            '<p>Renuncia de responsabilidad: </p><br />' +
+            require('./services/disclaimer').disclaimer +
+            '<hr />'
         },
         (error, sent) => {
           if (!error && sent) {

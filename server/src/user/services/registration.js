@@ -15,10 +15,6 @@ const register = (data, callback) => {
   const { email, password } = data
   const passwordData = middleware.createPassword(password)
   const id = crypto.randomBytes(24).toString('hex')
-  const activationHash = crypto.randomBytes(48).toString('hex')
-  const destinationTag = Math.floor(
-    Math.random() * (99999999 - 10000000) + 10000000
-  )
   if (!email || !passwordData) {
     return callback(new Error('Parameters not found!'))
   }
@@ -26,9 +22,7 @@ const register = (data, callback) => {
     id,
     email,
     salt: passwordData.salt,
-    password: passwordData.password,
-    activation: activationHash,
-    destination_tag: destinationTag
+    password: passwordData.password
   })
   user.save((err, user) => {
     if (!err && user) {
@@ -40,76 +34,6 @@ const register = (data, callback) => {
   })
 }
 
-/**
- * Activate an existing user
- * @function
- * @param {object} data
- * @param {callback} callback
- */
-const activate = (data, callback) => {
-  const { hash } = data
-  User.findOneAndUpdate(
-    { activation: hash },
-    {
-      $set: {
-        active: true,
-        activation: null
-      }
-    },
-    {
-      new: true
-    },
-    (err, user) => {
-      if (!err && user) {
-        return callback(null, user)
-      } else {
-        return callback(err)
-      }
-    }
-  )
-}
-
-/**
- * Activate an existing user because payment was received
- * @function
- * @param {object} data
- * @param {callback} callback
- */
-const activationXRP = (data, callback) => {
-  log.log(
-    `Attempting to activate account with destination tag ${
-      data.transaction.DestinationTag
-    }. Transaction hash: ${data.transaction.hash}`
-  )
-  if (data.validated) {
-    const destinationTag = data.transaction.DestinationTag
-    User.findOneAndUpdate(
-      { destination_tag: destinationTag },
-      {
-        $set: {
-          active: true
-        }
-      },
-      {
-        new: true
-      },
-      (err, user) => {
-        log.verbose(`Updating database...`)
-        if (!err && user) {
-          return callback(null, user)
-        } else {
-          return callback(err)
-        }
-      }
-    )
-  } else {
-    log.warn(`Transaction ${data.transaction.hash} was not validated`)
-    return callback(null, null)
-  }
-}
-
 module.exports = {
-  register,
-  activate,
-  activationXRP
+  register
 }

@@ -31,7 +31,9 @@ const test = {
   )}@${process.env.DB_HOST}`,
   clientStaticFolder: path.join(basePath, 'client/build/static'),
   clientBuildFolder: path.join(basePath, 'client/build'),
-  localPyConfettibotUrl: 'ws://192.168.0.5:19010'
+  localPyConfettibotUrl: 'ws://192.168.0.5:19010',
+  coinPaymentsMerchantID: process.env.COINPAYMENTS_MERCHANTID,
+  coinPaymentsIPNSecret: process.env.COINPAYMENTS_IPN_SECRET
 }
 
 /**
@@ -50,7 +52,9 @@ const development = {
   )}@${process.env.DB_HOST}`,
   clientStaticFolder: path.join(basePath, 'client/build/static'),
   clientBuildFolder: path.join(basePath, 'client/build'),
-  localPyConfettibotUrl: 'ws://192.168.0.5:19010'
+  localPyConfettibotUrl: 'ws://192.168.0.5:19010',
+  coinPaymentsMerchantID: process.env.COINPAYMENTS_MERCHANTID,
+  coinPaymentsIPNSecret: process.env.COINPAYMENTS_IPN_SECRET
 }
 /**
  * Production config
@@ -68,7 +72,9 @@ const production = {
   )}@${process.env.DB_HOST}`,
   clientStaticFolder: path.join(basePath, 'client/static'),
   clientBuildFolder: path.join(basePath, 'client'),
-  localPyConfettibotUrl: 'ws://localhost:19010'
+  localPyConfettibotUrl: 'ws://localhost:19010',
+  coinPaymentsMerchantID: process.env.COINPAYMENTS_MERCHANTID,
+  coinPaymentsIPNSecret: process.env.COINPAYMENTS_IPN_SECRET
 }
 
 const config = {

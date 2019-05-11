@@ -1,8 +1,10 @@
 'use strict'
 
 const mongoose = require('mongoose')
+require('mongoose-moment')(mongoose)
 const { Schema } = mongoose
-
+const moment = require('moment')
+const epoch = moment.unix(0)
 /**
  * Create user schema
  */
@@ -48,24 +50,19 @@ const userSchema = new Schema({
     type: Boolean,
     default: false
   },
-  activation: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 1000
-  },
-  admin: {
-    type: Boolean,
-    default: false
-  },
-  destination_tag: {
-    type: Number,
-    required: true,
-    length: 8
-  },
   recovery: {
     type: String,
     default: ''
+  },
+  expirationDate: {
+    type: 'Moment',
+    required: true,
+    default: moment(epoch)
+  },
+  registerDate: {
+    type: 'Moment',
+    required: true,
+    default: moment()
   }
 })
 
