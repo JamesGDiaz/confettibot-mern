@@ -39,7 +39,6 @@ function errorAndDie (errorMsg, req = null) {
  * @param {callback} callback
  */
 const activate = (req, callback) => {
-  console.log(req)
   if (req.body.ipn_mode !== 'hmac') {
     errorAndDie('IPN Mode is not HMAC', req)
     return callback(null, null)
