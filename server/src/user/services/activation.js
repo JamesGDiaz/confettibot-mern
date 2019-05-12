@@ -111,8 +111,10 @@ const activate = (req, callback) => {
 
     var newexpirationDate = moment();
     if (request.itemNumber === "cftbt_unlimited") {
+      log.info("cftbt_unlimited matched");
       newexpirationDate = moment().add(999, "years");
     } else if (request.itemNumber === "cftbt_monthly") {
+      log.info("cftbt_monthly matched");
       newexpirationDate = moment().add(1, "month");
     } else {
       errorAndDie("itemNumber does match any known item", req);
