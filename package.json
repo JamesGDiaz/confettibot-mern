@@ -15,7 +15,7 @@
         "start": "cd build/ && pm2 start app.js",
         "stop": "pm2 stop all",
         "delete": "pm2 delete app",
-        "reload": "npm run build && npm run start"
+        "reload": "npm run build && npm run stop && npm run delete && npm run start "
     },
     "dependencies": {
         "concurrently": "^4.1.0",
