@@ -1,9 +1,9 @@
-"use strict";
+'use strict'
 
-const mongoose = require("mongoose");
-require("mongoose-moment")(mongoose);
-const { Schema } = mongoose;
-const moment = require("moment");
+const mongoose = require('mongoose')
+require('mongoose-moment')(mongoose)
+const { Schema } = mongoose
+const moment = require('moment')
 
 /**
  * Create user schema
@@ -52,21 +52,21 @@ const userSchema = new Schema({
   },
   recovery: {
     type: String,
-    default: ""
+    default: ''
   },
   expirationDate: {
-    type: "Moment",
+    type: 'Moment',
     required: true,
     default: moment.unix(0)
   },
   registerDate: {
-    type: "Moment",
+    type: 'Moment',
     required: true,
     default: moment()
   }
-});
+})
 
 /**
  * Create a model using user schema
  */
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema)

@@ -30,6 +30,6 @@ const disclaimer = `<div>
         términos expresados en este apartado.
           </li>
         </ul>
-      </div>`;
+      </div>`
 
-module.exports = { disclaimer };
+module.exports = { disclaimer }

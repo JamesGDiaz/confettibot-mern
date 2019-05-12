@@ -77,7 +77,9 @@ class Navigation extends Component {
                 <LinkContainer to="/profile">
                   <Navbar.Text>
                     <a href="/profile">
-                      {this.props.user ? this.props.user.email : ""}
+                      {this.props.user
+                        ? this.props.user.name || this.props.user.email
+                        : ""}
                     </a>
                   </Navbar.Text>
                 </LinkContainer>

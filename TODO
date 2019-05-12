@@ -1,12 +1,9 @@
 TODO:
-    Terminar la API de activacion de usuarios (verificar que no se repitan transacciones ya procesadas)
+    Verificar que no se repitan transacciones ya procesadas
     Crear video de promocion
     Crear cron job para desactivar usuarios cuya suscripcion expiro
-    Reorganizar informacion de suscripciones e instrucciones en el front end
-    Revisar e implementar pago via PayPal
     Transferir pagos a mi(s) propio(s) wallet(s)
     Implementar cambio de contrasena
     Implementar websockets en modo cluster
-    Mejorar el % de respuestas correctas
     Hacer adaptable el nivel de logging en produccion (por medio de env vars)
     Apps iOS/Android
