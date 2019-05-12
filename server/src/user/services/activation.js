@@ -121,7 +121,7 @@ const activate = (req, callback) => {
     User.findOneAndUpdate(
       { email: request.email },
       {
-        set: {
+        $set: {
           active: true,
           expirationDate: newexpirationDate
         }
@@ -168,7 +168,7 @@ const activationXRP = (data, callback) => {
     User.findOneAndUpdate(
       { destination_tag: destinationTag },
       {
-        set: {
+        $set: {
           active: true
         }
       },
