@@ -10,6 +10,7 @@ moment().format()
 
 const debugEmail = 'confettibotmx@gmail.com'
 const merchantID = config.coinPaymentsMerchantID
+log.info(config.coinPaymentsMerchantID, merchantID)
 const ipnSecret = config.coinPaymentsIPNSecret
 const orderCurrency = 'MXN'
 var orderTotalMonthly = 179.0
