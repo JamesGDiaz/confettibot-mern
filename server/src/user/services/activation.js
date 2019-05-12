@@ -80,7 +80,8 @@ const activate = (req, callback) => {
     status: parseInt(req.body.status),
     statusText: req.body.status_text,
     email: req.body.email,
-    name: req.body.name
+    name: req.body.name,
+    lastName: req.body.last_name
   };
 
   // depending on the API of your system, you may want to check and see if the transaction ID  txn_id has already been handled before at this point
@@ -109,6 +110,7 @@ const activate = (req, callback) => {
     log.info("PAYMENT RECEIVED AND CONFIRMED!!! Wahooo");
     log.info(`Attempting to activate user with email ${request.email}`);
 
+    var name = request.name + " " + request.lastName;
     var newexpirationDate = moment();
     if (request.itemNumber === "cftbt_unlimited") {
       newexpirationDate = moment().add(999, "years");
@@ -123,7 +125,8 @@ const activate = (req, callback) => {
       {
         $set: {
           active: true,
-          expirationDate: newexpirationDate
+          expirationDate: newexpirationDate,
+          name: name
         }
       },
       {
@@ -143,7 +146,8 @@ const activate = (req, callback) => {
     );
   } else if (request.status < 0) {
     // payment error, this is usually final but payments will sometimes be reopened if there was no exchange rate conversion or with seller consent
-    log.info("PAYMENT ERROR :C");
+    log.debug("PAYMENT ERROR :C");
+    errorAndDie("PAYMENT ERROR", req);
     return callback(null, null);
   } else {
     // payment is pending, you can optionally add a note to the order page
@@ -158,7 +162,7 @@ const activate = (req, callback) => {
  * @param {callback} callback
  */
 const activationXRP = (data, callback) => {
-  log.log(
+  log.debug(
     `Attempting to activate account with destination tag  {
       data.transaction.DestinationTag
     }. Transaction hash:  {data.transaction.hash}`

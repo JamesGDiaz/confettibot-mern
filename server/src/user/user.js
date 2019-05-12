@@ -222,7 +222,7 @@ action.activation = (req, res, next) => {
   activate(req, (err, user) => {
     if (!err && user) {
       log.info(`Payment confirmed, activation success! [User ID: ${user.id}]`);
-      const expiration = moment(user.expirationDate).locale("es");
+      var expiration = moment(user.expirationDate);
       mail.send(
         {
           to: user.email,
@@ -230,12 +230,14 @@ action.activation = (req, res, next) => {
           content:
             '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
             '<h2 style="text-align: center;">Tu cuenta ha sido activada. Muchas gracias.</h2>' +
-            `<h3 style="text-align: center;">Fecha de expiración: ${expiration}<br /><br />` +
+            `<h3 style="text-align: center;">Fecha de expiración: ${expiration
+              .locale("es")
+              .format("LL")}<br /><br />` +
             'Ahora puedes iniciar sesión <a href="https://www.confettibot.com/login" target="_new">aquí</a>.<br /><br />' +
             "A ganar mucho pero mucho dinero!!!</h3><br/ ><hr />" +
-            "<p>Renuncia de responsabilidad: </p><br />" +
+            '<p style="text- align: left;">Renuncia de responsabilidad:<br />' +
             require("./services/disclaimer").disclaimer +
-            "<hr />"
+            "</p><hr />"
         },
         (error, sent) => {
           if (!error && sent) {

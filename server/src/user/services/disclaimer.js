@@ -15,7 +15,7 @@ const disclaimer = `<div>
         exactitud ni precisión en sus funciones. Use su sentido común.
           </li>
     <li>
-        El sitio no comparte ni vende datos personales (tales como correos
+        El sitio no comparte ni vende datos personales (incluyendo pero no limitado a: correos
         electrónicos, nombres, direcciones IP, etc.) a terceros, los datos
         recibidos son usados únicamente con fines de calidad en el servicio.
           </li>
@@ -30,6 +30,6 @@ const disclaimer = `<div>
         términos expresados en este apartado.
           </li>
         </ul>
-      </div>`
+      </div>`;
 
-module.exports = { disclaimer }
+module.exports = { disclaimer };

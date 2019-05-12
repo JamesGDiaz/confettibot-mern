@@ -1,10 +1,10 @@
-'use strict'
+"use strict";
 
-const mongoose = require('mongoose')
-require('mongoose-moment')(mongoose)
-const { Schema } = mongoose
-const moment = require('moment')
-const epoch = moment.unix(0)
+const mongoose = require("mongoose");
+require("mongoose-moment")(mongoose);
+const { Schema } = mongoose;
+const moment = require("moment");
+
 /**
  * Create user schema
  */
@@ -24,7 +24,7 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: false,
-    minlength: 5,
+    minlength: 1,
     maxlength: 100
   },
   email: {
@@ -52,21 +52,21 @@ const userSchema = new Schema({
   },
   recovery: {
     type: String,
-    default: ''
+    default: ""
   },
   expirationDate: {
-    type: 'Moment',
+    type: "Moment",
     required: true,
-    default: moment(epoch)
+    default: moment.unix(0)
   },
   registerDate: {
-    type: 'Moment',
+    type: "Moment",
     required: true,
     default: moment()
   }
-})
+});
 
 /**
  * Create a model using user schema
  */
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model("User", userSchema);
