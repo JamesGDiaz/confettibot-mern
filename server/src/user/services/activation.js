@@ -115,13 +115,12 @@ const activate = (req, callback) => {
     } else if (request.itemName === 'cftbt_monthly') {
       newexpirationDate = moment().add(1, 'month')
     } else return callback(null, null)
-    log.info(newexpirationDate)
+    log.info(newexpirationDate())
     User.findOneAndUpdate(
       { email: request.email },
       {
         set: {
-          active: true,
-          expirationDate: newexpirationDate
+          active: true
         }
       },
       {
