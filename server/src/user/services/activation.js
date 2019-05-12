@@ -130,8 +130,10 @@ const activate = (req, callback) => {
         new: true
       },
       (err, user) => {
+        log.verbose(`Updating database...`);
         if (!err && user) {
           log.info("DB update success");
+          log.info(JSON.stringify(user));
           return callback(null, user);
         } else {
           log.error("DB update error" + err);
