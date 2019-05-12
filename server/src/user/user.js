@@ -1,219 +1,219 @@
-'use strict'
+"use strict";
 
-require('./services/login')
-const logout = require('./services/logout')
-const middleware = require('./services/middleware')
-const { register } = require('./services/registration')
-const { recovery, recoveryHash } = require('./services/recovery')
-const { activate, activationXRP } = require('./services/activation')
-const { profileUpdate, profileRemove } = require('./services/profile')
-const mail = require('../common/services/email')
-const { log } = require('../config')
-const passport = require('passport')
-const action = {}
-const moment = require('moment')
-moment().format()
+require("./services/login");
+const logout = require("./services/logout");
+const middleware = require("./services/middleware");
+const { register } = require("./services/registration");
+const { recovery, recoveryHash } = require("./services/recovery");
+const { activate, activationXRP } = require("./services/activation");
+const { profileUpdate, profileRemove } = require("./services/profile");
+const mail = require("../common/services/email");
+const { log } = require("../config");
+const passport = require("passport");
+const action = {};
+const moment = require("moment");
+moment().format();
 
 /**
  * Check login
  */
 action.checkLogin = (req, res) => {
-  log.verbose(`Checking if requester is logged in.`)
+  log.verbose(`Checking if requester is logged in.`);
   if (req.isAuthenticated()) {
-    const userId = req.session.passport.user
-    log.verbose(`[${userId}] is logged in!`)
-    console.log(`Finding user ${userId}`)
+    const userId = req.session.passport.user;
+    log.verbose(`[${userId}] is logged in!`);
+    console.log(`Finding user ${userId}`);
     middleware.findLoggedInUser(userId, (err, user) => {
       if (!err && user) {
         const data = {
           email: user.email,
           active: user.active,
           expirationDate: user.expirationDate
-        }
+        };
         return res.json({
-          type: 'checklogin',
+          type: "checklogin",
           success: req.isAuthenticated(),
           user: data
-        })
+        });
       } else if (err) {
         return res.json({
-          type: 'checklogin',
+          type: "checklogin",
           success: false,
           user: null
-        })
+        });
       }
-    })
+    });
   } else {
-    log.verbose('Not logged in!')
+    log.verbose("Not logged in!");
     return res.json({
-      type: 'checklogin',
+      type: "checklogin",
       success: false,
       user: null
-    })
+    });
   }
-}
+};
 
 /**
  * Login
  */
 action.login = (req, res, next) => {
-  log.debug('Logging in...')
-  passport.authenticate('local', (err, user, info) => {
+  log.debug("Logging in...");
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
-      log.eror('Login error (server)!')
+      log.eror("Login error (server)!");
       return res.json({
-        type: 'login',
+        type: "login",
         success: false
-      })
+      });
     }
     if (!user) {
-      log.debug('User not found!')
+      log.debug("User not found!");
       return res.json({
-        type: 'login',
+        type: "login",
         success: false
-      })
+      });
     }
     req.login(user, err => {
       if (!err && user) {
-        log.info(`User logged in [ID: ${req.session.passport.user}`)
+        log.info(`User logged in [ID: ${req.session.passport.user}`);
         const data = {
           email: user.email,
           active: user.active,
           expirationDate: user.expirationDate
-        }
+        };
         return res.json({
-          type: 'login',
+          type: "login",
           success: true,
           user: data
-        })
+        });
       } else {
-        log.debug('Login error!')
+        log.debug("Login error!");
         return res.json({
-          type: 'login',
+          type: "login",
           success: false
-        })
+        });
       }
-    })
-  })(req, res, next)
-}
+    });
+  })(req, res, next);
+};
 
 /**
  * Logout
  */
 action.logout = (req, res, next) => {
-  log.debug('Logging out...')
+  log.debug("Logging out...");
   logout(req, err => {
     if (!err) {
-      log.debug('Logout success!')
+      log.debug("Logout success!");
       return res.json({
-        type: 'logout',
+        type: "logout",
         success: true
-      })
+      });
     } else {
-      log.debug('Logout failed!')
+      log.debug("Logout failed!");
       return res.json({
-        type: 'logout',
+        type: "logout",
         success: false
-      })
+      });
     }
-  })
-}
+  });
+};
 
 /**
  * Registration
  */
 action.registration = (req, res, next) => {
-  log.debug('Registrating...')
-  const data = req.body
+  log.debug("Registrating...");
+  const data = req.body;
   register(data, (err, user) => {
     if (!err && user) {
-      log.debug('Registration success! activation hash: ' + user.activation)
+      log.debug("Registration success! activation hash: " + user.activation);
       mail.send(
         {
           to: data.email,
-          subject: 'Confettibot | Registro',
+          subject: "Confettibot | Registro",
           content:
             '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
             '<h2 style="text-align: center;">Tu registro fue exitoso!</h2>' +
             '<h3 style="text-align: center;">Activa tu cuenta ' +
             '<a href="https://www.confettibot.com/activar" target="_new">aquí</a>. <br /><br /><hr />' +
-            '<p>Renuncia de responsabilidad: </p><br />' +
-            require('./services/disclaimer').disclaimer +
-            '<hr />'
+            "<p>Renuncia de responsabilidad: </p><br />" +
+            require("./services/disclaimer").disclaimer +
+            "<hr />"
         },
         (error, sent) => {
           if (!error && sent) {
             return res.json({
-              type: 'registration',
+              type: "registration",
               success: true
-            })
+            });
           } else {
             return res.json({
-              type: 'registration',
+              type: "registration",
               success: true
-            })
+            });
           }
         }
-      )
+      );
     } else {
-      log.debug('Registration failed!')
+      log.debug("Registration failed!");
       return res.json({
-        type: 'registration',
+        type: "registration",
         success: false
-      })
+      });
     }
-  })
-}
+  });
+};
 
 /**
  * Old payment method for activation received
  */
 action.activationXRP = (req, res, next) => {
-  const data = req.body
+  const data = req.body;
   activationXRP(data, (err, user) => {
     if (!err && user) {
       log.info(
         `Payment confirmed, activation success! [Dest Tag: ${
           user.destination_tag
         }]`
-      )
+      );
       mail.send(
         {
           to: user.email,
-          subject: 'Confettibot | Tu cuenta ha sido activada.',
+          subject: "Confettibot | Tu cuenta ha sido activada.",
           content:
             '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
             '<h2 style="text-align: center;">Tu cuenta ha sido activada. Muchas gracias.</h2>' +
             '<h3 style="text-align: center;">Ahora puedes iniciar sesión ' +
             '<a href="https://www.confettibot.com/login" target="_new">aquí</a>.<br /><br />' +
-            'A ganar mucho pero mucho dinero!!!</h3> <hr />' +
-            '<p>Renuncia de responsabilidad: </p><br />' +
-            require('./services/disclaimer').disclaimer +
-            '<hr />'
+            "A ganar mucho pero mucho dinero!!!</h3> <hr />" +
+            "<p>Renuncia de responsabilidad: </p><br />" +
+            require("./services/disclaimer").disclaimer +
+            "<hr />"
         },
         (error, sent) => {
           if (!error && sent) {
             return res.json({
-              type: 'activation',
+              type: "activation",
               success: true
-            })
+            });
           } else {
             return res.json({
-              type: 'activation',
+              type: "activation",
               success: true
-            })
+            });
           }
         }
-      )
+      );
     } else {
-      log.error('Activation failed!')
+      log.error("Activation failed!");
       return res.json({
-        type: 'activation',
+        type: "activation",
         success: false
-      })
+      });
     }
-  })
-}
+  });
+};
 
 /**
  * Payment received via CoinPayments
@@ -221,170 +221,170 @@ action.activationXRP = (req, res, next) => {
 action.activation = (req, res, next) => {
   activate(req, (err, user) => {
     if (!err && user) {
-      log.info(`Payment confirmed, activation success! [User ID: ${user.id}]`)
-      const expiration = moment(user.expirationDate).locale('es')
+      log.info(`Payment confirmed, activation success! [User ID: ${user.id}]`);
+      const expiration = moment(user.expirationDate).locale("es");
       mail.send(
         {
           to: user.email,
-          subject: 'Confettibot | Tu cuenta ha sido activada.',
+          subject: "Confettibot | Tu cuenta ha sido activada.",
           content:
             '<hr /><h2 style="text-align: center;"> Bienvenido/a!</h2>' +
             '<h2 style="text-align: center;">Tu cuenta ha sido activada. Muchas gracias.</h2>' +
             `<h3 style="text-align: center;">Fecha de expiración: ${expiration}<br /><br />` +
             'Ahora puedes iniciar sesión <a href="https://www.confettibot.com/login" target="_new">aquí</a>.<br /><br />' +
-            'A ganar mucho pero mucho dinero!!!</h3><br/ ><hr />' +
-            '<p>Renuncia de responsabilidad: </p><br />' +
-            require('./services/disclaimer').disclaimer +
-            '<hr />'
+            "A ganar mucho pero mucho dinero!!!</h3><br/ ><hr />" +
+            "<p>Renuncia de responsabilidad: </p><br />" +
+            require("./services/disclaimer").disclaimer +
+            "<hr />"
         },
         (error, sent) => {
           if (!error && sent) {
             return res.json({
-              type: 'activation',
-              success: true
-            })
+              type: "status",
+              success: 200
+            });
           } else {
             return res.json({
-              type: 'activation',
-              success: true
-            })
+              type: "status",
+              success: 400
+            });
           }
         }
-      )
+      );
     } else {
-      log.error('Activation failed!')
-      log.error(err)
+      log.error("Activation failed!");
+      log.error(err);
       return res.json({
-        type: 'activation',
-        success: false
-      })
+        type: "status",
+        success: 400
+      });
     }
-  })
-}
+  });
+};
 
 /**
  * Password reset
  */
 action.recovery = (req, res, next) => {
-  const data = req.body
-  log.debug('Recovery...')
+  const data = req.body;
+  log.debug("Recovery...");
   if (!data.hash) {
     recovery(data, (err, user) => {
       if (!err && user) {
         mail.send(
           {
             to: user.email,
-            subject: 'Confettibot | Recuperar contraseña',
+            subject: "Confettibot | Recuperar contraseña",
             content:
               '<h1>Recovery</h1>Haz click <a href="https://confettibot.com/recovery/" target="_new">' +
               user.recovery +
-              '</a> para cambiar tu contraseña.'
+              "</a> para cambiar tu contraseña."
           },
           (err, sent) => {
             if (!err && sent) {
-              log.debug('Recovery success!')
+              log.debug("Recovery success!");
               return res.json({
-                type: 'recovery',
+                type: "recovery",
                 success: true
-              })
+              });
             } else {
-              log.debug('Recovery failed!')
+              log.debug("Recovery failed!");
               return res.json({
-                type: 'recovery',
+                type: "recovery",
                 success: false
-              })
+              });
             }
           }
-        )
+        );
       } else {
-        log.debug('Recovery failed!')
+        log.debug("Recovery failed!");
         return res.json({
-          type: 'recovery',
+          type: "recovery",
           success: false
-        })
+        });
       }
-    })
+    });
   } else {
     recoveryHash(data, (err, user) => {
       if (!err && user) {
-        log.debug('Recovery success!')
+        log.debug("Recovery success!");
         return res.json({
-          type: 'recovery',
+          type: "recovery",
           success: true
-        })
+        });
       } else {
-        log.debug('Recovery failed!')
+        log.debug("Recovery failed!");
         return res.json({
-          type: 'recovery',
+          type: "recovery",
           success: false
-        })
+        });
       }
-    })
+    });
   }
-}
+};
 
 /**
  * Password change
  */
 action.passChange = (req, res, next) => {
-  log.debug('Changing password...')
+  log.debug("Changing password...");
   return res.json({
-    type: 'passchange',
-    result: 'Not implemented!'
-  })
-}
+    type: "passchange",
+    result: "Not implemented!"
+  });
+};
 
 /**
  * Profile change
  */
 action.profileUpdate = (req, res, next) => {
-  const data = req.body
-  log.debug('Changing profile...')
+  const data = req.body;
+  log.debug("Changing profile...");
   profileUpdate(data, (err, user) => {
     if (!err && user) {
-      log.debug('Profile change success!')
+      log.debug("Profile change success!");
       const data = {
         id: user.id,
         email: user.email,
         age: user.age,
         location: user.location
-      }
+      };
       return res.json({
-        type: 'profileupdate',
+        type: "profileupdate",
         success: true,
         user: data
-      })
+      });
     } else {
-      log.debug('Profile change failed!')
+      log.debug("Profile change failed!");
       return res.json({
-        type: 'profileupdate',
+        type: "profileupdate",
         success: false
-      })
+      });
     }
-  })
-}
+  });
+};
 
 /**
  * Profile remove
  */
 action.profileRemove = (req, res, next) => {
-  const data = req.body
-  log.debug('Removing user...')
+  const data = req.body;
+  log.debug("Removing user...");
   profileRemove(data, err => {
     if (!err) {
-      log.debug('Profile remove success!')
+      log.debug("Profile remove success!");
       return res.json({
-        type: 'profileremove',
+        type: "profileremove",
         success: true
-      })
+      });
     } else {
-      log.debug('Profile remove failed!')
+      log.debug("Profile remove failed!");
       return res.json({
-        type: 'profileremove',
+        type: "profileremove",
         success: false
-      })
+      });
     }
-  })
-}
+  });
+};
 
-module.exports = action
+module.exports = action;
