@@ -5,5 +5,4 @@ TODO:
     Transferir pagos a mi(s) propio(s) wallet(s)
     Implementar cambio de contrasena
     Implementar websockets en modo cluster
-    Hacer adaptable el nivel de logging en produccion (por medio de env vars)
     Apps iOS/Android

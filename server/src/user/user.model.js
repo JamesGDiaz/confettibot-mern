@@ -63,6 +63,11 @@ const userSchema = new Schema({
     type: 'Moment',
     required: true,
     default: moment()
+  },
+  txIDArray: {
+    type: Array,
+    required: true,
+    default: []
   }
 })
 

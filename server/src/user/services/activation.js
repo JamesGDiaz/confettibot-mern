@@ -70,7 +70,7 @@ const activate = (req, callback) => {
 
   // HMAC Signature verified at this point, load some variables.
   const request = {
-    txnId: req.body.txn_id,
+    txId: req.body.txn_id,
     itemName: req.body.item_name,
     itemNumber: req.body.item_number,
     amount1: parseFloat(req.body.amount1),
@@ -126,6 +126,9 @@ const activate = (req, callback) => {
           active: true,
           expirationDate: newexpirationDate,
           name: name
+        },
+        $push: {
+          txIDArray: request.txId
         }
       },
       {
