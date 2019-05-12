@@ -54,6 +54,8 @@ const activate = (req, callback) => {
     return callback(null, null)
   }
 
+  log.debug(req.body.merchant)
+  log.debug(merchantID)
   if (req.body.merchant !== merchantID) {
     errorAndDie('No or incorrect Merchant ID passed', req)
     return callback(null, null)
