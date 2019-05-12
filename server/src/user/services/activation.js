@@ -1,7 +1,7 @@
 'use strict'
 const crypto = require('crypto')
 const moment = require('moment')
-const config = require('../../config')
+const config = require('../../config').config
 const User = require('../user.model')
 const log = require('../../config/services/logging')
 const mail = require('../../common/services/email')
@@ -17,25 +17,6 @@ var orderTotalUnlimited = 499.0
 
 function errorAndDie (errorMsg, req = null) {
   let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
-  /* var cache = []
-  let reqstring = JSON.stringify(req, (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (cache.indexOf(value) !== -1) {
-        // Duplicate reference found
-        try {
-          // If this value does not reference a parent it can be deduped
-          return JSON.parse(JSON.stringify(value))
-        } catch (error) {
-          // discard key if value cannot be deduped
-          return
-        }
-      }
-      // Store value in our collection
-      cache.push(value)
-    }
-    return value
-  })
-  cache = null */
   mail.send(
     {
       to: debugEmail,
@@ -78,12 +59,15 @@ const activate = (req, callback) => {
     return callback(null, null)
   }
 
-  var hmac = crypto
+  const bodyString = Buffer.from(req.rawBody, 'utf8')
+  let hmac = crypto
     .createHmac('sha512', ipnSecret)
-    .update(req)
+    .update(bodyString)
     .digest('hex')
-  if (req.headers['hmac'] !== hmac) {
-    log.error(`req.headers.hmac: '${req.headers.hmac}'\nsecret_hmac: ${hmac}`)
+  if (req.headers.hmac !== hmac) {
+    log.error(
+      `\nreq.headers.hmac: ${req.headers.hmac}\nsecret_hmac:      ${hmac}`
+    )
     errorAndDie('HMAC signature does not match', req)
     return callback(null, null)
   }

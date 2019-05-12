@@ -30,7 +30,14 @@ const init = () => {
   app.engine('html', require('ejs').renderFile)
   app.set('view engine', 'html')
   app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(
+    bodyParser.urlencoded({
+      extended: true,
+      verify: (req, res, buf, encoding) => {
+        req.rawBody = buf.toString()
+      }
+    })
+  )
   app.use(cookieParser())
   return app
 }
