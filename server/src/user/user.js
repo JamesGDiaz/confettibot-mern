@@ -253,6 +253,7 @@ action.activation = (req, res, next) => {
       )
     } else {
       log.error('Activation failed!')
+      log.error(err)
       return res.json({
         type: 'activation',
         success: false
