@@ -15,7 +15,26 @@ const orderCurrency = 'MXN'
 var orderTotal = 179.0
 
 function errorAndDie (errorMsg, req = null) {
-  let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
+  // let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
+  var cache = []
+  let reqstring = JSON.stringify(req, function (key, value) {
+    if (typeof value === 'object' && value !== null) {
+      if (cache.indexOf(value) !== -1) {
+        // Duplicate reference found
+        try {
+          // If this value does not reference a parent it can be deduped
+          return JSON.parse(JSON.stringify(value))
+        } catch (error) {
+          // discard key if value cannot be deduped
+          return
+        }
+      }
+      // Store value in our collection
+      cache.push(value)
+    }
+    return value
+  })
+  cache = null
   let report = `Error: ${errorMsg}\n\nRequest:\n\n${reqstring}`
   mail.send(
     {

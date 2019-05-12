@@ -5,10 +5,14 @@ import styles from "./subscriptioninfo.module.scss";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCoins } from "@fortawesome/free-solid-svg-icons";
-import { faBitcoin, faEthereum } from "@fortawesome/free-brands-svg-icons";
-import xrpSymbol from "../../assets/png/xrpSymbol.png";
+import {
+  faBitcoin,
+  faEthereum,
+  faPaypal
+} from "@fortawesome/free-brands-svg-icons";
+import xrpSymbol from "../../assets/png/xrpSymbol-grey.png";
 
-const icons = { faCheckCircle, faCoins, faBitcoin, faEthereum };
+const icons = { faCheckCircle, faCoins, faBitcoin, faEthereum, faPaypal };
 
 class SubscriptionInfo extends Component {
   state = {
@@ -22,13 +26,20 @@ class SubscriptionInfo extends Component {
         <FontAwesomeIcon icon={icons.faCoins} color={"gray"} size="xs" />{" "}
         Aceptamos:
         <br />
-        <img
-          src={xrpSymbol}
-          className={styles.xrpSymbol}
-          alt=""
-          width={16}
-          height={16}
-        />{" "}
+        <FontAwesomeIcon
+          icon={icons.faPaypal}
+          color={"gray"}
+          size="s"
+        /> PayPal{" "}
+        <span>
+          <img
+            src={xrpSymbol}
+            className={styles.xrpSymbol}
+            alt=""
+            width={14}
+            height={14}
+          />
+        </span>{" "}
         XRP <FontAwesomeIcon icon={icons.faBitcoin} color={"gray"} size="s" />{" "}
         BTC <FontAwesomeIcon icon={icons.faEthereum} color={"gray"} size="s" />{" "}
         ETH y más...
@@ -39,7 +50,7 @@ class SubscriptionInfo extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <h2>Planes</h2>
+        <h1>Planes</h1>
         <div>
           <div
             class="row no-gutters"

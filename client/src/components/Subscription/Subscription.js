@@ -1,26 +1,31 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
 import styles from "./subscription.module.scss";
 import { Button, Badge } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCoins } from "@fortawesome/free-solid-svg-icons";
-import { faBitcoin, faEthereum } from "@fortawesome/free-brands-svg-icons";
-import xrpSymbol from "../../assets/png/xrpSymbol.png";
+import {
+  faBitcoin,
+  faEthereum,
+  faPaypal
+} from "@fortawesome/free-brands-svg-icons";
+import xrpSymbol from "../../assets/png/xrpSymbol-grey.png";
+import cpBuyNowYellow from "../../assets/png/cp-buynow-wide-yellow.png";
 
-const icons = { faCheckCircle, faCoins, faBitcoin, faEthereum };
+const icons = { faCheckCircle, faCoins, faBitcoin, faEthereum, faPaypal };
 
 class Subscription extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   Aceptamos = () => {
     return (
       <p class="text-muted text-xm mt-2 mb-0 _500 text-antialiased">
         <FontAwesomeIcon icon={icons.faCoins} color={"gray"} size="xs" />{" "}
         Aceptamos:
         <br />
+        <FontAwesomeIcon
+          icon={icons.faPaypal}
+          color={"gray"}
+          size="s"
+        /> PayPal{" "}
         <img
           src={xrpSymbol}
           className={styles.xrpSymbol}
@@ -64,18 +69,18 @@ class Subscription extends Component {
         <input
           type="hidden"
           name="cancel_url"
-          value="https://confettibot.com/activar"
+          value="https://confettibot.com/"
         />
         <input
           type="hidden"
           name="ipn_url"
-          value="https://confettibot.com/api/activation//"
+          value="https://confettibot.com/api/user/activation"
         />
         <input type="hidden" name="email" value={email} />
         <input
           type="image"
-          src="https://www.coinpayments.net/images/pub/buynow-wide-yellow.png"
-          alt="Buy Now with CoinPayments.net"
+          src={cpBuyNowYellow}
+          alt="Compra Ahora Con CoinPayments.net"
         />
       </form>
     );
@@ -84,7 +89,7 @@ class Subscription extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <h2>Planes</h2>
+        <h1>Planes</h1>
         <div>
           <div
             class="row no-gutters"
@@ -129,7 +134,11 @@ class Subscription extends Component {
                 </div>
                 <p class="text-sm font-brand text-uppercase">mensuales</p>
                 <div class="px-5">
-                  {this.payButton("cftbt_monthly", "179.000", "test@test.com")}
+                  {this.payButton(
+                    "cftbt_monthly",
+                    "179.000",
+                    this.props.user.email
+                  )}
                   {this.Aceptamos()}
                 </div>
               </div>
@@ -184,8 +193,8 @@ class Subscription extends Component {
                 <div class="px-5">
                   {this.payButton(
                     "cftbt_unlimited",
-                    "499.000",
-                    "test@test.com"
+                    "499.00",
+                    this.props.user.email
                   )}
                   {this.Aceptamos()}
                 </div>

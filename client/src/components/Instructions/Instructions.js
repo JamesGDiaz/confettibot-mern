@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./instructions.module.scss";
-import { Tabs, Tab, Button, Media } from "react-bootstrap";
+import { Tabs, Tab, Button, Media, Accordion, Card } from "react-bootstrap";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import xrpAddressQR from "../../assets/png/QR_xrp_address.png";
-import xrpSymbol from "../../assets/png/xrpSymbol.png";
+import xrpSymbol from "../../assets/png/xrpSymbol-grey.png";
 
 class Instructions extends Component {
   constructor() {
@@ -20,131 +20,124 @@ class Instructions extends Component {
     return (
       <div className={styles.text}>
         <p>
-          Realiza tu pago mediante una transferencia a la dirección{" "}
-          <img
-            src={xrpSymbol}
-            className={styles.xrpSymbol}
-            alt=""
-            width={18}
-            height={18}
-          />{" "}
-          Ripple/XRP <i>{this.xrpAddress}</i> usando el destination tag que
-          recibiste en tu correo.
-          <br />
-          <br /> Crea una cuenta en{" "}
-          <a href="https://bitso.com" target="_blank" rel="noopener noreferrer">
-            Bitso.com
-          </a>{" "}
-          (
-          <i>
-            Si conoces a alguien que pueda realizar el pago usando su cuenta, no
-            es necesario que crees una para tí, tan sólo usa el destination tag
-            que aparece en tu correo
-          </i>
-          )
-          <br />
-          Bitso es una casa de bolsa mexicana en la que puedes intercambiar
-          pesos mexicanos por varias{" "}
-          <a
-            href="https://www.google.com/search?q=qu%C3%A9+son+las+criptomonedas"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            criptomonedas
-          </a>
-          , transferirlas a otras personas y realizar depósitos en pesos,
-          gratuitos y seguros, a tus amigos por medio de Bitso Transfer.
+          Para activar tu cuenta y tener acceso al Confettibot, realiza tu pago
+          seleccionando uno de los planes en la página de activación.
           <br />
           <br />
-          Una vez que tengas tu cuenta, fondéala con la cantidad necesaria para
-          realizar tu pago.
+          Puedes utilizar varias criptomonedas o usar tu cuenta de PayPal
+          siguiendo las instrucciones que aparecerán al seleccionar uno de los
+          planes.
           <br />
         </p>
-        <ul>
-          <li>
-            <a
-              href="https://help.bitso.com/es-LA/support/solutions/articles/1000167656-tutorial-fondear-cuenta-por-medio-de-spei"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Puedes fondear mediante SPEI
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://help.bitso.com/es-LA/support/solutions/articles/1000166720-tutorial-cómo-fondear-en-efectivo-por-medio-de-oxxo-"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              O mediante OXXO (aplican comisiones 2.6% + IVA + comisión en
-              tienda)
-            </a>
-          </li>
-        </ul>
-        <div>
-          Convierte esos fondos a{" "}
-          <img
-            src={xrpSymbol}
-            className={styles.xrpSymbol}
-            alt=""
-            width={18}
-            height={18}
-          />{" "}
-          XRP siguiendo las instrucciones en{" "}
-          <a
-            href="https://help.bitso.com/es-LA/support/solutions/articles/11000038295-soluci%C3%B3n-c%C3%B3mo-comprar-ripple-xrp-"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            este enlace
-          </a>
-          , y envíalo a la siguiente dirección USANDO TU DESTINATION TAG{" "}
-          <a
-            href="https://help.bitso.com/es-LA/support/solutions/articles/11000038288-tutorial-retira-ripple-xrp-de-bitso"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            (instrucciones)
-          </a>
-          :<br />
+        <Accordion>
+          <Card>
+            <Card.Header>
+              <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
+                Para pagar usando criptomonedas
+              </Accordion.Toggle>
+            </Card.Header>
+            <Accordion.Collapse eventKey="0">
+              <Card.Body>
+                <div className={styles.text}>
+                  <p>
+                    Crea una cuenta en{" "}
+                    <a
+                      href="https://bitso.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Bitso.com
+                    </a>
+                    <br />
+                    Bitso es una casa de bolsa mexicana en la que puedes
+                    intercambiar pesos mexicanos por varias{" "}
+                    <a
+                      href="https://www.google.com/search?q=qu%C3%A9+son+las+criptomonedas"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      criptomonedas
+                    </a>
+                    , transferirlas a otras personas y realizar depósitos en
+                    pesos, gratuitos y seguros, a tus amigos por medio de Bitso
+                    Transfer.
+                    <br />
+                    <br />
+                    Una vez que tengas tu cuenta, fondéala con la cantidad
+                    necesaria para realizar tu pago.
+                    <br />
+                  </p>
+                  <ul>
+                    <li>
+                      <a
+                        href="https://help.bitso.com/es-LA/support/solutions/articles/1000167656-tutorial-fondear-cuenta-por-medio-de-spei"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Puedes fondear mediante SPEI
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://help.bitso.com/es-LA/support/solutions/articles/1000166720-tutorial-cómo-fondear-en-efectivo-por-medio-de-oxxo-"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        O mediante OXXO (aplican comisiones 2.6% + IVA +
+                        comisión en tienda)
+                      </a>
+                    </li>
+                  </ul>
+                  <div>
+                    Convierte esos fondos a{" "}
+                    <a
+                      href="https://help.bitso.com/es-LA/support/solutions/articles/11000038295-soluci%C3%B3n-c%C3%B3mo-comprar-ripple-xrp-"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      XRP
+                    </a>
+                    ,{" "}
+                    <a
+                      href="https://help.bitso.com/es-LA/support/solutions/articles/1000210147-soluci%C3%B3n-c%C3%B3mo-comprar-bitcoins-btc-"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      BTC
+                    </a>{" "}
+                    o{" "}
+                    <a
+                      href="https://help.bitso.com/es-LA/support/solutions/articles/11000038298-soluci%C3%B3n-como-comprar-ether-eth-"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ETH
+                    </a>
+                    , y envíalo a la dirección indicada en la página de pago (
+                    <i>
+                      si usas{" "}
+                      <img
+                        src={xrpSymbol}
+                        className={styles.xrpSymbol}
+                        alt=""
+                        width={14}
+                        height={14}
+                      />
+                      XRP es NECESARIO que uses el DESTINATION TAG que se
+                      indica, de otra manera no se verificará tu pago
+                    </i>
+                    ) :<br />
+                  </div>
+                </div>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
+        <div class={styles.text}>
           <br />
-          <strong>
-            <i>
-              Es muy importante que ingreses el número que recibiste en el
-              correo de registro (destination tag). De otra manera no podremos
-              verificar tu pago.
-            </i>
-          </strong>
-          <br />
-          <br />
-          <Media bg="light" style={{ width: "18rem", alignSelf: "center" }}>
-            <img
-              width={100}
-              height={100}
-              className="mr-2"
-              src={xrpAddressQR}
-              alt="Código QR"
-            />
-            <Media.Body>
-              <strong>Dirección Ripple/XRP</strong>
-              <div style={{ fontSize: "calc(10px + 0.5vmin)" }}>
-                <i>{this.xrpAddress}</i>
-                <br />
-                <CopyToClipboard
-                  text={this.xrpAddress}
-                  onCopy={() => this.setState({ copied: true })}
-                >
-                  <Button variant="outline-secondary" size="sm">
-                    Copiar
-                  </Button>
-                </CopyToClipboard>
-              </div>
-            </Media.Body>
-          </Media>
-          <br />
-          Unos momentos después que hayas realizado la transacción, recibirás un
-          correo electrónico confirmando que tu cuenta ha sido activada y podrás
-          accesar a la aplicación.
+          Unos momentos después que la transacción haya sido confirmada,
+          recibirás un correo electrónico confirmando que tu cuenta ha sido
+          activada y podrás accesar a la aplicación.
           <br />
           Para cualquier aclaración, envíanos un correo a{" "}
           <a

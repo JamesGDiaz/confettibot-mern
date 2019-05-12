@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./home.module.scss";
-import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
 
@@ -20,32 +20,32 @@ class Home extends Component {
             this.props.user.active ? (
               <Row>
                 <Col>
-                  <Jumbotron>
+                  <div className={styles.container}>
                     <LinkContainer to="/app">
                       <Button variant="primary" size="lg" block>
                         Abrir el confettibot
                       </Button>
                     </LinkContainer>
-                  </Jumbotron>
+                  </div>
                 </Col>
               </Row>
             ) : (
               <Row>
                 <Col>
-                  <Jumbotron>
+                  <div className={styles.container}>
                     <LinkContainer to="/activar">
                       <Button variant="primary" size="lg" block>
                         Activa tu cuenta aquí
                       </Button>
                     </LinkContainer>
-                  </Jumbotron>
+                  </div>
                 </Col>
               </Row>
             )
           ) : (
-            <Row>
-              <Col>
-                <Jumbotron>
+            <Col>
+              <Row>
+                <div className={styles.container}>
                   <h1>Bienvenido/a!</h1>
                   <br />
                   <h2>
@@ -64,14 +64,15 @@ class Home extends Component {
                     <br />
                     Recuerda compartirnos con tus amigos.
                   </h2>
-                </Jumbotron>
-              </Col>
-              <Col>
-                <Jumbotron>
+                </div>
+              </Row>
+              <Row>
+                <div className={styles.container}>
                   <h2>
                     <strong>Confettibot.com</strong> es un servicio en el que
-                    por sólo $500 pesos, estarás mucho más cerca de ganar mucho
-                    pero mucho dinero! <br />
+                    desde $179 pesos, estarás mucho más cerca de ganar mucho
+                    pero mucho dinero!
+                    <br />
                     <br />
                     <br />
                     Tan sólo tienes que{" "}
@@ -84,13 +85,13 @@ class Home extends Component {
                     </LinkContainer>{" "}
                     tu cuenta para comenzar.
                   </h2>
-                </Jumbotron>
-              </Col>
-            </Row>
+                </div>
+              </Row>
+            </Col>
           )}
           <Row>
             <Col>
-              <Jumbotron>
+              <div className={styles.container}>
                 <h3>
                   <a
                     href="mailto:confettibotmx@gmail.com"
@@ -99,7 +100,7 @@ class Home extends Component {
                     Envíanos tus preguntas y comentarios
                   </a>
                 </h3>
-              </Jumbotron>
+              </div>
             </Col>
           </Row>
         </Container>
