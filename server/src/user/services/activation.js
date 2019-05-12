@@ -85,6 +85,13 @@ const activate = (req, callback) => {
   }
 
   // depending on the API of your system, you may want to check and see if the transaction ID  txn_id has already been handled before at this point
+  User.findOne({ txIDArray: { $all: [request.txId] } }, (err, user) => {
+    if (!err && user) {
+      errorAndDie('TRANSACTION HAS ALREADY BEEN PROCESSED', req)
+    } else if (err) {
+      errorAndDie('ERROR WHILE SEACHING DATABASE FOR TX IDs', err)
+    }
+  })
 
   // Check the original currency to make sure the buyer didn't change it.
   if (request.currency1 !== orderCurrency) {
