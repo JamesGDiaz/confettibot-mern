@@ -17,7 +17,7 @@ var orderTotal = 179.0
 function errorAndDie (errorMsg, req = null) {
   // let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
   var cache = []
-  let reqstring = JSON.stringify(req, function (key, value) {
+  let reqstring = JSON.stringify(req, (key, value) => {
     if (typeof value === 'object' && value !== null) {
       if (cache.indexOf(value) !== -1) {
         // Duplicate reference found
@@ -35,12 +35,11 @@ function errorAndDie (errorMsg, req = null) {
     return value
   })
   cache = null
-  let report = `Error: ${errorMsg}\n\nRequest:\n\n${reqstring}`
   mail.send(
     {
       to: debugEmail,
       subject: 'CoinPayments IPN Error',
-      content: report
+      content: `Error: ${errorMsg}<br /><br />Request:<br /><br />${reqstring}`
     },
     (error, sent) => {
       if (!error && sent) {
