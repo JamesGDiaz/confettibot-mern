@@ -110,9 +110,9 @@ const activate = (req, callback) => {
     log.info(`Attempting to activate user with email ${request.email}`)
 
     var newexpirationDate = moment()
-    if (request.itemName === 'cftbt_unlimited') {
+    if (request.itemNumber === 'cftbt_unlimited') {
       newexpirationDate = moment().add(999, 'years')
-    } else if (request.itemName === 'cftbt_monthly') {
+    } else if (request.itemNumber === 'cftbt_monthly') {
       newexpirationDate = moment().add(1, 'month')
     } else return callback(null, null)
     log.info(newexpirationDate())
@@ -120,7 +120,8 @@ const activate = (req, callback) => {
       { email: request.email },
       {
         set: {
-          active: true
+          active: true,
+          expirationDate: newexpirationDate
         }
       },
       {
@@ -129,11 +130,9 @@ const activate = (req, callback) => {
       (err, user) => {
         if (!err && user) {
           log.info('DB update success')
-          log.info(JSON.stringify(user))
           return callback(null, user)
         } else {
-          log.info('DB update error')
-          log.info(err)
+          log.error('DB update error' + err)
           return callback(err)
         }
       }
