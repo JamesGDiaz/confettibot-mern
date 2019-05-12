@@ -10,7 +10,6 @@ moment().format()
 
 const debugEmail = 'confettibotmx@gmail.com'
 const merchantID = config.coinPaymentsMerchantID
-log.info('merchantID ' + config.coinPaymentsMerchantID + ' ' + merchantID)
 const ipnSecret = config.coinPaymentsIPNSecret
 const orderCurrency = 'MXN'
 var orderTotalMonthly = 179.0
@@ -54,9 +53,6 @@ const activate = (req, callback) => {
     errorAndDie('Error reading POST data', req)
     return callback(null, null)
   }
-
-  log.info(req.body.merchant)
-  log.info(merchantID)
   if (req.body.merchant !== merchantID) {
     errorAndDie('No or incorrect Merchant ID passed', req)
     return callback(null, null)
@@ -68,26 +64,23 @@ const activate = (req, callback) => {
     .update(bodyString)
     .digest('hex')
   if (req.headers.hmac !== hmac) {
-    log.error(
-      `\nreq.headers.hmac: ${req.headers.hmac}\nsecret_hmac:      ${hmac}`
-    )
     errorAndDie('HMAC signature does not match', req)
     return callback(null, null)
   }
 
   // HMAC Signature verified at this point, load some variables.
   const request = {
-    txnId: req.body['txn_id'],
-    itemName: req.body['item_name'],
-    itemNumber: req.body['item_number'],
-    amount1: parseFloat(req.body['amount1']),
-    amount2: parseFloat(req.body['amount2']),
-    currency1: req.body['currency1'],
-    currency2: req.body['currency2'],
-    status: parseInt(req.body['status']),
-    statusText: req.body['status_text'],
-    email: req.body['email'],
-    name: req.body['name']
+    txnId: req.body.txn_id,
+    itemName: req.body.item_name,
+    itemNumber: req.body.item_number,
+    amount1: parseFloat(req.body.amount1),
+    amount2: parseFloat(req.body.amount2),
+    currency1: req.body.currency1,
+    currency2: req.body.currency2,
+    status: parseInt(req.body.status),
+    statusText: req.body.status_text,
+    email: req.body.email,
+    name: req.body.name
   }
 
   // depending on the API of your system, you may want to check and see if the transaction ID  txn_id has already been handled before at this point
@@ -113,8 +106,8 @@ const activate = (req, callback) => {
 
   if (request.status >= 100 || request.status === 2) {
     // payment is complete or queued for nightly payout, success
-    log.info('PAYMENT RECEIVED!!! Wahooo')
-    log.debug(`Attempting to activate user with email ${request.email}`)
+    log.info('PAYMENT RECEIVED AND CONFIRMED!!! Wahooo')
+    log.info(`Attempting to activate user with email ${request.email}`)
 
     var newexpirationDate = moment()
     if (request.itemName === 'cftbt_unlimited') {
@@ -151,7 +144,6 @@ const activate = (req, callback) => {
     // payment is pending, you can optionally add a note to the order page
     log.info('PAYMENT PENDING :)')
   }
-  log.info('PAYMENT RECEIVED!!! Wahooo')
 }
 
 /**
