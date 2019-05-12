@@ -15,8 +15,8 @@ const orderCurrency = 'MXN'
 var orderTotal = 179.0
 
 function errorAndDie (errorMsg, req = null) {
-  // let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
-  var cache = []
+  let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
+  /* var cache = []
   let reqstring = JSON.stringify(req, (key, value) => {
     if (typeof value === 'object' && value !== null) {
       if (cache.indexOf(value) !== -1) {
@@ -34,7 +34,7 @@ function errorAndDie (errorMsg, req = null) {
     }
     return value
   })
-  cache = null
+  cache = null */
   mail.send(
     {
       to: debugEmail,
@@ -63,12 +63,12 @@ const activate = (req, callback) => {
   }
 
   if (!req.headers['HTTP_HMAC']) {
-    errorAndDie('No HMAC signature sent.')
+    errorAndDie('No HMAC signature sent.', req)
     return callback(null, null)
   }
 
   if (!req.body) {
-    errorAndDie('Error reading POST data')
+    errorAndDie('Error reading POST data', req)
     return callback(null, null)
   }
 
@@ -87,7 +87,7 @@ const activate = (req, callback) => {
         req.headers['HTTP_HMAC']
       }'\nsecret_hmac: ${hmac}`
     )
-    errorAndDie('HMAC signature does not match')
+    errorAndDie('HMAC signature does not match', req)
     return callback(null, null)
   }
 
