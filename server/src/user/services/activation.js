@@ -12,7 +12,8 @@ const debugEmail = 'confettibotmx@gmail.com'
 const merchantID = config.coinPaymentsMerchantID
 const ipnSecret = config.coinPaymentsIPNSecret
 const orderCurrency = 'MXN'
-var orderTotal = 179.0
+var orderTotalMonthly = 179.0
+var orderTotalUnlimited = 499.0
 
 function errorAndDie (errorMsg, req = null) {
   let reqstring = JSON.stringify({ headers: req.headers, body: req.body })
@@ -62,7 +63,7 @@ const activate = (req, callback) => {
     return callback(null, null)
   }
 
-  if (!req.headers['HTTP_HMAC']) {
+  if (!req.headers.hmac) {
     errorAndDie('No HMAC signature sent.', req)
     return callback(null, null)
   }
@@ -81,12 +82,8 @@ const activate = (req, callback) => {
     .createHmac('sha512', ipnSecret)
     .update(req)
     .digest('hex')
-  if (req.headers['HTTP_HMAC'] === hmac) {
-    log.error(
-      `req.headers.HTTP_HMAC: '${
-        req.headers['HTTP_HMAC']
-      }'\nsecret_hmac: ${hmac}`
-    )
+  if (req.headers['hmac'] !== hmac) {
+    log.error(`req.headers.hmac: '${req.headers.hmac}'\nsecret_hmac: ${hmac}`)
     errorAndDie('HMAC signature does not match', req)
     return callback(null, null)
   }
@@ -115,9 +112,16 @@ const activate = (req, callback) => {
   }
 
   // Check amount against order total
-  if (request.amount1 < orderTotal) {
-    errorAndDie('Amount is less than order total!')
-    return callback(null, null)
+  if (request.itemNumber === 'cftbt_monthly') {
+    if (request.amount1 < orderTotalMonthly) {
+      errorAndDie('Amount is less than order total!')
+      return callback(null, null)
+    }
+  } else if (request.itemNumber === 'cftbt_unlimited') {
+    if (request.amount1 < orderTotalUnlimited) {
+      errorAndDie('Amount is less than order total!')
+      return callback(null, null)
+    }
   }
 
   if (request.status >= 100 || request.status === 2) {
