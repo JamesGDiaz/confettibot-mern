@@ -71,7 +71,7 @@ class SubscriptionInfo extends Component {
                         color={"green"}
                         size="s"
                       />{" "}
-                      Disponible todos los juegos de Confetti México
+                      Disponible en todos los juegos de Confetti México
                     </li>
                     <li class="pb-1">
                       <FontAwesomeIcon
@@ -113,7 +113,7 @@ class SubscriptionInfo extends Component {
                         size="s"
                       />{" "}
                       <span>
-                        Disponible todos los juegos de Confetti México
+                        Disponible en todos los juegos de Confetti México
                       </span>
                     </li>
                     <li class="pb-1">

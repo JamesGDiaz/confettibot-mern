@@ -74,7 +74,8 @@ class Instructions extends Component {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Puedes fondear mediante SPEI
+                        Puedes fondear mediante SPEI (el fondeo se procesa en
+                        24hrs)
                       </a>
                     </li>
                     <li>

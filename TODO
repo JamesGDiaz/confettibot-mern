@@ -1,6 +1,6 @@
 TODO:
-    Verificar que no se repitan transacciones ya procesadas
     Crear video de promocion
+    Carrusel con imagenes en homepage
     Crear cron job para desactivar usuarios cuya suscripcion expiro
     Transferir pagos a mi(s) propio(s) wallet(s)
     Implementar cambio de contrasena

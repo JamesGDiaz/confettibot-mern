@@ -88,8 +88,10 @@ const activate = (req, callback) => {
   User.findOne({ txIDArray: { $all: [request.txId] } }, (err, user) => {
     if (!err && user) {
       errorAndDie('TRANSACTION HAS ALREADY BEEN PROCESSED', req)
+      return callback(null, null)
     } else if (err) {
       errorAndDie('ERROR WHILE SEACHING DATABASE FOR TX IDs', err)
+      return callback(err, null)
     }
   })
 
