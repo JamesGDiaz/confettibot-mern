@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import styles from "./home.module.scss";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { TwitterFollowButton } from "react-twitter-embed";
 import axios from "axios";
 
 class Home extends Component {
@@ -63,6 +64,11 @@ class Home extends Component {
                     <br />
                     <br />
                     Recuerda compartirnos con tus amigos.
+                    <br />
+                    <TwitterFollowButton
+                      screenName={"confettibotMX"}
+                      options={{ "data-show-count": "false" }}
+                    />
                   </h2>
                 </div>
               </Row>
@@ -100,6 +106,14 @@ class Home extends Component {
                     Envíanos tus preguntas y comentarios
                   </a>
                 </h3>
+                <br />
+                <h4>
+                  Siguenos en Twitter!{" "}
+                  <TwitterFollowButton
+                    screenName={"confettibotMX"}
+                    options={{ "data-show-count": "false" }}
+                  />
+                </h4>
               </div>
             </Col>
           </Row>

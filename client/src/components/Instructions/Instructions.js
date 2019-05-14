@@ -210,7 +210,7 @@ class Instructions extends Component {
           </li>
           <li>Si sabes la respuesta, no esperes al bot, ¡respóndela!</li>
           <li>
-            Usualmente, 7 de cada 10 respuestas son correctas. A veces un poco
+            En promedio, 76% de las respuestas son correctas. A veces un poco
             más, a veces un poco menos
           </li>
           <li>¡¡Compártenos con tus amigos!!</li>
