@@ -4,6 +4,7 @@ const User = require('../user.model')
 const crypto = require('crypto')
 const middleware = require('./middleware')
 const log = require('../../config/services/logging')
+const moment = require('moment')
 
 /**
  * Register a new user
@@ -15,6 +16,7 @@ const register = (data, callback) => {
   const { email, password } = data
   const passwordData = middleware.createPassword(password)
   const id = crypto.randomBytes(24).toString('hex')
+  const now = moment()
   if (!email || !passwordData) {
     return callback(new Error('Parameters not found!'))
   }
@@ -22,7 +24,8 @@ const register = (data, callback) => {
     id,
     email,
     salt: passwordData.salt,
-    password: passwordData.password
+    password: passwordData.password,
+    registerDate: now
   })
   user.save((err, user) => {
     if (!err && user) {

@@ -12,7 +12,13 @@ const { log } = require('../config')
 const passport = require('passport')
 const action = {}
 const moment = require('moment')
+const deactivateExpiredUsers = require('./services/cronjob')
 moment().format()
+
+/**
+ * Activate cronjob for deactivating users automagically
+ */
+deactivateExpiredUsers.start()
 
 /**
  * Check login
@@ -22,7 +28,7 @@ action.checkLogin = (req, res) => {
   if (req.isAuthenticated()) {
     const userId = req.session.passport.user
     log.verbose(`[${userId}] is logged in!`)
-    console.log(`Finding user ${userId}`)
+    log.verbose(`Finding user ${userId}`)
     middleware.findLoggedInUser(userId, (err, user) => {
       if (!err && user) {
         const data = {

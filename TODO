@@ -1,8 +1,7 @@
 TODO:
-    Crear video de promocion
+    Implementar cambio de contrasena
+    Implementar websockets en modo cluster
     Carrusel con imagenes en homepage
     Crear cron job para desactivar usuarios cuya suscripcion expiro
     Transferir pagos a mi(s) propio(s) wallet(s)
-    Implementar cambio de contrasena
-    Implementar websockets en modo cluster
     Apps iOS/Android

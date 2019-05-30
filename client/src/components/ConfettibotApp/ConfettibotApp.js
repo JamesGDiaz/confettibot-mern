@@ -38,17 +38,17 @@ class ConfettibotApp extends React.Component {
       minutes: d.getMinutes()
     };
     if (date.day <= 5) {
-      if (date.day === 5 && date.hours >= 22 && date.minutes >= 29) {
+      if (date.day === 5 && date.hours >= 22 && date.minutes >= 31) {
         return "El siguiente juego es el lunes a las 6:30pm.";
       } else if (date.hours === 18 && date.minutes >= 30) {
         return "Esperando siguiente pregunta...";
-      } else if (date.hours === 22 && date.minutes < 29) {
+      } else if (date.hours === 22 && date.minutes <= 31) {
         return "Esperando siguiente pregunta...";
       } else if (date.hours <= 18) {
         return "El siguiente juego es hoy a las 6:30pm.";
       } else if (date.hours > 18 && date.hours < 22) {
         return "El siguiente juego es hoy a las 10:00pm.";
-      } else if (date.hours >= 22 && date.minutes >= 29) {
+      } else if (date.hours >= 22 && date.minutes >= 31) {
         return "El siguiente juego es mañana a las 6:30pm.";
       }
     } else return "El siguiente juego es el lunes a las 6:30pm.";
