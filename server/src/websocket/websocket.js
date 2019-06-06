@@ -3,6 +3,10 @@ const config = require('../config/services/config')
 const sessionParser = require('../config/services/session').sessionParser
 const log = require('../config/services/logging')
 const User = require('../user/user.model')
+const { broadcastPushNotification } = require('../user/services/push')
+const { redisClient } = require('../redis')
+
+let pushTokens = []
 
 const verifyActivation = (myuser, callback) => {
   log.verbose('Verifying activations')
@@ -76,6 +80,7 @@ wssAppServer.on('connection', (ws, req) => {
       wssAppServer.clients.size
     }] Client connected to /api/app/server`
   )
+
   ws.send('{"type": "INFO", "message": "Conectado!"}')
   ws.on('message', data => {
     wsCftbtClient.send(data)
@@ -91,7 +96,6 @@ wssAppServer.on('connection', (ws, req) => {
 
 wsCftbtClient.on('open', function open () {
   log.info('connected to pyConfettibot')
-  // ws.send(Date.now());
 })
 
 wsCftbtClient.on('close', function close () {
@@ -99,13 +103,43 @@ wsCftbtClient.on('close', function close () {
 })
 
 wsCftbtClient.on('message', function incoming (message) {
+  // Find all pushTokens from all documents only on the first message, all push tokens that are activated after this are not taken into account
+  // until a websocket server is connected again
+  log.verbose('Retrieving pushTokens from redis server...')
+  let start = Date.now()
+  redisClient.smembers('pushTokens', (err, pushTokenList) => {
+    if (err) {
+      log.error('Error while searching database for pushTokens')
+    } else {
+      for (let pushToken of pushTokenList) {
+        if (pushToken.pushToken !== '') pushTokens = pushTokenList
+      }
+      let end = Date.now()
+      log.verbose(`Redis query took ${end - start}ms`)
+    }
+  })
+
+  // Send message to all connected clients and users with pushToken id set on the database.
+  let out = JSON.parse(message)
+  if (out.type !== 'INFO') {
+    if (out.type === 'QUESTION') {
+      out.type = 'Pregunta'
+    } else if (out.type === 'ANSWER') {
+      out.type = 'Respuesta'
+    }
+    // Only send push notifications while in production
+    // if (process.env.NODE_ENV === 'production') { broadcastPushNotification(pushTokens, out.type, out.message) }
+    broadcastPushNotification(pushTokens, out.type, out.message) // comment this when publishing!
+  }
+
   wssApp.clients.forEach(client => {
     client.send(message)
   })
+
   wssAppServer.clients.forEach(client => {
     client.send(message)
   })
-  let out = JSON.parse(message)
+
   log.info(`[${out.type}] ${out.message}`)
 })
 

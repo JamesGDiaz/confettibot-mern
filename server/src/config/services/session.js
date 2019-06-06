@@ -2,16 +2,13 @@
 
 const crypto = require('crypto')
 const session = require('express-session')
-const mongoose = require('mongoose')
-const MongoStore = require('connect-mongo')(session)
+const RedisStore = require('connect-redis')(session)
+const { redisClient } = require('../../redis')
 
-const options = {
-  mongooseConnection: mongoose.connection
-}
-const mongoStore = new MongoStore(options)
+const redisStore = new RedisStore({ client: redisClient })
 
 const sessionParser = session({
-  store: mongoStore,
+  store: redisStore,
   secret: crypto.randomBytes(48).toString('hex'),
   resave: false,
   saveUninitialized: false,
@@ -24,7 +21,7 @@ const sessionParser = session({
 })
 
 /**
- * Initialize mongo for session cache
+ * Initialize redis for session cache
  */
 const init = app => {
   if (process.env.NODE_ENV === 'production') {

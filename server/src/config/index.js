@@ -9,6 +9,7 @@ const log = require('./services/logging')
 const stats = require('./services/stats')
 const passport = require('./services/passport')
 const websocket = require('./services/websocket')
+const redis = require('./services/redis')
 
 module.exports = {
   config,
@@ -19,5 +20,6 @@ module.exports = {
   passport,
   smtpTransport,
   websocket,
-  stats
+  stats,
+  redis
 }

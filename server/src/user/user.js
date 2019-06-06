@@ -5,6 +5,7 @@ const logout = require('./services/logout')
 const middleware = require('./services/middleware')
 const { register } = require('./services/registration')
 const { recovery, recoveryHash } = require('./services/recovery')
+const { updatePushToken, removePushToken } = require('./services/push')
 const { activate } = require('./services/activation')
 const { profileUpdate, profileRemove } = require('./services/profile')
 const mail = require('../common/services/email')
@@ -21,6 +22,66 @@ moment().format()
 deactivateExpiredUsers.start()
 
 /**
+ * Set users' push token for notifications
+ */
+action.setPushToken = (req, res) => {
+  log.verbose('Setting new push token...')
+  if (req.isAuthenticated()) {
+    updatePushToken(req.body.user.email, req.body.token.value, err => {
+      if (err) {
+        log.verbose('There was en error while updating the database')
+        return res.json({
+          type: 'checklogin',
+          success: false
+        })
+      } else {
+        log.verbose('Push token update succesful')
+        return res.json({
+          type: 'pushtoken',
+          success: true
+        })
+      }
+    })
+  } else {
+    log.verbose('Failed, user not logged in!')
+    return res.json({
+      type: 'pushtoken',
+      success: false
+    })
+  }
+}
+
+/**
+ * Remove users' push token for notifications
+ */
+action.removePushToken = (req, res) => {
+  log.verbose('Setting new push token...')
+  if (req.isAuthenticated()) {
+    removePushToken(req.token.value, err => {
+      if (err) {
+        log.verbose('There was en error while updating the redis server')
+        return res.json({
+          type: 'checklogin',
+          success: false
+        })
+      } else {
+        log.verbose('Push token remove succesful')
+        return res.json({
+          type: 'pushtoken',
+          success: true
+        })
+      }
+    })
+  } else {
+    log.verbose('Failed, user not logged in!')
+    return res.json({
+      type: 'pushtoken',
+      success: false
+    })
+  }
+}
+
+/**
  * Check login
  */
 action.checkLogin = (req, res) => {
@@ -28,7 +89,6 @@ action.checkLogin = (req, res) => {
   if (req.isAuthenticated()) {
     const userId = req.session.passport.user
     log.verbose(`[${userId}] is logged in!`)
-    log.verbose(`Finding user ${userId}`)
     middleware.findLoggedInUser(userId, (err, user) => {
       if (!err && user) {
         const data = {

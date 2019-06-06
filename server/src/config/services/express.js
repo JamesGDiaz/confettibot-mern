@@ -10,9 +10,11 @@ const cors = require('cors')
 const corsOptions = {
   origin: [
     'http://localhost:3002',
+    'http://localhost:3001',
     'http://localhost:5000',
     'https://confettibot.com',
-    'https://www.confettibot.com'
+    'https://www.confettibot.com',
+    'http://192.168.0.3:3001'
   ],
   credentials: true
 }

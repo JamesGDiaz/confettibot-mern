@@ -8,7 +8,8 @@ const {
   db,
   log,
   websocket,
-  stats
+  stats,
+  redis
 } = require('../config')
 const routes = require('../../routes')
 const mongoose = require('mongoose')
@@ -28,6 +29,7 @@ const listen = () => {
   server = http.createServer(app).listen(config.port)
   log.info(`Listening at http://${config.host}:${config.port}`)
   websocket.init(server)
+  redis.init()
   routes.init(app)
   stats.memory()
 }

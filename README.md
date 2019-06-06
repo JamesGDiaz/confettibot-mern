@@ -1,4 +1,4 @@
-# Bot para Confetti Mexico
+# Confettibot
 
 Creado usando este repositorio como base
 https://github.com/tamasszoke/mern-boilerplate
