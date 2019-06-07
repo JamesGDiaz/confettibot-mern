@@ -129,7 +129,7 @@ const updatePushToken = (email, token, callback) => {
       return callback(err)
     }
   })
-  redisClient.expire('pushTokens', 30) // set expiration of the key an hour from now
+  redisClient.expire('pushTokens', 3600) // set expiration of the key an hour from now
 }
 
 /**

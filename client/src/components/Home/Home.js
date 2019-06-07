@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import styles from "./home.module.scss";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { TwitterFollowButton } from "react-twitter-embed";
-import axios from "axios";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import styles from './home.module.scss'
+import { Container, Row, Col, Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import { TwitterFollowButton } from 'react-twitter-embed'
+import axios from 'axios'
 
 class Home extends Component {
   checklogin = async () => {
-    console.log("Checking login");
-    const res = await axios.post(`http://localhost:3001/api/user/check`);
-    console.log("authenticated? " + res);
-  };
+    console.log('Checking login')
+    const res = await axios.post(`http://localhost:3001/api/user/check`)
+    console.log('authenticated? ' + res)
+  }
 
   render() {
     return (
@@ -47,27 +47,27 @@ class Home extends Component {
             <Col>
               <Row>
                 <div className={styles.container}>
-                  <h1>Bienvenido/a!</h1>
+                  <strong>Bienvenido/a!</strong>
                   <br />
                   <h2>
                     <LinkContainer to="/login">
                       <Button variant="outline-primary">Inicia sesión</Button>
-                    </LinkContainer>{" "}
+                    </LinkContainer>{' '}
                     para continuar.
                     <br />
-                    <br />O{" "}
+                    <br />O{' '}
                     <LinkContainer to="/registration">
                       <Button variant="outline-primary">
                         regístrate aquí.
                       </Button>
-                    </LinkContainer>{" "}
+                    </LinkContainer>{' '}
                     <br />
                     <br />
                     Recuerda compartirnos con tus amigos.
                     <br />
                     <TwitterFollowButton
-                      screenName={"confettibotMX"}
-                      options={{ "data-show-count": "false" }}
+                      screenName={'confettibotMX'}
+                      options={{ 'data-show-count': 'false' }}
                     />
                   </h2>
                 </div>
@@ -81,14 +81,14 @@ class Home extends Component {
                     <br />
                     <br />
                     <br />
-                    Tan sólo tienes que{" "}
+                    Tan sólo tienes que{' '}
                     <LinkContainer to="/registration">
                       <Button variant="outline-primary">crear</Button>
-                    </LinkContainer>{" "}
-                    y{" "}
+                    </LinkContainer>{' '}
+                    y{' '}
                     <LinkContainer to="/instrucciones">
                       <Button variant="outline-primary">activar</Button>
-                    </LinkContainer>{" "}
+                    </LinkContainer>{' '}
                     tu cuenta para comenzar.
                   </h2>
                 </div>
@@ -108,10 +108,10 @@ class Home extends Component {
                 </h3>
                 <br />
                 <h4>
-                  Siguenos en Twitter!{" "}
+                  Siguenos en Twitter!{' '}
                   <TwitterFollowButton
-                    screenName={"confettibotMX"}
-                    options={{ "data-show-count": "false" }}
+                    screenName={'confettibotMX'}
+                    options={{ 'data-show-count': 'false' }}
                   />
                 </h4>
               </div>
@@ -119,7 +119,7 @@ class Home extends Component {
           </Row>
         </Container>
       </div>
-    );
+    )
   }
 }
 
@@ -127,7 +127,7 @@ const mapStateToProps = state => {
   return {
     authenticated: state.authenticated,
     user: state.user
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Home)
