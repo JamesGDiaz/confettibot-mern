@@ -6,8 +6,6 @@ const User = require('../user/user.model')
 const { broadcastPushNotification } = require('../user/services/push')
 const { redisClient } = require('../redis')
 
-let pushTokens = []
-
 const verifyActivation = (myuser, callback) => {
   log.verbose('Verifying activations')
   User.findOne({ id: myuser }, (err, user) => {
@@ -103,6 +101,9 @@ wsCftbtClient.on('close', function close () {
 })
 
 wsCftbtClient.on('message', function incoming (message) {
+  // Send message to all connected clients and users with pushToken id set on the database.
+  let out = JSON.parse(message)
+
   // Find all pushTokens from all documents only on the first message, all push tokens that are activated after this are not taken into account
   // until a websocket server is connected again
   log.verbose('Retrieving pushTokens from redis server...')
@@ -111,26 +112,21 @@ wsCftbtClient.on('message', function incoming (message) {
     if (err) {
       log.error('Error while searching database for pushTokens')
     } else {
-      for (let pushToken of pushTokenList) {
-        if (pushToken.pushToken !== '') pushTokens = pushTokenList
+      log.debug(`Token List: ${pushTokenList}`)
+      if (out.type !== 'INFO') {
+        if (out.type === 'QUESTION') {
+          out.type = 'Pregunta'
+        } else if (out.type === 'ANSWER') {
+          out.type = 'Respuesta'
+        }
+        // Only send push notifications while in production
+        // if (process.env.NODE_ENV === 'production') { broadcastPushNotification(pushTokens, out.type, out.message) }
+        broadcastPushNotification(pushTokenList, out.type, out.message) // comment this when publishing!
       }
       let end = Date.now()
-      log.verbose(`Redis query took ${end - start}ms`)
+      log.debug(`Redis query took ${end - start}ms`)
     }
   })
-
-  // Send message to all connected clients and users with pushToken id set on the database.
-  let out = JSON.parse(message)
-  if (out.type !== 'INFO') {
-    if (out.type === 'QUESTION') {
-      out.type = 'Pregunta'
-    } else if (out.type === 'ANSWER') {
-      out.type = 'Respuesta'
-    }
-    // Only send push notifications while in production
-    // if (process.env.NODE_ENV === 'production') { broadcastPushNotification(pushTokens, out.type, out.message) }
-    broadcastPushNotification(pushTokens, out.type, out.message) // comment this when publishing!
-  }
 
   wssApp.clients.forEach(client => {
     client.send(message)

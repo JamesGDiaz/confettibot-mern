@@ -24,9 +24,8 @@ const broadcastPushNotification = (tokenList, title, body) => {
       title: title,
       body: body,
       priority: 'high',
-      android: {
-        channelId: 'ConfettibotChannel'
-      }
+      badge: 1,
+      channelId: 'ConfettibotChannel'
     })
   }
 
@@ -130,7 +129,7 @@ const updatePushToken = (email, token, callback) => {
       return callback(err)
     }
   })
-  redisClient.expire('pushTokens', 3600) // set expiration of the key an hour from now
+  redisClient.expire('pushTokens', 30) // set expiration of the key an hour from now
 }
 
 /**
