@@ -1,5 +1,4 @@
 const WebSocket = require('ws')
-const config = require('../config/services/config')
 const sessionParser = require('../config/services/session').sessionParser
 const log = require('../config/services/logging')
 const User = require('../user/user.model')
@@ -21,7 +20,6 @@ const verifyActivation = (myuser, callback) => {
   })
 }
 
-const wsCftbtClient = new WebSocket(config.localPyConfettibotUrl)
 const wssAppServer = new WebSocket.Server({
   noServer: true,
   maxPayload: 512000
@@ -80,9 +78,6 @@ wssAppServer.on('connection', (ws, req) => {
   )
 
   ws.send('{"type": "INFO", "message": "Conectado!"}')
-  ws.on('message', data => {
-    wsCftbtClient.send(data)
-  })
   ws.on('close', () => {
     log.info(
       `[IP: ${ip}] [${
@@ -90,53 +85,44 @@ wssAppServer.on('connection', (ws, req) => {
       }] Client disconnected from /api/app/server`
     )
   })
-})
+  ws.on('message', function incoming (message) {
+    // Send message to all connected clients and users with pushToken id set on the database.
+    let out = JSON.parse(message)
 
-wsCftbtClient.on('open', function open () {
-  log.info('connected to pyConfettibot')
-})
-
-wsCftbtClient.on('close', function close () {
-  log.error('disconnected from pyConfettibot')
-})
-
-wsCftbtClient.on('message', function incoming (message) {
-  // Send message to all connected clients and users with pushToken id set on the database.
-  let out = JSON.parse(message)
-
-  // Find all pushTokens from all documents only on the first message, all push tokens that are activated after this are not taken into account
-  // until a websocket server is connected again
-  log.verbose('Retrieving pushTokens from redis server...')
-  let start = Date.now()
-  redisClient.smembers('pushTokens', (err, pushTokenList) => {
-    if (err) {
-      log.error('Error while searching database for pushTokens')
-    } else {
-      log.debug(`Token List: ${pushTokenList}`)
-      if (out.type !== 'INFO') {
-        if (out.type === 'QUESTION') {
-          out.type = 'Pregunta'
-        } else if (out.type === 'ANSWER') {
-          out.type = 'Respuesta'
+    // Find all pushTokens from all documents only on the first message, all push tokens that are activated after this are not taken into account
+    // until a websocket server is connected again
+    log.verbose('Retrieving pushTokens from redis server...')
+    let start = Date.now()
+    redisClient.smembers('pushTokens', (err, pushTokenList) => {
+      if (err) {
+        log.error('Error while searching database for pushTokens')
+      } else {
+        log.debug(`Token List: ${pushTokenList}`)
+        if (out.type !== 'INFO') {
+          if (out.type === 'QUESTION') {
+            out.type = 'Pregunta'
+          } else if (out.type === 'ANSWER') {
+            out.type = 'Respuesta'
+          }
+          // Only send push notifications while in production
+          // if (process.env.NODE_ENV === 'production') { broadcastPushNotification(pushTokens, out.type, out.message) }
+          broadcastPushNotification(pushTokenList, out.type, out.message) // comment this when publishing!
         }
-        // Only send push notifications while in production
-        // if (process.env.NODE_ENV === 'production') { broadcastPushNotification(pushTokens, out.type, out.message) }
-        broadcastPushNotification(pushTokenList, out.type, out.message) // comment this when publishing!
+        let end = Date.now()
+        log.debug(`Redis query took ${end - start}ms`)
       }
-      let end = Date.now()
-      log.debug(`Redis query took ${end - start}ms`)
-    }
-  })
+    })
 
-  wssApp.clients.forEach(client => {
-    client.send(message)
-  })
+    wssApp.clients.forEach(client => {
+      client.send(message)
+    })
 
-  wssAppServer.clients.forEach(client => {
-    client.send(message)
-  })
+    wssAppServer.clients.forEach(client => {
+      client.send(message)
+    })
 
-  log.info(`[${out.type}] ${out.message}`)
+    log.info(`[${out.type}] ${out.message}`)
+  })
 })
 
 module.exports = {

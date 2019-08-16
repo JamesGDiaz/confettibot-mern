@@ -27,7 +27,7 @@ class ConfettibotApp extends React.Component {
       hours: d.getHours(),
       minutes: d.getMinutes()
     }
-    if (date.day <= 5) {
+    /*if (date.day <= 5) {
       if (date.day === 5 && date.hours >= 22 && date.minutes >= 31) {
         return 'El siguiente juego es el lunes a las 6:30pm.'
       } else if (date.hours === 18 && date.minutes >= 30) {
@@ -41,7 +41,8 @@ class ConfettibotApp extends React.Component {
       } else if (date.hours >= 22 && date.minutes >= 31) {
         return 'El siguiente juego es mañana a las 6:30pm.'
       }
-    } else return 'El siguiente juego es el lunes a las 6:30pm.'
+    } else return 'El siguiente juego es el lunes a las 6:30pm.'*/
+    return 'Esperando siguiente pregunta...'
   }
 
   componentDidMount() {
@@ -51,7 +52,7 @@ class ConfettibotApp extends React.Component {
       gameIsOn = true
       this.setUpWebsocket()
     }
-    this.setState({ gameStatus, gameIsOn })
+    this.setState({ gameStatus, gameIsOn: true })
   }
 
   componentWillUnmount() {
